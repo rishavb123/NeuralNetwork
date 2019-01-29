@@ -4,7 +4,8 @@
     "description": "This is a library that will use java and nodejs to create and serve a nueral network",
     "main": "src/js/main.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": ",ain.js"
     },
     "repository": {
         "type": "git",
@@ -26,6 +27,6 @@
     },
     "homepage": "https://github.com/rishavb123/NeuralNetwork#readme",
     "dependencies": {
-        "node-java-bridge": "^1.0.22"
+        "java": "^0.11.0"
     }
 }
