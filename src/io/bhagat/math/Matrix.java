@@ -294,7 +294,7 @@ public class Matrix {
 	 * @param a the first matrix
 	 * @param b the second matrix
 	 * @return the resultant matrix
-	 * @throws InvalidShapeException if the matricies do not have the same shape
+	 * @throws InvalidShapeException if the matrices do not have the same shape
 	 */
 	public static Matrix hadamardProduct(Matrix a, Matrix b) throws InvalidShapeException {
 		if(a.getRows() != b.getRows() || a.getColumns() != b.getColumns())
