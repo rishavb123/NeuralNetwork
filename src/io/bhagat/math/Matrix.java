@@ -80,7 +80,7 @@ public class Matrix {
 	 * @param i the row
 	 * @param j the column
 	 * @return the value
-	 * @throws IndexNotInMatrixException when the indicies accessed are not in the matrix
+	 * @throws IndexNotInMatrixException when the indices accessed are not in the matrix
 	 */
 	public double get(int i, int j) throws IndexNotInMatrixException
 	{
@@ -89,6 +89,16 @@ public class Matrix {
 		} catch(IndexOutOfBoundsException e) {
 			throw new IndexNotInMatrixException(i, j);
 		}
+	}
+	
+	/**
+	 * Get a value using a matrixIndex and store that into the matrix index
+	 * @param matrixIndex the matrix index object
+	 * @throws IndexNotInMatrixException when the indices are not in the matrix
+	 */
+	public void get(MatrixIndex matrixIndex) throws IndexNotInMatrixException {
+		matrixIndex.setValue(get(matrixIndex.getI(), matrixIndex.getJ()));
+		matrixIndex.setParent(this);
 	}
 	
 	/**
@@ -106,6 +116,41 @@ public class Matrix {
 		{
 			throw new IndexNotInMatrixException(i, j);
 		}
+	}
+	
+	/**
+	 * Set a value using a matrix index object
+	 * @param matrixIndex the matrix index object that holds all the index information
+	 * @throws IndexNotInMatrixException if the index is invalid
+	 */
+	public void set(MatrixIndex matrixIndex) throws IndexNotInMatrixException {
+		set(matrixIndex.getI(), matrixIndex.getJ(), matrixIndex.getValue());
+	}
+	
+	/**
+	 * maps a function onto each element in the matrix
+	 * @param function the function to map
+	 * @return a reference of this matrix after the mapping
+	 */
+	public Matrix map(Function<Double, Double> function)
+	{
+		for(int i = 0; i < rows; i++)
+			for(int j = 0; j < columns; j++)
+				data[i][j] = function.f(data[i][j]);
+		return this;
+	}
+	
+	/**
+	 * maps a function onto each element in the matrix
+	 * @param function the function to map that receives MatrixIndex object
+	 * @return a reference of this matrix after the mapping
+	 */
+	public Matrix mapWithIndex(Function<MatrixIndex, Double> function)
+	{
+		for(int i = 0; i < rows; i++)
+			for(int j = 0; j < columns; j++)
+				data[i][j] = function.f(new MatrixIndex(i, j, data[i][j], this));
+		return this;
 	}
 	
 	/**
@@ -244,6 +289,16 @@ public class Matrix {
 		return m;
 	}
 	
+	public static Matrix hadamardProduct(Matrix a, Matrix b) throws InvalidShapeException {
+		if(a.getRows() != b.getRows() || a.getColumns() != b.getColumns())
+			throw a.new InvalidShapeException("Matricies must has the same shape in order to perform the hadamard product");
+		Matrix m = new Matrix(a.getRows(), b.getColumns());
+		for(int i = 0; i < m.getRows(); i++)
+			for(int j = 0; j < m.getColumns(); j++)
+				m.set(i, j, a.get(i, j) * b.get(i, j));
+		return m;
+	}
+	
 	
 	/**
 	 * @return the determinant
@@ -255,25 +310,136 @@ public class Matrix {
 			throw m.new InvalidShapeException("A matrix must be a square matrix to compute the determinant");
 		
 		if(m.getRows() == 1)
-			try {
-				return m.get(0, 0);
-			} catch (IndexNotInMatrixException e) {
-				e.printStackTrace();
-			}
+			return m.get(0, 0);
 		
 		double sum = 0;
 		
 		for(int i = 0; i < m.getRows(); i++)
 		{
-			try {
-				sum += Math.pow(-1, i) * m.get(0, i) * determinant(m.clone().removeRow(0).removeColumn(i));
-			} catch (IndexNotInMatrixException e) {
-				e.printStackTrace();
-			}
+			sum += Math.pow(-1, i) * m.get(0, i) * determinant(m.clone().removeRow(0).removeColumn(i));
 		}
 		
 		return sum;
 		
+	}
+	
+	/**
+	 * @author Bhagat
+	 * An object that stores all the information about one index of the matrix
+	 */
+	public static class MatrixIndex {
+		
+		/**
+		 * row index
+		 */
+		private int i;
+		/**
+		 * column index
+		 */
+		private int j;
+		/**
+		 * value
+		 */
+		private double value;
+		/**
+		 * parent matrix
+		 */
+		private Matrix parent;
+		
+		/**
+		 * constructs a new MatrixIndex
+		 * @param i the row index
+		 * @param j the column index
+		 */
+		public MatrixIndex(int i, int j)
+		{
+			this.i = i;
+			this.j = j;
+		}
+		
+		/**
+		 * constructs a new MatrixIndex
+		 * @param i the row index
+		 * @param j the column index
+		 * @param value the value at this index
+		 */
+		public MatrixIndex(int i, int j, double value)
+		{
+			this.i = i;
+			this.j = j;
+			this.value = value;
+		}
+		
+		/**
+		 * constructs a new MatrixIndex
+		 * @param i the row index
+		 * @param j the column index
+		 * @param value the value at this index
+		 * @param parent the parent matrix
+		 */
+		public MatrixIndex(int i, int j, double value, Matrix parent)
+		{
+			this.i = i;
+			this.j = j;
+			this.value = value;
+			this.parent = parent;
+		}
+
+		/**
+		 * @return the i
+		 */
+		public int getI() {
+			return i;
+		}
+
+		/**
+		 * @param i the i to set
+		 */
+		public void setI(int i) {
+			this.i = i;
+		}
+
+		/**
+		 * @return the j
+		 */
+		public int getJ() {
+			return j;
+		}
+
+		/**
+		 * @param j the j to set
+		 */
+		public void setJ(int j) {
+			this.j = j;
+		}
+
+		/**
+		 * @return the value
+		 */
+		public double getValue() {
+			return value;
+		}
+
+		/**
+		 * @param value the value to set
+		 */
+		public void setValue(double value) {
+			this.value = value;
+		}
+
+		/**
+		 * @return the parent
+		 */
+		public Matrix getParent() {
+			return parent;
+		}
+
+		/**
+		 * @param parent the parent to set
+		 */
+		public void setParent(Matrix parent) {
+			this.parent = parent;
+		}
 	}
 	
 	/**

@@ -1,12 +1,10 @@
 package io.bhagat.examples;
 
 import io.bhagat.math.Vector;
-import io.bhagat.math.Vector.InvalidLengthException;
-import io.bhagat.math.Vector.OutOfDimensionsException;
 
 /**
- * A test class that will run and test the different libraries
  * @author Bhagat
+ * A class showing a demo the Vector class in the math package
  */
 public class VectorDemo {
 
@@ -46,11 +44,7 @@ public class VectorDemo {
 		System.out.println("\n\n");
 		
 		// Prints the dot product of the Vectors
-		try {
-			System.out.println(a + " * " + b + " = " + Vector.dot(a, b));
-		} catch (OutOfDimensionsException | InvalidLengthException e) {
-			e.printStackTrace();
-		}
+		System.out.println(a + " * " + b + " = " + Vector.dot(a, b));
 	}
 
 }

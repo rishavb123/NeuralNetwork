@@ -8,7 +8,11 @@ import io.bhagat.math.Vector;
  * A class showing a demo the Matrix class in the math package
  */
 public class MatrixDemo {
-
+	
+	/**
+	 * The main method that will run
+	 * @param args cmd arguments
+	 */
 	public static void main(String[] args) {
 		
 		/**

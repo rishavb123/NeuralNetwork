@@ -127,13 +127,65 @@ public class Vector {
 	}
 	
 	/**
+	 * Gets data from an index using the VectorIndex object and stores the value into this object
+	 * @param vectorIndex the vector index object
+	 * @throws OutOfDimensionsException when the index is invalid
+	 */
+	public void get(VectorIndex vectorIndex) throws OutOfDimensionsException
+	{
+		vectorIndex.setParent(this);
+		vectorIndex.setValue(get(vectorIndex.getIndex()));
+	}
+	
+	/**
 	 * sets the value at a certain index
 	 * @param index the index
 	 * @param value the value
+	 * @throws OutOfDimensionsException if the index is out of the dimensions of the vector
 	 */
-	public void set(int index, double value)
+	public void set(int index, double value) throws OutOfDimensionsException
 	{
-		data[index] = value;
+		try {
+			data[index] = value;
+		} 
+		catch(IndexOutOfBoundsException e)
+		{
+			throw new OutOfDimensionsException(this, index);
+		}
+	}
+	
+	/**
+	 * Set a value in the vector using a VectorIndex
+	 * @param vectorIndex the VectorIndex object holding the index and value
+	 * @throws OutOfDimensionsException if the index is out of the dimensions of the vector
+	 */
+	public void set(VectorIndex vectorIndex) throws OutOfDimensionsException
+	{
+		set(vectorIndex.getIndex(), vectorIndex.getValue());
+	}
+	
+	/**
+	 * maps a function onto each element in the vector
+	 * @param function the function to map
+	 * @return a reference of this vector after the mapping
+	 */
+	public Vector map(Function<Double, Double> function)
+	{
+		for(int i = 0; i < size; i++)
+			data[i] = function.f(data[i]);
+		return this;
+	}
+	
+	/**
+	 * maps a function onto each element in the vector
+	 * @param function the function to map that receives a VectorIndex
+	 * @return a reference of this vector after the mapping
+	 */
+	public Vector mapWithIndex(Function<VectorIndex, Double> function)
+	{
+		for(int i = 0; i < size; i++)
+			data[i] = function.f(new VectorIndex(i, data[i], this));
+		return this;
 	}
 	
 	/**
@@ -267,6 +319,97 @@ public class Vector {
 		System.out.println();
 	}
 
+	public static class VectorIndex {
+		
+		/**
+		 * index in the vector
+		 */
+		private int index;
+		/**
+		 * value
+		 */
+		private double value;
+		/**
+		 * the parent vector
+		 */
+		private Vector parent;
+		
+		/**
+		 * Creates a new Vector Index
+		 * @param index the index
+		 */
+		public VectorIndex(int index)
+		{
+			this.index = index;
+		}
+		
+		/**
+		 * Creates a new Vector Index
+		 * @param index the index
+		 * @param value the value at said index
+		 */
+		public VectorIndex(int index, double value)
+		{
+			this.index = index;
+			this.value = value;
+		}
+		
+		/**
+		 * Creates a new Vector Index
+		 * @param index the index
+		 * @param value the value at said index
+		 */
+		public VectorIndex(int index, double value, Vector parent)
+		{
+			this.index = index;
+			this.value = value;
+			this.parent = parent;
+		}
+
+		/**
+		 * @return the index
+		 */
+		public int getIndex() {
+			return index;
+		}
+
+		/**
+		 * @param index the index to set
+		 */
+		public void setIndex(int index) {
+			this.index = index;
+		}
+
+		/**
+		 * @return the value
+		 */
+		public double getValue() {
+			return value;
+		}
+
+		/**
+		 * @param value the value to set
+		 */
+		public void setValue(double value) {
+			this.value = value;
+		}
+
+		/**
+		 * @return the parent
+		 */
+		public Vector getParent() {
+			return parent;
+		}
+
+		/**
+		 * @param parent the parent to set
+		 */
+		public void setParent(Vector parent) {
+			this.parent = parent;
+		}
+		
+	}
+	
 	/**
 	 * @author Bhagat
 	 * An exception for when two vectors are not compatible due to their lengths
