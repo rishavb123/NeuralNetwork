@@ -289,6 +289,13 @@ public class Matrix {
 		return m;
 	}
 	
+	/**
+	 * Computes the hadamard product, which is element wise multiplication
+	 * @param a the first matrix
+	 * @param b the second matrix
+	 * @return the resultant matrix
+	 * @throws InvalidShapeException if the matricies do not have the same shape
+	 */
 	public static Matrix hadamardProduct(Matrix a, Matrix b) throws InvalidShapeException {
 		if(a.getRows() != b.getRows() || a.getColumns() != b.getColumns())
 			throw a.new InvalidShapeException("Matricies must has the same shape in order to perform the hadamard product");
