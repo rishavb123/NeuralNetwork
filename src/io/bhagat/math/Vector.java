@@ -60,6 +60,30 @@ public class Vector {
 	}
 	
 	/**
+	 * Performs element wise addition
+	 * @param v the vector to add to this one
+	 * @return a reference to this vector
+	 */
+	public Vector add(Vector v)
+	{
+		for(int i = 0; i < size; i++)
+			data[i] += v.get(i);
+		return this;
+	}
+	
+	/**
+	 * Performs element wise subtraction
+	 * @param v the vector to subtract from this one
+	 * @return a reference to this vector
+	 */
+	public Vector subtract(Vector v)
+	{
+		for(int i = 0; i < size; i++)
+			data[i] -= v.get(i);
+		return this;
+	}
+	
+	/**
 	 * Performs scalar multiplication (element wise) on the Vector
 	 * @param scalar the scalar to multiply with
 	 * @return returns this vector after the multiplication
@@ -197,6 +221,24 @@ public class Vector {
 	}
 	
 	/**
+	 * Checks if this vector and the one sent in are orthogonal
+	 * @param v the second vector
+	 * @return a boolean that is true if they are orthogonal
+	 */
+	public boolean orthogonal(Vector v)
+	{
+		return orthogonal(this, v);
+	}
+	
+	/**
+	 * @return the unit vector with the same direction as this vector
+	 */
+	public Vector unitVector()
+	{
+		return clone().divide(getMagnitude());
+	}
+	
+	/**
 	 * @return the data
 	 */
 	public double[] getData() {
@@ -297,7 +339,6 @@ public class Vector {
 		return a.clone().divide(scalar);
 	}
 	
-	// TODO implement this using the determinant of a matrix
 	/**
 	 * computes the cross product of the input vectors
 	 * @param vectors the vectors to cross
@@ -305,7 +346,29 @@ public class Vector {
 	 */
 	public static Vector cross(Vector... vectors)
 	{
-		return vectors[0];
+		for(Vector v: vectors)
+			if(vectors.length != v.getSize() -1)
+				throw new InvalidLengthException();
+		
+		double[][] data = new double[vectors.length][vectors.length + 1];
+				
+		for(int i = 0; i < data.length; i++)
+				data[i] = vectors[i].clone().getData();
+		
+		return new CrossProductMatrix(data).determinant();		
+		
+	}
+	
+	public static Vector generateUnitVector(int index, int size)
+	{
+		double[] data = new double[size];
+		try {
+			data[index] = 1;
+		} catch(IndexOutOfBoundsException e)
+		{
+			throw new OutOfDimensionsException(new Vector(size), index);
+		}
+		return new Vector(data);
 	}
 	
 	/**
@@ -318,7 +381,50 @@ public class Vector {
 			System.out.println(v);
 		System.out.println();
 	}
+	
+	/**
+	 * Checks if two vectors are orthogonal
+	 * @param v1 first vector
+	 * @param v2 second vector
+	 * @return boolean that if true if they are orthogonal
+	 */
+	public static boolean orthogonal(Vector v1, Vector v2)
+	{
+		return v1.dot(v2) == 0;
+	}
+	
+	private static class CrossProductMatrix {
+		
+		private Matrix internalMatrix;
+		private Vector[] topRow;
+		
+		private CrossProductMatrix(double[][] data)
+		{
+			topRow = new Vector[data[0].length];
+			for(int i = 0; i < data[0].length; i++)
+				topRow[i] = Vector.generateUnitVector(i, data[0].length);
 
+			internalMatrix = new Matrix(data);
+		}
+		
+		private Vector determinant()
+		{
+			Vector sum = new Vector(topRow[0].getSize());
+			
+			for(int i = 0; i < internalMatrix.getColumns(); i++)
+			{
+				sum.add(topRow[i].clone().multiply(Math.pow(-1, i) * Matrix.determinant(internalMatrix.clone().removeColumn(i))));
+			}
+			
+			return sum;
+		}
+		
+	}
+
+	/**
+	 * @author Bhagat
+	 * class representing the index and value at a vector
+	 */
 	public static class VectorIndex {
 		
 		/**
