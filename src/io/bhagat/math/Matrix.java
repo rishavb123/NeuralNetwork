@@ -159,7 +159,11 @@ public class Matrix {
 	 */
 	public Matrix clone()
 	{
-		return new Matrix(data);
+		double[][] dataCopy = new double[rows][columns];
+		for(int i = 0; i < rows; i++)
+			for(int j = 0; j < columns; j++)
+				dataCopy[i][j] = data[i][j];
+		return new Matrix(dataCopy);
 	}
 	
 	/**

@@ -37,9 +37,13 @@ public class VectorDemo {
 		
 		// Prints out the vector
 		System.out.println(a);
-		
+				
 		// Prints out the magnitude
 		System.out.println(a.getMagnitude());
+		
+		// Prints out the unit vector and its magnitude in the same direction
+		System.out.println(a.unitVector());
+		System.out.println(a.unitVector().getMagnitude());
 		
 		System.out.println("\n\n");
 		

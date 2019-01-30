@@ -217,7 +217,10 @@ public class Vector {
 	 */
 	public Vector clone()
 	{
-		return new Vector(data);
+		double[] dataCopy = new double[size];
+		for(int i = 0; i < size; i++)
+			dataCopy[i] = data[i];
+		return new Vector(dataCopy);
 	}
 	
 	/**
