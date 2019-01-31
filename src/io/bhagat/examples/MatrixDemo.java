@@ -1,5 +1,6 @@
 package io.bhagat.examples;
 
+import io.bhagat.math.AugmentedMatrix;
 import io.bhagat.math.Matrix;
 import io.bhagat.math.Vector;
 
@@ -81,7 +82,13 @@ public class MatrixDemo {
 		// Prints the identity matrix with size 5
 		System.out.println("\n\n"+Matrix.identityMatrix(5));
 		
+		AugmentedMatrix augmentedMatrix = new AugmentedMatrix(new double[][] {
+			{1, 3, 2, 8},
+			{3, 2, 8, 9},
+			{6, 4, 1, 3}
+		} );
 		
+		System.out.println(augmentedMatrix);
 	}
 
 }
