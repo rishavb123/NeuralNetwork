@@ -80,6 +80,8 @@ public class MatrixDemo {
 		
 		// Prints the identity matrix with size 5
 		System.out.println("\n\n"+Matrix.identityMatrix(5));
+		
+		
 	}
 
 }
