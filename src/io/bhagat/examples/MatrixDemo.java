@@ -77,6 +77,9 @@ public class MatrixDemo {
 		// Computes the determinant of the matrix
 		//                 -1                      -2                      3045870
 		System.out.println(c.determinant() + " " + d.determinant() + " " + e.determinant());
+		
+		// Prints the identity matrix with size 5
+		System.out.println("\n\n"+Matrix.identityMatrix(5));
 	}
 
 }

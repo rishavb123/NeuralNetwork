@@ -334,6 +334,22 @@ public class Matrix {
 		
 	}
 	
+	//TODO implement the inverse method and make a non-static version
+	public static Matrix inverse(Matrix m)
+	{
+		return m;
+	}
+	
+	
+	//TODO implement the identity Matrix method
+	public static Matrix identityMatrix(int size)
+	{
+		Matrix m = new Matrix(size, size);
+		for(int i = 0; i < size; i++)
+			m.set(i, i, 1);
+		return m;
+	}
+	
 	/**
 	 * @author Bhagat
 	 * An object that stores all the information about one index of the matrix
