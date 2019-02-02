@@ -29,7 +29,7 @@ io.on('connection', (socket) => {
 server.listen(4200);
 childProcess.exec("chrome http://localhost:4200/perceptron");
 
-let perceptron = new Perceptron(2, 10, 0.99);
+let perceptron = new Perceptron(2, 10, 0.99, 100);
 for (let i = 0; i < 1000; i++) {
     x = Math.random() * 200 - 100;
     y = Math.random() * 200 - 100;
