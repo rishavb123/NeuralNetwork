@@ -141,7 +141,7 @@ public class Perceptron {
 		int guess = guess(inputs);
 		float err = target - guess;
 		weights.add(inputs.multiply(err * learningRate));
-		bias += err * learningRate;
+		bias += 100 * err * learningRate;
 		learningRate *= learningRateFactor;
 	}
 	
