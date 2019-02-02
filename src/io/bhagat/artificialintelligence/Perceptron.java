@@ -29,6 +29,10 @@ public class Perceptron {
 	 * The bias, or the weight for the invisible input of 1
 	 */
 	private double bias;
+	/**
+	 * The "input" for the bias weight
+	 */
+	private double biasLearningRateFactor;
 	
 	/**
 	 * default number of inputs
@@ -53,15 +57,21 @@ public class Perceptron {
 	 * default learning rate factor
 	 */
 	public static final double defaultLearningRateFactor = 1;
+	/**
+	 * default bias learning rate factor
+	 */
+	public static final double defaultBiasLearningRateFactor = 1;
+	
 	
 	/**
 	 * constructs the Perceptron with custom parameters
 	 * @param n size of input and weight vectors
 	 * @param learningRate the learning rate
-	 * @param activationFunction the activation function
 	 * @param learningRateFactor the factor for the learning rate to multiply on training
+	 * @param biasLearningRateFactor the factor which will be multiplied with the learning rate when adding to the bias
+	 * @param activationFunction the activation function
 	 */
-	public Perceptron(int n, double learningRate, double learningRateFactor, Function<Double, Integer> activationFunction) {
+	public Perceptron(int n, double learningRate, double learningRateFactor, double biasLearningRateFactor, Function<Double, Integer> activationFunction) {
 
 		double[] weightsArr = new double[n];
 		this.learningRate = learningRate;
@@ -75,21 +85,34 @@ public class Perceptron {
 		
 		this.activationFunction = activationFunction;
 		this.learningRateFactor = learningRateFactor;
+		this.biasLearningRateFactor = biasLearningRateFactor;
 	}
 	
 	/**
-	 * constructs a Perceptron with the default learning rate factor
+	 * constructs a Perceptron with a default activation function
 	 * @param n size of input and weight vectors
 	 * @param learningRate the learning rate
-	 * @param activationFunction the activation function
+	 * @param learningRateFactor the learning rate factor
+	 * @param biasLearningRateFactor the bias learning rate
+	 */
+	public Perceptron(int n, double learningRate, double learningRateFactor, double biasLearningRateFactor)
+	{
+		this(n,  learningRate, learningRateFactor, biasLearningRateFactor, defaultActivationFunction);
+	}
+	
+	/**
+	 * constructs a Perceptron with the default bias learning rate, and activation function
+	 * @param n size of input and weight vectors
+	 * @param learningRate the learning rate
+	 * @param learningRateFactor the learning rate factor
 	 */
 	public Perceptron(int n, double learningRate, double learningRateFactor)
 	{
-		this(n, learningRate, learningRateFactor, defaultActivationFunction );
+		this(n, learningRate, learningRateFactor, defaultBiasLearningRateFactor);
 	}
 	
 	/**
-	 * constructs a Perceptron with the default learning rate factor and activation function
+	 * constructs a Perceptron with the default learning rate factor, bias learning rate, and activation function
 	 * @param n size of input and weight vectors
 	 * @param learningRate the learning rate
 	 */
@@ -99,7 +122,7 @@ public class Perceptron {
 	}
 	
 	/**
-	 * constructs a Perceptron with the default learning rate factor, activation function and learning rate
+	 * constructs a Perceptron with the default learning rate factor, activation function, bias learning rate, and learning rate
 	 * @param n size of input and weight vectors
 	 */
 	public Perceptron(int n) {
@@ -141,7 +164,7 @@ public class Perceptron {
 		int guess = guess(inputs);
 		float err = target - guess;
 		weights.add(inputs.multiply(err * learningRate));
-		bias += 100 * err * learningRate;
+		bias += biasLearningRateFactor * err * learningRate;
 		learningRate *= learningRateFactor;
 	}
 	
