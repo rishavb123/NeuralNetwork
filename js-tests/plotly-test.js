@@ -1,4 +1,4 @@
-const plotly_credentials = require('../credentials/plotly_credentials.json');
+const plotly_credentials = require('../../credentials/plotly_credentials.json');
 const plotly = require('plotly')(plotly_credentials.username, plotly_credentials.api_key);
 
 let trace1 = {
