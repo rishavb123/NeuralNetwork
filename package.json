@@ -27,6 +27,7 @@
     },
     "homepage": "https://github.com/rishavb123/NeuralNetwork#readme",
     "dependencies": {
-        "java": "^0.11.0"
+        "java": "^0.11.0",
+        "plotly": "^1.0.6"
     }
 }
