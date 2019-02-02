@@ -1,15 +1,22 @@
 let socket = io.connect('http://localhost:4200');
 socket.on('data', function(d) {
     data = d;
+    divider.setM(data.m);
+    divider.setB(data.b);
+    predictedDivider.setM(-data.weights[0] / data.weights[1])
+    predictedDivider.setB(-data.bias / data.weights[1]);
+    c.points = data.points;
+    console.log(d.msg);
 });
-
-let data;
+socket.on('disconnect', () => window.close());
+let data = { points: [] };
 
 class Point {
-    constructor(x, y, color = "black") {
+    constructor(x, y, color = "black", bgColor = "transparent") {
         this.x = x;
         this.y = y;
         this.color = color;
+        this.bgColor = bgColor;
     }
 }
 
@@ -36,10 +43,10 @@ class Graph {
     constructor(c) {
         this.c = c;
         this.ctx = c.getContext('2d');
-        this.minX = -this.c.width / 2;
-        this.maxX = this.c.width / 2;
-        this.minY = -this.c.height / 2;
-        this.maxY = this.c.height / 2;
+        this.minX = -100;
+        this.maxX = 100;
+        this.minY = -100;
+        this.maxY = 100;
         this.lines = [];
         this.points = []
         this.interval = setInterval(() => {
@@ -55,11 +62,11 @@ class Graph {
     }
 
     getPixelX(x) {
-        return x + this.c.width / 2;
+        return (x / this.maxX + 1) * this.c.width / 2;
     }
 
     getPixelY(y) {
-        return this.c.height / 2 - y;
+        return (1 - y / this.maxY) * this.c.height / 2;
     }
 
     lineTo(x0, y0, x1, y1) {
@@ -76,10 +83,10 @@ class Graph {
         this.lineTo(f(this.minY), this.minY, f(this.maxY), this.maxY);
     }
 
-    point(x, y, color = 'black') {
+    point(x, y, color = 'black', size = "sm") {
 
         this.ctx.beginPath();
-        this.ctx.arc(this.getPixelX(x), this.getPixelY(y), this.c.width / 200, 0, 2 * Math.PI);
+        this.ctx.arc(this.getPixelX(x), this.getPixelY(y), size == "lg" ? this.c.width / 100 : this.c.width / 200, 0, 2 * Math.PI);
         this.ctx.fillStyle = color;
         this.ctx.stroke();
         this.ctx.fill();
@@ -91,9 +98,25 @@ class Graph {
     }
 
     drawPoint(p) {
+        this.point(p.x, p.y, p.bgColor, "lg");
         this.point(p.x, p.y, p.color);
+    }
+
+    save() {
+        let url = this.c.toDataURL("image/png");
+        let element = document.createElement('a');
+        element.setAttribute('href', url);
+        element.setAttribute('download', "graph.png");
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
     }
 
 }
 
 let c = new Graph(document.getElementById("canvas"));
+let divider = new Line(0, 0);
+let predictedDivider = new Line(0, 0);
+c.lines.push(divider);
+c.lines.push(predictedDivider);

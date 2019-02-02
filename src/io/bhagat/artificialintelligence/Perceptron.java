@@ -5,18 +5,42 @@ import io.bhagat.math.Vector;
 
 /**
  * @author Bhagat
- * A class that will act as a Perceptron 
+ * A class that will act as a Perceptron that takes in inputs and then generates an outputs based on previous training
  */
 public class Perceptron {
 
+	/**
+	 * A vector that holds the weights for the inputs (for the weighted sum)
+	 */
 	private Vector weights;
+	/**
+	 * The step that it takes in the direction of the error
+	 */
 	private double learningRate;
+	/**
+	 * The activation function that is run on the output data to constrain the data to known limits
+	 */
 	private Function<Double, Integer> activationFunction;
+	/**
+	 * A factor that the learning rate is multiplied with each time the perceptron is trained
+	 */
 	private double learningRateFactor;
+	/**
+	 * The bias, or the weight for the invisible input of 1
+	 */
 	private double bias;
 	
+	/**
+	 * default number of inputs
+	 */
 	public static final int defaultN = 2;
+	/**
+	 * default learning rate
+	 */
 	public static final double defaultLearningRate = 0.2;
+	/**
+	 * default activation function to use if something is positive or negative to 1 or 0
+	 */
 	public static final Function<Double, Integer> defaultActivationFunction = new Function<Double, Integer>() {
 
 		@Override
@@ -25,9 +49,19 @@ public class Perceptron {
 		}
 		
 	};
+	/**
+	 * default learning rate factor
+	 */
 	public static final double defaultLearningRateFactor = 1;
 	
-	public Perceptron(int n, double learningRate, Function<Double, Integer> activationFunction, double learningRateFactor) {
+	/**
+	 * constructs the Perceptron with custom parameters
+	 * @param n size of input and weight vectors
+	 * @param learningRate the learning rate
+	 * @param activationFunction the activation function
+	 * @param learningRateFactor the factor for the learning rate to multiply on training
+	 */
+	public Perceptron(int n, double learningRate, double learningRateFactor, Function<Double, Integer> activationFunction) {
 
 		double[] weightsArr = new double[n];
 		this.learningRate = learningRate;
@@ -40,49 +74,138 @@ public class Perceptron {
 		this.learningRateFactor = learningRateFactor;
 	}
 	
-	public Perceptron(int n, double learningRate, Function<Double, Integer> activationFunction)
+	/**
+	 * constructs a Perceptron with the default learning rate factor
+	 * @param n size of input and weight vectors
+	 * @param learningRate the learning rate
+	 * @param activationFunction the activation function
+	 */
+	public Perceptron(int n, double learningRate, double learningRateFactor)
 	{
-		this(n, learningRate, activationFunction, defaultLearningRateFactor);
+		this(n, learningRate, learningRateFactor, defaultActivationFunction );
 	}
 	
+	/**
+	 * constructs a Perceptron with the default learning rate factor and activation function
+	 * @param n size of input and weight vectors
+	 * @param learningRate the learning rate
+	 */
 	public Perceptron(int n, double learningRate)
 	{
-		this(n, learningRate, defaultActivationFunction);
+		this(n, learningRate, defaultLearningRateFactor);
 	}
 	
+	/**
+	 * constructs a Perceptron with the default learning rate factor, activation function and learning rate
+	 * @param n size of input and weight vectors
+	 */
 	public Perceptron(int n) {
 		this(n, defaultLearningRate);
 	}
 	
+	/**
+	 * constructs a Perceptron with all the default parameters
+	 */
 	public Perceptron() {
 		this(defaultN);
 	}
 	
+	/**
+	 * takes a Vector for inputs and then guesses the output
+	 * @param inputs the inputs
+	 * @return the guess of what the output should be
+	 */
 	public int guess(Vector inputs) {
-		return activation(weights.dot(inputs) + bias);
+		return activationFunction.f(weights.dot(inputs) + bias);
 	}
 	
+	/**
+	 * takes in an input array and converts it to a vector and sends it to guess(Vector)
+	 * @param inputs the input array
+	 * @return the guess of what the output should be
+	 */
 	public int guess(double[] inputs) {
 		return guess(new Vector(inputs));
 	}
 	
+	/**
+	 * takes in a Vector for the inputs and then compares the guess and the target output and adjusts the weights and bias accordingly
+	 * @param inputs the inputs
+	 * @param target the target output
+	 */
 	public void train(Vector inputs, int target)
 	{
 		int guess = guess(inputs);
 		float err = target - guess;
 		weights.add(inputs.multiply(err * learningRate));
 		bias += err * learningRate;
-	}
-	
-	public void train(double[] inputs, int target)
-	{
-		train(new Vector(inputs), target);
 		learningRate *= learningRateFactor;
 	}
 	
-	public int activation(double x)
+	/**
+	 * converts the input array into a Vector and sends it to the train(Vector, integer) method
+	 * @param inputs the inputs array
+	 * @param target the target output
+	 */
+	public void train(double[] inputs, int target)
 	{
-		return activationFunction.f(x);
+		train(new Vector(inputs), target);
+	}
+
+	/**
+	 * @return the learningRate
+	 */
+	public double getLearningRate() {
+		return learningRate;
+	}
+
+	/**
+	 * @param learningRate the learningRate to set
+	 */
+	public void setLearningRate(double learningRate) {
+		this.learningRate = learningRate;
+	}
+
+	/**
+	 * @return the activationFunction
+	 */
+	public Function<Double, Integer> getActivationFunction() {
+		return activationFunction;
+	}
+
+	/**
+	 * @param activationFunction the activationFunction to set
+	 */
+	public void setActivationFunction(Function<Double, Integer> activationFunction) {
+		this.activationFunction = activationFunction;
+	}
+
+	/**
+	 * @return the learningRateFactor
+	 */
+	public double getLearningRateFactor() {
+		return learningRateFactor;
+	}
+
+	/**
+	 * @param learningRateFactor the learningRateFactor to set
+	 */
+	public void setLearningRateFactor(double learningRateFactor) {
+		this.learningRateFactor = learningRateFactor;
+	}
+
+	/**
+	 * @return the weights
+	 */
+	public Vector getWeights() {
+		return weights;
+	}
+
+	/**
+	 * @return the bias
+	 */
+	public double getBias() {
+		return bias;
 	}
 
 }
