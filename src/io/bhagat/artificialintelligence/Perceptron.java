@@ -70,6 +70,9 @@ public class Perceptron {
 			weightsArr[i] = Math.random()*2 - 1;
 		
 		weights = new Vector(weightsArr);
+		
+		bias = Math.random()*2 - 1;
+		
 		this.activationFunction = activationFunction;
 		this.learningRateFactor = learningRateFactor;
 	}
