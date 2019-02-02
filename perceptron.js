@@ -10,12 +10,6 @@ java.classpath.push('target/classes');
 const Perceptron = java.import('io.bhagat.artificialintelligence.Perceptron');
 
 app.use(express.static('public'));
-let data = [
-    { id: 1, text: 'item 1', date: new Date(2013, 6, 20), group: 1, first: true },
-    { id: 2, text: 'item 2', date: '2013-06-23', group: 2 },
-    { id: 3, text: 'item 3', date: '2013-06-25', group: 2 },
-    { id: 4, text: 'item 4' }
-];
 
 io.on('connection', (socket) => {
     socket.emit('data', data);

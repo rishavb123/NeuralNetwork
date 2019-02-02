@@ -48,7 +48,7 @@ public class Vector {
 	 */
 	public double dot(Vector vector) throws OutOfDimensionsException, InvalidLengthException
 	{
-		if(this.size != vector.getSize())
+		if(size != vector.getSize())
 		{
 			throw new InvalidLengthException(this, vector);
 		}
@@ -66,6 +66,8 @@ public class Vector {
 	 */
 	public Vector add(Vector v)
 	{
+		if(size != v.getSize())
+			throw new InvalidLengthException(this, v);
 		for(int i = 0; i < size; i++)
 			data[i] += v.get(i);
 		return this;
@@ -78,6 +80,8 @@ public class Vector {
 	 */
 	public Vector subtract(Vector v)
 	{
+		if(size != v.getSize())
+			throw new InvalidLengthException(this, v);
 		for(int i = 0; i < size; i++)
 			data[i] -= v.get(i);
 		return this;
@@ -103,6 +107,8 @@ public class Vector {
 	 */
 	public Vector multiply(Vector v)
 	{
+		if(size != v.getSize())
+			throw new InvalidLengthException(this, v);
 		for(int i = 0; i < size; i++)
 			data[i] *= v.get(i);
 		return this;

@@ -13,6 +13,7 @@ public class Perceptron {
 	private double learningRate;
 	private Function<Double, Integer> activationFunction;
 	private double learningRateFactor;
+	private double bias;
 	
 	public static final int defaultN = 2;
 	public static final double defaultLearningRate = 0.2;
@@ -58,7 +59,7 @@ public class Perceptron {
 	}
 	
 	public int guess(Vector inputs) {
-		return activation(weights.dot(inputs));
+		return activation(weights.dot(inputs) + bias);
 	}
 	
 	public int guess(double[] inputs) {
@@ -70,6 +71,7 @@ public class Perceptron {
 		int guess = guess(inputs);
 		float err = target - guess;
 		weights.add(inputs.multiply(err * learningRate));
+		bias += err * learningRate;
 	}
 	
 	public void train(double[] inputs, int target)
