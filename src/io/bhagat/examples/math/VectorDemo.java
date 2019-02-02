@@ -1,4 +1,4 @@
-package io.bhagat.examples;
+package io.bhagat.examples.math;
 
 import io.bhagat.math.Vector;
 

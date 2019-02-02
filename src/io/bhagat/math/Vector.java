@@ -97,6 +97,18 @@ public class Vector {
 	}
 	
 	/**
+	 * element wise multiplication
+	 * @param v vector to multiply with
+	 * @return returns this vector after the multiplication
+	 */
+	public Vector multiply(Vector v)
+	{
+		for(int i = 0; i < size; i++)
+			data[i] *= v.get(i);
+		return this;
+	}
+	
+	/**
 	 * Performs scalar division (element wise) on the Vector
 	 * @param scalar the scalar to divide with
 	 * @return returns this vector after the division

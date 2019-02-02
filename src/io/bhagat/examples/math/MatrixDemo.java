@@ -1,4 +1,4 @@
-package io.bhagat.examples;
+package io.bhagat.examples.math;
 
 import io.bhagat.math.AugmentedMatrix;
 import io.bhagat.math.Matrix;
@@ -80,14 +80,43 @@ public class MatrixDemo {
 		System.out.println(c.determinant() + " " + d.determinant() + " " + e.determinant());
 		
 		// Prints the identity matrix with size 5
-		System.out.println("\n\n"+Matrix.identityMatrix(5));
+		System.out.println("\n\n"+Matrix.identityMatrix(5)+"\n\n");
 		
+		// Inverse of a matrix
+		/**
+		 * a matrix to compute the inverse of
+		 */
+		Matrix matrixToInverse = new Matrix(new double[][] {
+			{1, 2},
+			{3, 4}
+		});
+		/**
+		 * a larger matrix to compute the inverse of
+		 */
+		Matrix matrixToInverse2 = new Matrix(new double[][] {
+			{1, 2, 3},
+			{0, 1, 4},
+			{5, 6, 0}
+		});
+		System.out.println(matrixToInverse+"\n");
+		System.out.println(Matrix.inverse(matrixToInverse)+"\n");
+		System.out.println(matrixToInverse2+"\n");
+		System.out.println(Matrix.inverse(matrixToInverse2)+"\n");
+		
+		/**
+		 * An augmented Matrix
+		 */
 		AugmentedMatrix augmentedMatrix = new AugmentedMatrix(new double[][] {
 			{1, 3, 2, 8},
 			{3, 2, 8, 9},
 			{6, 4, 1, 3}
 		} );
 		
+		// Print Augmented Matrix
+		System.out.println("\n\n"+augmentedMatrix + "\n\n");
+		
+		// Switch two rows
+		augmentedMatrix.switchTwoRows(0, 2);
 		System.out.println(augmentedMatrix);
 	}
 

@@ -2,7 +2,7 @@ package io.bhagat.math;
 
 /**
  * @author Bhagat
- *
+ * A class representing a Matrix
  */
 public class Matrix {
 
@@ -223,9 +223,22 @@ public class Matrix {
 		return this;
 	}
 	
+	/**
+	 * uses the static method to compute the determinant of the matrix
+	 * @return the determinant
+	 * @throws InvalidShapeException gets thrown if it is not a square matrix
+	 */
 	public double determinant() throws InvalidShapeException
 	{
 		return determinant(this);
+	}
+	
+	/**
+	 * @return true if it is a square matrix
+	 */
+	public boolean isSquare()
+	{
+		return rows == columns;
 	}
 	
 	/**
@@ -233,6 +246,15 @@ public class Matrix {
 	 */
 	public double[][] getData() {
 		return data;
+	}
+	
+	/**
+	 * @param data the data
+	 */
+	public void setData(double[][] data) {
+		this.data = data;
+		rows = data.length;
+		columns = (rows > 0)? data[0].length : 0;
 	}
 
 	/**
@@ -317,7 +339,7 @@ public class Matrix {
 	 */
 	public static double determinant(Matrix m) throws InvalidShapeException
 	{
-		if(m.getRows() != m.getColumns())
+		if(!m.isSquare())
 			throw m.new InvalidShapeException("A matrix must be a square matrix to compute the determinant");
 		
 		if(m.getRows() == 1)
@@ -334,14 +356,24 @@ public class Matrix {
 		
 	}
 	
-	//TODO implement the inverse method and make a non-static version
+	/**
+	 * computes the inverse matrix of the input matrix
+	 * @param m the input matrix
+	 * @return the inverse of the input matrix
+	 */
 	public static Matrix inverse(Matrix m)
 	{
-		return m;
+		if(!m.isSquare())
+			throw m.new InvalidShapeException("The matrix is not a square matrix");
+		return new Matrix(Inverse.invert(m.clone().getData()));
 	}
 	
 	
-	//TODO implement the identity Matrix method
+	/**
+	 * generates an identity matrix with a specified size
+	 * @param size the size is the number of rows and columns
+	 * @return the generated matrix
+	 */
 	public static Matrix identityMatrix(int size)
 	{
 		Matrix m = new Matrix(size, size);

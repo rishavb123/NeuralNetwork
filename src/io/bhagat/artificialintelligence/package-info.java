@@ -5,4 +5,4 @@
  * @author Bhagat
  *
  */
-package io.bhagat.neuralnetwork;
+package io.bhagat.artificialintelligence;

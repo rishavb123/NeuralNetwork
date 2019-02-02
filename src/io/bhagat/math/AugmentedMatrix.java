@@ -17,10 +17,21 @@ public class AugmentedMatrix extends Matrix {
 		augment = new Matrix(createRightMatrixData(data));
 	}
 	
-//	public void switchTwoRows(int i1, int i2)
-//	{
-//		double[] rowCopy = setData();
-//	}
+	/**
+	 * Performs the augmented matrix operation of switching two rows
+	 * @param i1 index of the first row
+	 * @param i2 index of the second row
+	 */
+	public void switchTwoRows(int i1, int i2)
+	{
+		double[][] data = getData();
+		double[] rowCopy = data[i1];
+		data[i1] = data[i2];
+		data[i2] = rowCopy;
+		double temp = augment.get(0, i1);
+		augment.set(i1, 0, augment.get(i2, 0));
+		augment.set(i2, 0, temp);
+	}
 
 	/**
 	 * splices the data to get the part for the matrix

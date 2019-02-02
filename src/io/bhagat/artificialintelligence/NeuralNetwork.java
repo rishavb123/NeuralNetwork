@@ -1,7 +1,7 @@
 /**
  * 
  */
-package io.bhagat.neuralnetwork;
+package io.bhagat.artificialintelligence;
 
 /**
  * @author Bhagat
