@@ -127,6 +127,27 @@ public class Vector {
 		return this;
 	}
 	
+	
+	/**
+	 * Fills the Vector with random values from min to max
+	 * @param min the minimum random number
+	 * @param max the maximum random number
+	 */
+	public void randomize(double min, double max)
+	{
+		for(int i = 0; i < data.length; i++)
+			data[i] = Math.random()*(max - min) + min;
+	}
+	
+	/**
+	 * Fills the Vector with random values from -1 to 1
+	 */
+	public void randomize()
+	{
+		for(int i = 0; i < data.length; i++)
+			data[i] = Math.random()*2 - 1;
+	}
+	
 	/**
 	 * @return the magnitude of the vector
 	 */
@@ -228,6 +249,11 @@ public class Vector {
 		for(int i = 0; i < size; i++)
 			data[i] = function.f(new VectorIndex(i, data[i], this));
 		return this;
+	}
+	
+	public Matrix toMatrix()
+	{
+		return new Matrix(new double[][] { data }).transpose();
 	}
 	
 	/**

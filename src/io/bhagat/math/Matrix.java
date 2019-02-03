@@ -62,11 +62,11 @@ public class Matrix {
 		if(data.length == 0)
 			return new Vector[0];
 		Vector[] vs = new Vector[columns];
-		for(int j = 0; j < rows; j++)
+		for(int j = 0; j < columns; j++)
 		{
 			double[] column = new double[rows];
 			
-			for(int i = 0; i < columns; i++)
+			for(int i = 0; i < rows; i++)
 				column[i] = data[i][j];
 			
 			vs[j] = new Vector(column);
@@ -167,6 +167,38 @@ public class Matrix {
 	}
 	
 	/**
+	 * Fills the Matrix with random values from -1 to 1
+	 */
+	public void randomize()
+	{
+		for(int i = 0; i < rows; i++)
+			for(int j = 0; j < columns; j++)
+				data[i][j] = Math.random()*2 - 1;
+	}
+
+	/**
+	 * Fills the Matrix with random values from min to max
+	 * @param min the minimum random number
+	 * @param max the maximum random number
+	 */
+	public void randomize(double min, double max)
+	{
+		for(int i = 0; i < rows; i++)
+			for(int j = 0; j < columns; j++)
+				data[i][j] = Math.random()*(max - min) + min;
+	}
+	
+	/**
+	 * Transposes the matrix
+	 * @return the transposed matrix
+	 */
+	public Matrix transpose()
+	{
+		return transpose(this);
+	}
+
+	
+	/**
 	 * Removes a row in the Matrix
 	 * @param index the index to remove the row at
 	 * @return the current matrix with the removed row
@@ -231,6 +263,79 @@ public class Matrix {
 	public double determinant() throws InvalidShapeException
 	{
 		return determinant(this);
+	}
+	
+	/**
+	 * performs the hadamard product which is element wise multiplication
+	 * @param m the matrix to multiply
+	 * @return a reference to this matrix
+	 */
+	public Matrix hadamardProduct(Matrix m)
+	{
+		if(rows != m.getRows() || columns != m.getColumns())
+			throw new InvalidShapeException("Matricies must has the same shape in order to perform the hadamard product");
+		for(int i = 0; i < rows; i++)
+			for(int j = 0; j < columns; j++)
+				data[i][j] *= m.get(i, j);
+		return this;
+	}
+	
+	/**
+	 * performs element wise addition
+	 * @param m the matrix to add with
+	 * @return a reference to this matrix
+	 */
+	public Matrix add(Matrix m)
+	{
+		if(rows != m.getRows() || columns != m.getColumns())
+			throw new InvalidShapeException("Matricies must has the same shape in order to perform the addition");
+		for(int i = 0; i < rows; i++)
+			for(int j = 0; j < columns; j++)
+				data[i][j] += m.get(i, j);
+		return this;
+	}
+	
+	/**
+	 * performs element wise subtraction
+	 * @param m the matrix to subtract with
+	 * @return a reference to this matrix
+	 */
+	public Matrix subtract(Matrix m)
+	{
+		if(rows != m.getRows() || columns != m.getColumns())
+			throw new InvalidShapeException("Matricies must has the same shape in order to perform the addition");
+		for(int i = 0; i < rows; i++)
+			for(int j = 0; j < columns; j++)
+				data[i][j] -= m.get(i, j);
+		return this;
+	}
+	
+	/**
+	 * performs element wise division
+	 * @param m the matrix to divide with
+	 * @return a reference to this matrix
+	 */
+	public Matrix divide(Matrix m)
+	{
+		if(rows != m.getRows() || columns != m.getColumns())
+			throw new InvalidShapeException("Matricies must has the same shape in order to perform the division");
+		for(int i = 0; i < rows; i++)
+			for(int j = 0; j < columns; j++)
+				data[i][j] /= m.get(i, j);
+		return this;
+	}
+	
+	/**
+	 * converts this matrix into a vector
+	 * @return the vector
+	 */
+	public Vector toVector()
+	{
+		if(rows == 1)
+			return new Vector(data[0]);
+		if(columns == 1)
+			return new Vector(transpose().getData()[0]);
+		throw new InvalidShapeException("Matrix must have either one row or one column to be converted into a Vector");
 	}
 	
 	/**
@@ -302,8 +407,8 @@ public class Matrix {
 	 */
 	public static Matrix multiply(Matrix a, Matrix b) throws InvalidShapeException
 	{
-		if(a.getRows() != b.getColumns())
-			throw a.new InvalidShapeException("The rows of matrix a does not match the columns of matrix b");
+		if(a.getColumns() != b.getRows())
+			throw a.new InvalidShapeException("The columns of matrix a does not match the rows of matrix b");
 		Matrix m = new Matrix(a.getRows(), b.getColumns());
 		Vector[] aRows = a.getVectorRows();
 		Vector[] bCols = b.getVectorColumns();
@@ -323,15 +428,22 @@ public class Matrix {
 	 * @throws InvalidShapeException if the matrices do not have the same shape
 	 */
 	public static Matrix hadamardProduct(Matrix a, Matrix b) throws InvalidShapeException {
-		if(a.getRows() != b.getRows() || a.getColumns() != b.getColumns())
-			throw a.new InvalidShapeException("Matricies must has the same shape in order to perform the hadamard product");
-		Matrix m = new Matrix(a.getRows(), b.getColumns());
-		for(int i = 0; i < m.getRows(); i++)
-			for(int j = 0; j < m.getColumns(); j++)
-				m.set(i, j, a.get(i, j) * b.get(i, j));
-		return m;
+		return a.clone().hadamardProduct(b);
 	}
 	
+	/**
+	 * transposes the rows and columns of a matrix to the columns and rows
+	 * @param m the matrix to transpose
+	 * @return the transposed matrix
+	 */
+	public static Matrix transpose(Matrix m)
+	{
+		Matrix t = new Matrix(m.getColumns(), m.getRows());
+		for(int i = 0; i < m.getRows(); i++)
+			for(int j = 0; j < m.getColumns(); j++)
+				t.set(j, i, m.get(i, j));
+		return t;
+	}
 	
 	/**
 	 * @return the determinant

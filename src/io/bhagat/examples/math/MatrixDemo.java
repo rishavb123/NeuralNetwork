@@ -43,8 +43,20 @@ public class MatrixDemo {
 		// Print the columns
 		Vector.print(a.getVectorColumns());
 		
+		
+		Matrix m1 = new Matrix(new double[][] {
+			{1, 3}
+		});
+		
+		Matrix m2 = new Matrix(new double[][] {
+			{1, 2, 3},
+			{4, 5, 6}
+		});
+		
+
 		// Print the Matrix product between the two Vectors
 		System.out.println(Matrix.multiply(a, b));
+		System.out.println(Matrix.multiply(m1, m2));
 
 		System.out.println(a);
 		
