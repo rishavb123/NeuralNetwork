@@ -1,5 +1,6 @@
 package io.bhagat.artificialintelligence;
 
+import io.bhagat.math.Function;
 import io.bhagat.math.Matrix;
 import io.bhagat.math.Vector;
 
@@ -17,8 +18,25 @@ public class NeuralNetwork {
 	private Matrix[] weights;
 	private Matrix[] bias;
 	
-	public NeuralNetwork(int... shape)
+	private Function<Double, Double> activationFunction;
+	
+	public static Function<Double, Double> defaultActivationFunction = new Function<Double, Double>() {
+
+		@Override
+		public Double f(Double x) {
+			return 1.0/(1 + Math.exp( -x));
+		}
+		
+	};
+	
+	/**
+	 * Creates a NeuralNetwork with a specified shape
+	 * @param shape an array defining the shape of the NeuralNetwork
+	 * @param activationFunction the activation function
+	 */
+	public NeuralNetwork(Function<Double, Double> activationFunction, int... shape)
 	{
+		this.activationFunction = activationFunction;
 		switch(shape.length)
 		{
 			case 0:
@@ -58,6 +76,16 @@ public class NeuralNetwork {
 		
 	}
 	
+	/**
+	 * Creates a NeuralNetwork with a specified shape
+	 * @param shape an array defining the shape of the NeuralNetwork
+	 */
+	public NeuralNetwork(int... shape)
+	{
+		this(defaultActivationFunction, shape);
+	}
+	
+	
 	public double[] feedForward(double[] inputs)
 	{
 		return feedForward(new Vector(inputs)).getData();
@@ -75,7 +103,7 @@ public class NeuralNetwork {
 		
 		for(int i = 1; i < layers.length; i++)
 		{
-			layers[i] = /*activationFunction.f(*/Matrix.multiply(weights[i - 1], layers[i - 1]).add(bias[i - 1]);
+			layers[i] = (Matrix.multiply(weights[i - 1], layers[i - 1]).add(bias[i - 1])).map(activationFunction);
 		}
 		
 		return layers[layers.length - 1];
