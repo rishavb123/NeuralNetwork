@@ -19,7 +19,7 @@ let data = {
     bias: 0
 };
 
-app.use(express.static('public'));
+app.use(express.static('public/perceptron'));
 
 io.on('connection', (socket) => {
     socket.emit('data', data);
@@ -27,7 +27,7 @@ io.on('connection', (socket) => {
 });
 
 server.listen(4200);
-childProcess.exec("chrome http://localhost:4200/perceptron");
+childProcess.exec("chrome http://localhost:4200/");
 
 let perceptron = new Perceptron(2, 10, 0.99, 100);
 for (let i = 0; i < 1000; i++) {
