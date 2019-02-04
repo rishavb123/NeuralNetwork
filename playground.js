@@ -3,7 +3,7 @@ const java = require('java');
 java.classpath.push('bin');
 java.classpath.push('target/classes');
 
-// create a server that sends these objects to the client for use
+
 const NeuralNetwork = java.import('io.bhagat.artificialintelligence.NeuralNetwork');
 const Perceptron = java.import('io.bhagat.artificialintelligence.Perceptron');
 const Matrix = java.import('io.bhagat.math.Matrix');
