@@ -85,17 +85,31 @@ public class NeuralNetwork {
 		this(defaultActivationFunction, shape);
 	}
 	
-	
+	/**
+	 * the feed forward algorithm for making a guess based on the inputs
+	 * @param inputs an array of inputs
+	 * @return an array for the outputs
+	 */
 	public double[] feedForward(double[] inputs)
 	{
 		return feedForward(new Vector(inputs)).getData();
 	}
 	
+	/**
+	 * the feed forward algorithm for making a guess based on the inputs
+	 * @param inputs a Vector that hold the inputs
+	 * @return a Vector for the outputs
+	 */
 	public Vector feedForward(Vector inputs)
 	{
 		return feedForward(inputs.toMatrix()).toVector();
 	}
 	
+	/**
+	 * the feed forward algorithm for making a guess based on the inputs
+	 * @param inputs a Matrix that hold the inputs
+	 * @return a Matrix for the outputs
+	 */
 	public Matrix feedForward(Matrix inputs)
 	{
 		Matrix[] layers = new Matrix[shape.length];

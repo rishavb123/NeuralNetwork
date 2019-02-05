@@ -160,7 +160,7 @@ public class Vector {
 	}
 	
 	/**
-	 * @returns the sum of each component
+	 * @return the sum of each component
 	 */
 	public double getSum()
 	{
@@ -300,7 +300,7 @@ public class Vector {
 	}
 
 	/**
-	 * @return a string representing this Vector object in the form <x1, x2, . . . xn>
+	 * @return a string representing this Vector object in the form &lt;x1, x2, . . . xn&gt;
 	 */
 	@Override
 	public String toString()
@@ -318,8 +318,7 @@ public class Vector {
 	}
 	
 	/**
-	 * static clone function
-	 * @see the clone function of a vector
+	 * static clone function that calls the clone function of a vector
 	 * @param v the vector to clone
 	 * @return the cloned vector with a new memory allocation
 	 */
@@ -329,13 +328,12 @@ public class Vector {
 	}
 	
 	/**
-	 * static dot product function
+	 * static dot product function that calls the dot function of a vector
 	 * @param a first vector
 	 * @param b vector to dot with
 	 * @return the dot product of the two
-	 * @see the dot function of a vector
-	 * @throws OutOfDimensionsException
-	 * @throws InvalidLengthException
+	 * @throws OutOfDimensionsException when the vectors are not the same length but is not caught by InvalidLengthException
+	 * @throws InvalidLengthException when the vectors are not the same length
 	 */
 	public static double dot(Vector a, Vector b) throws OutOfDimensionsException, InvalidLengthException
 	{
@@ -511,11 +509,24 @@ public class Vector {
 		 * Creates a new Vector Index
 		 * @param index the index
 		 * @param value the value at said index
+		 * @param parent the vector holding the VectorIndex
 		 */
 		public VectorIndex(int index, double value, Vector parent)
 		{
 			this.index = index;
 			this.value = value;
+			this.parent = parent;
+		}
+		
+		/**
+		 * Creates a new Vector Index
+		 * @param index the index
+		 * @param parent the vector holding the VectorIndex
+		 */
+		public VectorIndex(int index, Vector parent)
+		{
+			this.index = index;
+			value = parent.get(index);
 			this.parent = parent;
 		}
 

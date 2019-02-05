@@ -446,6 +446,7 @@ public class Matrix {
 	}
 	
 	/**
+	 * @param m the Matrix to take the determinant of
 	 * @return the determinant
 	 * @throws InvalidShapeException if the matrix is not a square matrix
 	 */
