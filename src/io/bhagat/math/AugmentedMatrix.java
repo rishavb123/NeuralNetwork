@@ -1,8 +1,8 @@
 package io.bhagat.math;
 
 /**
- * @author Bhagat
  * An augmented matrix that has an extra right column for the augment
+ * @author Bhagat
  */
 public class AugmentedMatrix extends Matrix {
 

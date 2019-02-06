@@ -4,8 +4,8 @@
 package io.bhagat.math;
 
 /**
- * @author Bhagat
  * This class is a class representing a Vector of any number of dimensions
+ * @author Bhagat
  */
 public class Vector {
 	

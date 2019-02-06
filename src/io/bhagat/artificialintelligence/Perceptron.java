@@ -4,8 +4,8 @@ import io.bhagat.math.Function;
 import io.bhagat.math.Vector;
 
 /**
- * @author Bhagat
  * A class that will act as a Perceptron that takes in inputs and then generates an outputs based on previous training
+ * @author Bhagat
  */
 public class Perceptron {
 

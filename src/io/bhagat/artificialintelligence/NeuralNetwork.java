@@ -5,8 +5,8 @@ import io.bhagat.math.Matrix;
 import io.bhagat.math.Vector;
 
 /**
- * @author Bhagat
  * a class for a Neural Network that will take in inputs and send them through difference layers and generate outputs
+ * @author Bhagat
  */
 public class NeuralNetwork {
 

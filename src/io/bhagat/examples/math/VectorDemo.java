@@ -3,8 +3,8 @@ package io.bhagat.examples.math;
 import io.bhagat.math.Vector;
 
 /**
- * @author Bhagat
  * A class showing a demo the Vector class in the math package
+ * @author Bhagat
  */
 public class VectorDemo {
 

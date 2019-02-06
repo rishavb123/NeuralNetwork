@@ -4,8 +4,8 @@ import io.bhagat.math.Function;
 import io.bhagat.math.Vector;
 
 /**
- * @author Bhagat
  * a class to display how the Function interface works
+ * @author Bhagat
  */
 public class FunctionDemo {
 

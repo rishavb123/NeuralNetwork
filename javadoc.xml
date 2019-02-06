@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="javadoc">
+    <target name="javadoc">
+        <javadoc access="private" additionalparam=" --no-module-directories" author="true" classpath="." destdir="docs" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="io.bhagat.examples,io.bhagat.artificialintelligence,io.bhagat.examples.math,io.bhagat.math" source="10" sourcepath="src" splitindex="true" use="true" version="true"/>
+    </target>
+</project>

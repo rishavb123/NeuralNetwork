@@ -1,8 +1,8 @@
 package io.bhagat.math;
 
 /**
- * @author Bhagat
  * A class representing a Matrix
+ * @author Bhagat
  */
 public class Matrix {
 

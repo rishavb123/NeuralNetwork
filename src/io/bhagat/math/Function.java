@@ -1,8 +1,8 @@
 package io.bhagat.math;
 
 /**
- * @author Bhagat
  * An interface that can hold functions
+ * @author Bhagat
  */
 public interface Function<E, T> {
 

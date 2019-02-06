@@ -5,8 +5,8 @@ import io.bhagat.math.Matrix;
 import io.bhagat.math.Vector;
 
 /**
- * @author Bhagat
  * A class showing a demo the Matrix class in the math package
+ * @author Bhagat
  */
 public class MatrixDemo {
 	

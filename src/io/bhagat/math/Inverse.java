@@ -2,7 +2,7 @@ package io.bhagat.math;
 
 /**
  * A third party java class that will perform the matrix inverse on a nxn double array with slight modifications
- * Link to this file: https://www.sanfoundry.com/java-program-find-inverse-matrix/
+ * Link to this file: <a href="https://www.sanfoundry.com/java-program-find-inverse-matrix/">https://www.sanfoundry.com/java-program-find-inverse-matrix/</a>
  */
 class Inverse 
 {
