@@ -4,7 +4,7 @@
     "description": "This is a library that will use java and nodejs to create and serve a nueral network",
     "main": "src/js/main.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "test": "node playground.js",
         "start": "node perceptron.js"
     },
     "repository": {
