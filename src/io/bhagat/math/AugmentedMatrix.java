@@ -1,11 +1,18 @@
 package io.bhagat.math;
 
+//TODO fix augmented matrix to be able to use multiple sizes for the augment
+
 /**
  * An augmented matrix that has an extra right column for the augment
  * @author Bhagat
  */
 public class AugmentedMatrix extends Matrix {
 
+	private static final long serialVersionUID = -5748424143630663232L;
+	
+	/**
+	 * The augment 
+	 */
 	private Matrix augment;
 	
 	/**

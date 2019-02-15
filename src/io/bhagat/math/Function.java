@@ -1,10 +1,12 @@
 package io.bhagat.math;
 
+import java.io.Serializable;
+
 /**
  * An interface that can hold functions
  * @author Bhagat
  */
-public interface Function<E, T> {
+public interface Function<E, T> extends Serializable{
 
 	/**
 	 * The function this interface contains

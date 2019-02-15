@@ -1,11 +1,16 @@
 package io.bhagat.math;
 
+import java.io.Serializable;
+
+
+//TODO implement the new linear algebra concepts
 /**
  * A class representing a Matrix
  * @author Bhagat
  */
-public class Matrix {
+public class Matrix implements Serializable, Comparable<Matrix>{
 
+	private static final long serialVersionUID = -2338642716375039134L;
 	/**
 	 * a 2D double array storing to internal data of the Matrix
 	 */
@@ -263,6 +268,31 @@ public class Matrix {
 	public double determinant() throws InvalidShapeException
 	{
 		return determinant(this);
+	}
+	
+	/**
+	 * compares two matrices by determinant
+	 * @param m the matrix to compare to
+	 * @return the integer representing which determinant is greater
+	 */
+	@Override
+	public int compareTo(Matrix m) {
+		return (determinant() > m.determinant())? 1: (determinant() == m.determinant())? 0 : -1;
+	}
+	
+	/**
+	 * checks if two matrices have the same data
+	 * @param m the matrix to compare with
+	 * @return whether or not they are the same
+	 */
+	public boolean equals(Matrix m) {
+		if(getRows() != m.getRows() || getColumns() != m.getColumns())
+			return false;
+		for(int i = 0; i < getRows(); i++)
+			for(int j = 0; j < getColumns(); j++)
+				if(data[i][j] != m.get(i, j))
+					return false;
+		return true;
 	}
 	
 	/**
@@ -651,4 +681,5 @@ public class Matrix {
 		}
 		
 	}
+
 }

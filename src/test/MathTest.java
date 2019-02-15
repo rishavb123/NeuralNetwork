@@ -3,7 +3,10 @@
  */
 package test;
 
+import java.io.IOException;
+
 import io.bhagat.math.Matrix;
+import io.bhagat.util.SerializableUtil;
 
 public class MathTest {
 	public static void main(String[] args) {
@@ -28,6 +31,25 @@ public class MathTest {
 			{-1,2,1}, {0,1,4}, {0,0,-16}
 		});
 		System.out.println("\n\nCakir's: \n"+Matrix.multiply(Matrix.multiply(m, m2), m3));
+		
+		try {
+			SerializableUtil.serialize(new Matrix(new double[][] {
+				{1, 10, 100},
+				{2, 20, 200},
+				{3, 30, 300}
+			}), "test.ser");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			m = SerializableUtil.deserialize("test.ser");
+		} catch (ClassNotFoundException | IOException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("\n\nMatrix from disk:\n"+m);
+		
 	}
 
 }

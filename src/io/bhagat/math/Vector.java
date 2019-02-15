@@ -3,12 +3,16 @@
  */
 package io.bhagat.math;
 
+import java.io.Serializable;
+
 /**
  * This class is a class representing a Vector of any number of dimensions
  * @author Bhagat
  */
-public class Vector {
+public class Vector implements Serializable, Comparable<Vector>{
 	
+	private static final long serialVersionUID = 2667761682263393533L;
+
 	/**
 	 * the array storing the data of the vector
 	 */
@@ -157,6 +161,30 @@ public class Vector {
 		for(double x: data)
 			sum += x*x;
 		return Math.sqrt(sum);
+	}
+	
+	/**
+	 * compares two vectors by determinant
+	 * @param v the vector to compare to
+	 * @return the integer representing which vector's magnitude is greater
+	 */
+	@Override
+	public int compareTo(Vector v) {
+		return (getMagnitude() > v.getMagnitude())? 1: (getMagnitude() == v.getMagnitude())? 0 : -1;
+	}
+	
+	/**
+	 * checks if two matrices have the same data
+	 * @param  the vector to compare with
+	 * @return whether or not they are the same
+	 */
+	public boolean equals(Vector v) {
+		if(size != v.getSize())
+			return false;
+		for(int i = 0; i < getSize(); i++)
+			if(data[i] != v.get(i))
+				return false;
+		return true;
 	}
 	
 	/**
