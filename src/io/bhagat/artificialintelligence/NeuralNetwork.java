@@ -122,5 +122,26 @@ public class NeuralNetwork {
 		
 		return layers[layers.length - 1];
 	}
+
+	/**
+	 * @return the numOfInputs
+	 */
+	public int getNumOfInputs() {
+		return numOfInputs;
+	}
+
+	/**
+	 * @return the numOfOutputs
+	 */
+	public int getNumOfOutputs() {
+		return numOfOutputs;
+	}
+
+	/**
+	 * @return the numsOfHiddens
+	 */
+	public int[] getNumsOfHiddens() {
+		return numsOfHiddens;
+	}
 	
 }

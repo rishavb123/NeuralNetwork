@@ -57,8 +57,6 @@ public class FunctionDemo {
 		// runs the vector function
 		System.out.println("\n\n"+vectorFunction.f(v));
 		
-		
-		
 	}
 	
 }

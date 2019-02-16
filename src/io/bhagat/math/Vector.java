@@ -34,6 +34,18 @@ public class Vector implements Serializable, Comparable<Vector>{
 	}
 	
 	/**
+	 * constructs a new Vector using int components
+	 * @param args The components to set into the Vector
+	 */
+	public Vector(int...args)
+	{
+		size = args.length;
+		data = new double[size];
+		for(int i = 0; i < size; i++)
+			data[i] = args[i];
+	}
+	
+	/**
 	 * constructs a new Vector with a set number of dimensions
 	 * @param length The number of dimensions in the Vector
 	 */
@@ -175,7 +187,7 @@ public class Vector implements Serializable, Comparable<Vector>{
 	
 	/**
 	 * checks if two matrices have the same data
-	 * @param  the vector to compare with
+	 * @param v the vector to compare with
 	 * @return whether or not they are the same
 	 */
 	public boolean equals(Vector v) {

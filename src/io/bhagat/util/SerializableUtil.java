@@ -34,6 +34,7 @@ public class SerializableUtil {
 	/**
 	 * retrieves a serialized object from the disk
 	 * @param filename the filename where the object is stored
+	 * @param <T> the type of the object
 	 * @return the object
 	 * @throws ClassNotFoundException the retrieved object is not of a known class
 	 * @throws IOException if an IOException is thrown during the reading of the object
