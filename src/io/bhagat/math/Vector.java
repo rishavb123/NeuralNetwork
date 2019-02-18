@@ -291,9 +291,31 @@ public class Vector implements Serializable, Comparable<Vector>{
 		return this;
 	}
 	
-	public Matrix toMatrix()
+	/**
+	 * converts the vector into a matrix column
+	 * @return the matrix with one column
+	 */
+	public Matrix toMatrixColumn()
 	{
 		return new Matrix(new double[][] { data }).transpose();
+	}
+	
+	/**
+	 * converts the vector into a matrix row
+	 * @return the matrix with one row
+	 */
+	public Matrix toMatrixRow()
+	{
+		return new Matrix(new double[][] { data });
+	}
+	
+	/**
+	 * converts the vector into a matrix column
+	 * @return the matrix with one column
+	 */
+	public Matrix toMatrix()
+	{
+		return toMatrixColumn();
 	}
 	
 	/**
