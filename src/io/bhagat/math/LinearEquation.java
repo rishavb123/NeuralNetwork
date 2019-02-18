@@ -3,6 +3,7 @@ package io.bhagat.math;
 import java.util.ArrayList;
 
 import io.bhagat.util.ArrayUtil;
+//TODO documentation for Linear Equation
 
 /**
  * A class for linear equations
@@ -13,10 +14,12 @@ public class LinearEquation {
 	public Term[] terms;
 	
 	public LinearEquation(String equation, String... variables) {
-		equation = equation.replace("*", "").replace(" ", "").replace("+","~+").replace("-", "~-").replace("=", "~=");
+		equation = equation.replace("*", "").replace(" ", "").replace("+","~+").replace("-", "~-");
+		int equalsIndex = equation.indexOf("=");
+		equation = equation.replace("=","~+");
 		String[] stringTerms = equation.split("~");
 		terms = new Term[stringTerms.length];
-		for(int i = 0; i < stringTerms.length - 1; i++)
+		for(int i = 0; i < stringTerms.length; i++)
 		{
 			int index = -1;
 			for(int j = 0; j < variables.length; j++)
@@ -26,16 +29,15 @@ public class LinearEquation {
 					break;
 				}
 			String w = (index == -1)? stringTerms[i] : stringTerms[i].substring(0, stringTerms[i].indexOf(variables[index]));
-			
-			double weight = Double.parseDouble(w);
+			double weight = Double.parseDouble((w.equals("+") || w.equals("-") || (i == 0 && w.equals("")))? w+"1": w);
+			if(equation.indexOf(w) >= equalsIndex)
+				weight *= -1;
 			String variable = (index == -1)? "" : variables[index];
 		
 			terms[i] = new Term(weight, variable);
 			
 		}
-		
-		terms[terms.length - 1] = new Term(-Double.parseDouble((stringTerms[stringTerms.length - 1].substring(1))), "");
-		
+
 		ArrayList<Term> termsList = new ArrayList<>();
 		
 		for(int i = 0; i < terms.length; i++)
@@ -57,6 +59,43 @@ public class LinearEquation {
 		terms = new Term[termsList.size()];
 		ArrayUtil.newArrayFromArrayList(termsList, terms);
 		
+	}
+	
+	public ArrayList<String> getVariables()
+	{
+		ArrayList<String> variables = new ArrayList<>();
+		for(Term t: terms)
+			if(t.getVariable().length() > 0)
+				variables.add(t.getVariable());
+		return variables;
+	}
+	
+	public Vector getWeights()
+	{
+		Vector weights = new Vector(terms.length - 1);
+		int i = 0;
+		for(Term t: terms)
+		{
+			if(t.getVariable().length() > 0)
+			{
+				weights.set(i, terms[i].getWeight());
+				i++;
+			}
+		}
+		return weights;
+	}
+	
+	public double getWeight(String variable)
+	{
+		for(Term t: terms)
+			if(t.getVariable().equals(variable))
+				return t.getWeight();
+		return 0.0;
+	}
+	
+	public double getConstant()
+	{
+		return getWeight("");
 	}
 	
 	public String toString()

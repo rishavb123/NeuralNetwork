@@ -172,7 +172,7 @@ public class Matrix implements Serializable, Comparable<Matrix>{
 	 */
 	public Matrix setRow(Vector v, int i) throws IndexNotInMatrixException
 	{
-		return setColumn(v.toMatrixRow(), i);
+		return setRow(v.toMatrixRow(), i);
 	}
 	
 	/**
