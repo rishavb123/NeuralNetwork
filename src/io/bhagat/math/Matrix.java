@@ -124,6 +124,58 @@ public class Matrix implements Serializable, Comparable<Matrix>{
 	}
 	
 	/**
+	 * sets the column of the matrix to the values from the input matrix
+	 * @param m the matrix to put into the column
+	 * @param j the column index
+	 * @return a reference to this matrix
+	 * @throws IndexNotInMatrixException if the sizes are not compatible
+	 */
+	public Matrix setColumn(Matrix m, int j) throws IndexNotInMatrixException
+	{
+		for(int i = 0; i < rows; i++)
+			set(i, j, m.get(i, 0));
+		return this;
+	}
+	
+	/**
+	 * sets the column of the matrix to the values from the vector
+	 * @param v the vector to put into the column
+	 * @param j the column index
+	 * @return a reference to this matrix
+	 * @throws IndexNotInMatrixException if the sizes are not compatible
+	 */
+	public Matrix setColumn(Vector v, int j) throws IndexNotInMatrixException
+	{
+		return setColumn(v.toMatrixColumn(), j);
+	}
+	
+	/**
+	 * sets the row of the matrix to the values from the input matrix
+	 * @param m the matrix to put into the row
+	 * @param i the row index
+	 * @return a reference to this matrix
+	 * @throws IndexNotInMatrixException if the sizes are not compatible
+	 */
+	public Matrix setRow(Matrix m, int i) throws IndexNotInMatrixException
+	{
+		for(int j = 0; j < columns; j++)
+			set(i, j, m.get(0, j));
+		return this;
+	}
+	
+	/**
+	 * sets the row of the matrix to the values from the vector
+	 * @param v the vector to put into the row
+	 * @param i the row index
+	 * @return a reference to this matrix
+	 * @throws IndexNotInMatrixException if the sizes are not compatible
+	 */
+	public Matrix setRow(Vector v, int i) throws IndexNotInMatrixException
+	{
+		return setColumn(v.toMatrixRow(), i);
+	}
+	
+	/**
 	 * Set a value using a matrix index object
 	 * @param matrixIndex the matrix index object that holds all the index information
 	 * @throws IndexNotInMatrixException if the index is invalid
