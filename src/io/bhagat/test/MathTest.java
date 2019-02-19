@@ -31,10 +31,10 @@ public class MathTest {
 		System.out.println("\n" + at4 + " " + derivativeAt4 + " " + orderDerivativeAt4 + " " + areaFrom0To4 + "\n\n\n");
 		
 		String[] equations = {
-			"2w+4x+6y+8z=10",
-			"3w+4x+5y+6z=28",
-			"32w+3x+3y=0",
-			"2w+3x+4y=2"
+			"2w + 4x + 6y + 8z = 10",
+			"3w + 4x + 5y + 6z = 28",
+			"32w + 3x = -3y",
+			"2w + 3x + 4y = 2"
 		};
 		String[] variables = { "x", "y", "z", "w" };
 		
