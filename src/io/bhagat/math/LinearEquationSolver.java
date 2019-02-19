@@ -35,6 +35,12 @@ public class LinearEquationSolver {
 			A.setRow(weights, i);
 		}
 		
+		return cramarsRule(A, b, variables);
+		
+	}
+	
+	public static HashMap<String, Double> cramarsRule(Matrix A, Vector b, ArrayList<String> variables)
+	{
 		double a = A.determinant();
 
 		HashMap<String, Double> results = new HashMap<>();
@@ -46,7 +52,6 @@ public class LinearEquationSolver {
 		}
 		
 		return results;
-		
 	}
 	
 	public static HashMap<String, Double> solve(LinearEquation... equations)
