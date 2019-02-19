@@ -54,6 +54,11 @@ public class LinearEquationSolver {
 		return results;
 	}
 	
+	public static HashMap<String, Double> gaussMethod(Matrix A, Vector b, ArrayList<String> variables)
+	{
+		return cramarsRule(A, b, variables);
+	}
+	
 	public static HashMap<String, Double> solve(LinearEquation... equations)
 	{
 		return solve(ArrayUtil.newArrayList(equations));
