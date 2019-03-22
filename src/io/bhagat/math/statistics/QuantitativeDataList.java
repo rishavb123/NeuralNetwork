@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
+import io.bhagat.math.Function;
 import io.bhagat.math.linearalgebra.Vector;
 import io.bhagat.util.ArrayUtil;
 // TODO create QualitativeDataList implements DataList
@@ -223,6 +224,66 @@ public class QuantitativeDataList extends ArrayList<Double> { //TODO implements 
 	}
 	
 	/**
+	 * maps a function onto each value in the list
+	 * @param function the function
+	 * @return a reference to this list
+	 */
+	public QuantitativeDataList map(Function<Double, Double> function)
+	{
+		for(int i = 0; i < size(); i++)
+			set(i, function.f(get(i)));
+		return this;
+	}
+	
+	/**
+	 * adds a number to each number in the list
+	 * @param x the number to add
+	 * @return a reference to this list
+	 */
+	public QuantitativeDataList addNumber(double x)
+	{
+		for(int i = 0; i < size(); i++)
+			set(i, get(i) + x);
+		return this;
+	}
+	
+	/**
+	 * subtracts a number to each number in the list
+	 * @param x the number to subtract
+	 * @return a reference to this list
+	 */
+	public QuantitativeDataList subtract(double x)
+	{
+		for(int i = 0; i < size(); i++)
+			set(i, get(i) - x);
+		return this;
+	}
+	
+	/**
+	 * multiplies a number to each number in the list
+	 * @param x the number to multiply
+	 * @return a reference to this list
+	 */
+	public QuantitativeDataList multiply(double x)
+	{
+		for(int i = 0; i < size(); i++)
+			set(i, get(i) * x);
+		return this;
+	}
+	
+	/**
+	 * divides a number to each number in the list
+	 * @param x the number to divide
+	 * @return a reference to this list
+	 */
+	public QuantitativeDataList divide(double x)
+	{
+		for(int i = 0; i < size(); i++)
+			set(i, get(i) / x);
+		return this;
+	}
+	
+	/**
 	 * finds the z score of a parameter x
 	 * @param x the parameter
 	 * @return the z score
@@ -253,6 +314,15 @@ public class QuantitativeDataList extends ArrayList<Double> { //TODO implements 
 	public QuantitativeDataList clone()
 	{
 		return new QuantitativeDataList(ArrayUtil.newArrayFromArrayList((ArrayList<Double>) this, new Double[size()]));
+	}
+	
+	/**
+	 * creates a Vector from the data in this list
+	 * @return the vector
+	 */
+	public Vector toVector()
+	{
+		return new Vector(ArrayUtil.newArrayFromArrayList(this, new Double[size()]));
 	}
 	
 	/**

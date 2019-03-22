@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Reader;
+import java.io.Writer;
 
 /**
  * Utilities for reading and writing to files
@@ -100,6 +102,33 @@ public final class FileHandler {
 	}
 	
 	/**
+	 * Reads from file specified by the <code>reader</code>
+	 * @param reader the reader
+	 * @return the contents of the file
+	 */
+	public static String read(Reader reader)
+	{
+		try
+		{
+			BufferedReader bufferedReader = new BufferedReader(reader);
+			String text = "";
+			String s;
+			while((s = bufferedReader.readLine())!=null)
+			{
+				text+=s+"\n";
+			}
+			bufferedReader.close();
+			return text.substring(0, text.length() - 1);
+
+		} catch(IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	/**
 	 * Writes the <code>text</code> to the file specified by the <code>path</code>
 	 * @param path the file path
 	 * @param text the text to be written to the file
@@ -114,6 +143,23 @@ public final class FileHandler {
 			
 			fw.close();
 			pw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Writes the <code>text</code> to the file specified by the <code>writer</code>
+	 * @param writer a writer
+	 * @param text the text to be written to the file
+	 */
+	public static void write(Writer writer, String text)
+	{
+		try {
+			
+			writer.write(text);
+			writer.close();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
