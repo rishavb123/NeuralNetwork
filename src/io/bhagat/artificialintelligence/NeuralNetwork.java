@@ -1,8 +1,8 @@
 package io.bhagat.artificialintelligence;
 
 import io.bhagat.math.Function;
-import io.bhagat.math.Matrix;
-import io.bhagat.math.Vector;
+import io.bhagat.math.linearalgebra.Matrix;
+import io.bhagat.math.linearalgebra.Vector;
 
 /**
  * a class for a Neural Network that will take in inputs and send them through difference layers and generate outputs
@@ -90,7 +90,7 @@ public class NeuralNetwork {
 	 * @param inputs an array of inputs
 	 * @return an array for the outputs
 	 */
-	public double[] feedForward(double[] inputs)
+	public double[] feedForward(double... inputs)
 	{
 		return feedForward(new Vector(inputs)).getData();
 	}
@@ -121,6 +121,39 @@ public class NeuralNetwork {
 		}
 		
 		return layers[layers.length - 1];
+	}
+	
+	/**
+	 * trains the network based on certain inputs and the known targets for those inputs
+	 * @param inputs the inputs
+	 * @param targets the targets
+	 */
+	public void train(double[] inputs, double[] targets)
+	{
+		train(new Vector(inputs), new Vector(targets));
+	}
+	
+	/**
+	 * trains the network based on certain inputs and the known targets for those inputs
+	 * @param inputs the inputs
+	 * @param targets the targets
+	 */
+	public void train(Vector inputs, Vector targets)
+	{
+		train(inputs.toMatrix(), targets.toMatrix());
+	}
+	
+	/**
+	 * trains the network based on certain inputs and the known targets for those inputs
+	 * @param inputs the inputs
+	 * @param targets the targets
+	 */
+	public void train(Matrix inputs, Matrix targets)
+	{
+		Matrix error = targets.clone().subtract(feedForward(inputs));
+		
+		System.out.println(error);
+		
 	}
 
 	/**

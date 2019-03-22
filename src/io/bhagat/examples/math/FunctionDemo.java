@@ -1,7 +1,7 @@
 package io.bhagat.examples.math;
 
 import io.bhagat.math.Function;
-import io.bhagat.math.Vector;
+import io.bhagat.math.linearalgebra.Vector;
 
 /**
  * a class to display how the Function interface works

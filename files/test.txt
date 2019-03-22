@@ -1,0 +1,4 @@
+the average is 3.0
+the median is 2.5
+the variance is 3.5
+the standard deviation is 1.8708286933869707

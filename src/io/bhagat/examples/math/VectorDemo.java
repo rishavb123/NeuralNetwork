@@ -1,6 +1,6 @@
 package io.bhagat.examples.math;
 
-import io.bhagat.math.Vector;
+import io.bhagat.math.linearalgebra.Vector;
 
 /**
  * A class showing a demo the Vector class in the math package

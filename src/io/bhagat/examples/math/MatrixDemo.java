@@ -1,8 +1,7 @@
 package io.bhagat.examples.math;
 
-import io.bhagat.math.AugmentedMatrix;
-import io.bhagat.math.Matrix;
-import io.bhagat.math.Vector;
+import io.bhagat.math.linearalgebra.Matrix;
+import io.bhagat.math.linearalgebra.Vector;
 
 /**
  * A class showing a demo the Matrix class in the math package
@@ -115,21 +114,8 @@ public class MatrixDemo {
 		System.out.println(matrixToInverse2+"\n");
 		System.out.println(Matrix.inverse(matrixToInverse2)+"\n");
 		
-		/**
-		 * An augmented Matrix
-		 */
-		AugmentedMatrix augmentedMatrix = new AugmentedMatrix(new double[][] {
-			{1, 3, 2, 8},
-			{3, 2, 8, 9},
-			{6, 4, 1, 3}
-		} );
 		
-		// Print Augmented Matrix
-		System.out.println("\n\n"+augmentedMatrix + "\n\n");
 		
-		// Switch two rows
-		augmentedMatrix.switchTwoRows(0, 2);
-		System.out.println(augmentedMatrix);
 	}
 
 }

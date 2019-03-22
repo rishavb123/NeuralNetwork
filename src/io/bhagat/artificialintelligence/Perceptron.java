@@ -1,7 +1,7 @@
 package io.bhagat.artificialintelligence;
 
 import io.bhagat.math.Function;
-import io.bhagat.math.Vector;
+import io.bhagat.math.linearalgebra.Vector;
 
 /**
  * A class that will act as a Perceptron that takes in inputs and then generates an outputs based on previous training
