@@ -9,12 +9,14 @@ import java.util.Collections;
 
 import io.bhagat.math.linearalgebra.Vector;
 import io.bhagat.util.ArrayUtil;
+// TODO create QualitativeDataList implements DataList
+// TODO create DataSet for JSON and CSV
 
 /**
  * A class for qualitative data lists containing doubles
  * @author Bhagat
  */
-public class QualitativeDataList extends ArrayList<Double> {
+public class QuantitativeDataList extends ArrayList<Double> { //TODO implements DataList 
 
 	private static final long serialVersionUID = 1229037288513585530L;
 
@@ -22,7 +24,7 @@ public class QualitativeDataList extends ArrayList<Double> {
 	 * initializes the list with certain values
 	 * @param data the data to put into the list
 	 */
-	public QualitativeDataList(double... data)
+	public QuantitativeDataList(double... data)
 	{
 		for(double d: data)
 			add(d);
@@ -33,7 +35,7 @@ public class QualitativeDataList extends ArrayList<Double> {
 	 * initializes the list with certain values
 	 * @param data the data to put into the list
 	 */
-	public QualitativeDataList(Double... data) {
+	public QuantitativeDataList(Double... data) {
 		for(double d: data)
 			add(d);
 		sort();
@@ -143,7 +145,7 @@ public class QualitativeDataList extends ArrayList<Double> {
 	 */
 	public double quartile1()
 	{
-		QualitativeDataList qdl = new QualitativeDataList(new double[] {});
+		QuantitativeDataList qdl = new QuantitativeDataList(new double[] {});
 		for(int i = 0; i < ((size() % 2 == 0)? size() / 2 - 1 : size() / 2); i++)
 			qdl.add(get(i));
 		return qdl.median();
@@ -155,7 +157,7 @@ public class QualitativeDataList extends ArrayList<Double> {
 	 */
 	public double quartile3()
 	{
-		QualitativeDataList qdl = new QualitativeDataList(new double[] {});
+		QuantitativeDataList qdl = new QuantitativeDataList(new double[] {});
 		for(int i = ((size() % 2 == 0)? size() / 2 : size() / 2 + 1); i < size(); i++)
 			qdl.add(get(i));
 		return qdl.median();
@@ -221,10 +223,20 @@ public class QualitativeDataList extends ArrayList<Double> {
 	}
 	
 	/**
+	 * finds the z score of a parameter x
+	 * @param x the parameter
+	 * @return the z score
+	 */
+	public double z(double x)
+	{
+		return (x - mean()) / standardDeviation();
+	}
+	
+	/**
 	 * removes all the outliers
 	 * @return a reference to this list after cleaning it
 	 */
-	public QualitativeDataList clean()
+	public QuantitativeDataList clean()
 	{
 		for(int i = 0; i < size(); i++)
 			if(isOutlier(get(i)))
@@ -238,13 +250,13 @@ public class QualitativeDataList extends ArrayList<Double> {
 	/**
 	 * creates another QualitativeDataList in a separate memory location
 	 */
-	public QualitativeDataList clone()
+	public QuantitativeDataList clone()
 	{
-		return new QualitativeDataList(ArrayUtil.newArrayFromArrayList((ArrayList<Double>) this, new Double[size()]));
+		return new QuantitativeDataList(ArrayUtil.newArrayFromArrayList((ArrayList<Double>) this, new Double[size()]));
 	}
 	
 	/**
-	 * computes the variance of all the data
+	 * computes the variance of all the data, which is assuming that the sample is the entire population
 	 * @return the variance
 	 */
 	public double variance()
@@ -254,16 +266,16 @@ public class QualitativeDataList extends ArrayList<Double> {
 	}
 	
 	/**
-	 * computes the population variance of all the data
-	 * @return the population variance
+	 * computes the sample variance of the data, which is assuming that the sample is a part of the population
+	 * @return the sample variance
 	 */
-	public double populationVariance()
+	public double sampleVariance()
 	{
 		return variance() * size() / (size() - 1);
 	}
 	
 	/**
-	 * computes the standard deviation of all the data
+	 * computes the standard deviation of all the data, which is assuming that the sample is the entire population
 	 * @return the standard deviation
 	 */
 	public double standardDeviation()
@@ -272,12 +284,12 @@ public class QualitativeDataList extends ArrayList<Double> {
 	}
 	
 	/**
-	 * computes the population standard deviation of all the data
-	 * @return the population standard deviation
+	 * computes the sample standard deviation of the data, which is assuming that the sample is a part of the population
+	 * @return the sample standard deviation
 	 */
-	public double populationStandardDeviation()
+	public double sampleStandardDeviation()
 	{
-		return Math.sqrt(populationVariance());
+		return Math.sqrt(sampleVariance());
 	}
 	
 }

@@ -1,6 +1,6 @@
 package io.bhagat.test;
 
-import io.bhagat.math.statistics.QualitativeDataList;
+import io.bhagat.math.statistics.QuantitativeDataList;
 import io.bhagat.util.FileHandler;
 
 public class UtilTest {
@@ -9,7 +9,7 @@ public class UtilTest {
 
 		FileHandler fileHandler = new FileHandler("test.txt");
 		
-		QualitativeDataList list = new QualitativeDataList(1, 2, 3, 6);
+		QuantitativeDataList list = new QuantitativeDataList(1, 2, 3, 6);
 		
 		fileHandler.write("the average is " + list.mean());
 		fileHandler.append("\nthe median is " + list.median());

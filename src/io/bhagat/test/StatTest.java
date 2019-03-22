@@ -2,7 +2,7 @@ package io.bhagat.test;
 
 import java.io.IOException;
 
-import io.bhagat.math.statistics.QualitativeDataList;
+import io.bhagat.math.statistics.QuantitativeDataList;
 import io.bhagat.util.ArrayUtil;
 import io.bhagat.util.SerializableUtil;
 
@@ -10,7 +10,7 @@ public class StatTest {
 
 	public static void main(String[] args) {
 		
-		QualitativeDataList list = new QualitativeDataList(1, 2, 3, 4, 5, 6, 7, -111, 8, 9, 100);
+		QuantitativeDataList list = new QuantitativeDataList(1, 2, 3, 4, 5, 6, 7, -111, 8, 9, 100);
 		
 		System.out.println(list);
 		System.out.println();
