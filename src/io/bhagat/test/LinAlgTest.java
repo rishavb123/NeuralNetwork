@@ -9,7 +9,7 @@ import io.bhagat.math.linearalgebra.Matrix;
 import io.bhagat.util.Timer;
 
 public class LinAlgTest {
-	public static void main(String[] args) {
+	public static void main3(String[] args) {
 		
 		String[] equations = {
 			"2w + 4x + 6y + 8z = 10",
@@ -28,6 +28,18 @@ public class LinAlgTest {
 		System.out.println("x:" + result.get("x") + "\ny:" + result.get("y") + "\nz:" + result.get("z") + "\nw:" + result.get("w"));
 		System.out.println(elapsedTime + " milliseconds ellapsed\n\n");
 		
+	}
+	
+	public static void main(String[] args)
+	{
+		String[] equations = {
+				"c-b=-1",
+				"b + 3c - 2a = -5",
+				"a - 2c = 3"
+		};
+		String[] variables = { "a","b","c" };
+		HashMap<String, Double> result = LinearEquationSolver.solve(equations, variables);
+		System.out.println("a: " + result.get("a") + "\nb: " + result.get("b") + "\nc: " + result.get("c"));
 	}
 	
 	public static void main2(String[] args)
