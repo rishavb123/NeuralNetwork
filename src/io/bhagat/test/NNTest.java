@@ -15,9 +15,6 @@ public class NNTest {
 		
 		nn.train(inputs, targets);
 		
-		Matrix a = new Matrix(new double[][] {{1, 2, 3}, {3, 5, 6}, {1,2,3}});
-		Matrix b = new Matrix(new double[][] {{1, 3, 2}, {3, 1, 1}, {5,2,3}});
-		
 		Vector u = new Vector(1, 3, 5);
 		Vector v = new Vector(2, 3, 4);
 		
