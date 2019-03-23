@@ -150,9 +150,15 @@ public class NeuralNetwork {
 	 */
 	public void train(Matrix inputs, Matrix targets)
 	{
-		Matrix error = targets.clone().subtract(feedForward(inputs));
+		Matrix E = targets.clone().subtract(feedForward(inputs));
+		Matrix[] errors = new Matrix[shape.length];
+		errors[shape.length - 1] = E;
 		
-		System.out.println(error);
+		for(int i = weights.length - 1; i >= 0; i--)
+			errors[i] = Matrix.multiply(weights[i].transpose(), errors[i+1]);
+		
+		for(int i = 0; i < errors.length; i++)
+			System.out.println(errors[i]+"\n\n");
 		
 	}
 
