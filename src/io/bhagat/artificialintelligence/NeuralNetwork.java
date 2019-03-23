@@ -96,6 +96,15 @@ public class NeuralNetwork implements Serializable{
 	}
 	
 	/**
+	 * sets the output of feedForward into the dataPoint
+	 * @param dataPoint the data point
+	 */
+	public void feedForward(DataPoint dataPoint)
+	{
+		dataPoint.setOutputs(feedForward(dataPoint.getInputs()));
+	}
+	
+	/**
 	 * the feed forward algorithm for making a guess based on the inputs
 	 * @param inputs an array of inputs
 	 * @return an array for the outputs
@@ -131,6 +140,25 @@ public class NeuralNetwork implements Serializable{
 		}
 		
 		return layers[layers.length - 1];
+	}
+	
+	/**
+	 * trains the network using a data point
+	 * @param dataPoint the data point
+	 */
+	public void train(DataPoint dataPoint)
+	{
+		train(dataPoint.getInputs(), dataPoint.getOutputs());
+	}
+	
+	/**
+	 * trains the network using all the data points in the data set
+	 * @param dataSet
+	 */
+	public void train(DataSet dataSet)
+	{
+		for(DataPoint dataPoint: dataSet)
+			train(dataPoint);
 	}
 	
 	/**
