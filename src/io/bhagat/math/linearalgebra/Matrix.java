@@ -622,6 +622,28 @@ public class Matrix implements Serializable, Comparable<Matrix>{
 	}
 	
 	/**
+	 * performs the inner product on two matrices
+	 * @param a a matrix
+	 * @param b another matrix
+	 * @return the matrix result
+	 */
+	public static Matrix inner(Matrix a, Matrix b)
+	{
+		return a.transpose().multiply(b);
+	}
+	
+	/**
+	 * performs the outer product on two matrices
+	 * @param a a matrix
+	 * @param b another matrix
+	 * @return the matrix result
+	 */
+	public static Matrix outer(Matrix a, Matrix b)
+	{
+		return a.multiply(b.transpose());
+	}
+	
+	/**
 	 * Computes the hadamard product, which is element wise multiplication
 	 * @param a the first matrix
 	 * @param b the second matrix

@@ -516,6 +516,28 @@ public class Vector implements Serializable, Comparable<Vector>{
 		
 	}
 	
+	/**
+	 * performs the inner product on two vectors
+	 * @param a a vector
+	 * @param b another vector
+	 * @return the inner product
+	 */
+	public static double inner(Vector a, Vector b)
+	{
+		return a.dot(b);
+	}
+	
+	/**
+	 * performs the outer product on two vectors
+	 * @param a a vector
+	 * @param b another vector
+	 * @return the matrix result
+	 */
+	public static Matrix outer(Vector a, Vector b)
+	{
+		return Matrix.outer(a.toMatrix(), b.toMatrix());
+	}
+	
 	public static Vector generateUnitVector(int index, int size)
 	{
 		double[] data = new double[size];
