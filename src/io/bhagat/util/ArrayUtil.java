@@ -71,11 +71,204 @@ public final class ArrayUtil {
 	}
 	
 	/**
+	 * This method creates a new {@link java.util.ArrayList ArrayList} with the elements specified by the parameters passed into the method
+	 * @param items The boolean elements that will fill the {@link java.util.ArrayList ArrayList} to be returned
+	 * @return A new {@link java.util.ArrayList ArrayList} with the items specified from parameters
+	 */
+	@SafeVarargs
+	public static ArrayList<Boolean> newArrayList(boolean... items)
+	{
+		ArrayList<Boolean> list = new ArrayList<>();
+		for(boolean a: items)
+			list.add(a);
+		return list;
+	}
+	
+	/**
+	 * This method creates a new {@link java.util.ArrayList ArrayList} with the elements specified by the parameters passed into the method
+	 * @param items The byte elements that will fill the {@link java.util.ArrayList ArrayList} to be returned
+	 * @return A new {@link java.util.ArrayList ArrayList} with the items specified from parameters
+	 */
+	@SafeVarargs
+	public static ArrayList<Byte> newArrayList(byte... items)
+	{
+		ArrayList<Byte> list = new ArrayList<>();
+		for(byte a: items)
+			list.add(a);
+		return list;
+	}
+	
+	/**
+	 * This method creates a new {@link java.util.ArrayList ArrayList} with the elements specified by the parameters passed into the method
+	 * @param items The char elements that will fill the {@link java.util.ArrayList ArrayList} to be returned
+	 * @return A new {@link java.util.ArrayList ArrayList} with the items specified from parameters
+	 */
+	@SafeVarargs
+	public static ArrayList<Character> newArrayList(char... items)
+	{
+		ArrayList<Character> list = new ArrayList<>();
+		for(char a: items)
+			list.add(a);
+		return list;
+	}
+	
+	/**
+	 * This method creates a new {@link java.util.ArrayList ArrayList} with the elements specified by the parameters passed into the method
+	 * @param items The short elements that will fill the {@link java.util.ArrayList ArrayList} to be returned
+	 * @return A new {@link java.util.ArrayList ArrayList} with the items specified from parameters
+	 */
+	@SafeVarargs
+	public static ArrayList<Short> newArrayList(short... items)
+	{
+		ArrayList<Short> list = new ArrayList<>();
+		for(short a: items)
+			list.add(a);
+		return list;
+	}
+	
+	/**
+	 * This method creates a new {@link java.util.ArrayList ArrayList} with the elements specified by the parameters passed into the method
+	 * @param items The int elements that will fill the {@link java.util.ArrayList ArrayList} to be returned
+	 * @return A new {@link java.util.ArrayList ArrayList} with the items specified from parameters
+	 */
+	@SafeVarargs
+	public static ArrayList<Integer> newArrayList(int... items)
+	{
+		ArrayList<Integer> list = new ArrayList<>();
+		for(int a: items)
+			list.add(a);
+		return list;
+	}
+	
+	/**
+	 * This method creates a new {@link java.util.ArrayList ArrayList} with the elements specified by the parameters passed into the method
+	 * @param items The long elements that will fill the {@link java.util.ArrayList ArrayList} to be returned
+	 * @return A new {@link java.util.ArrayList ArrayList} with the items specified from parameters
+	 */
+	@SafeVarargs
+	public static ArrayList<Long> newArrayList(long... items)
+	{
+		ArrayList<Long> list = new ArrayList<>();
+		for(long a: items)
+			list.add(a);
+		return list;
+	}
+	
+	/**
+	 * This method creates a new {@link java.util.ArrayList ArrayList} with the elements specified by the parameters passed into the method
+	 * @param items The float elements that will fill the {@link java.util.ArrayList ArrayList} to be returned
+	 * @return A new {@link java.util.ArrayList ArrayList} with the items specified from parameters
+	 */
+	@SafeVarargs
+	public static ArrayList<Float> newArrayList(float... items)
+	{
+		ArrayList<Float> list = new ArrayList<>();
+		for(float a: items)
+			list.add(a);
+		return list;
+	}
+	
+	/**
+	 * This method creates a new {@link java.util.ArrayList ArrayList} with the elements specified by the parameters passed into the method
+	 * @param items The double elements that will fill the {@link java.util.ArrayList ArrayList} to be returned
+	 * @return A new {@link java.util.ArrayList ArrayList} with the items specified from parameters
+	 */
+	@SafeVarargs
+	public static ArrayList<Double> newArrayList(double... items)
+	{
+		ArrayList<Double> list = new ArrayList<>();
+		for(double a: items)
+			list.add(a);
+		return list;
+	}
+	
+	/**
 	 * Prints out an array in an {@link java.util.ArrayList ArrayList} format
 	 * @param arr Array to be printed
 	 * @param <E> the array type
 	 */
-	public static <E> void printArr(E[] arr)
+	@SafeVarargs
+	public static <E> void printArr(E... arr)
+	{
+		System.out.println(newArrayList(arr));
+	}
+	
+	/**
+	 * Prints out the boolean array in an {@link java.util.ArrayList ArrayList} format
+	 * @param arr Array to be printed
+	 */
+	@SafeVarargs
+	public static void printArr(boolean... arr)
+	{
+		System.out.println(newArrayList(arr));
+	}
+	
+	/**
+	 * Prints out the byte array in an {@link java.util.ArrayList ArrayList} format
+	 * @param arr Array to be printed
+	 */
+	@SafeVarargs
+	public static void printArr(byte... arr)
+	{
+		System.out.println(newArrayList(arr));
+	}
+	
+	/**
+	 * Prints out the char array in an {@link java.util.ArrayList ArrayList} format
+	 * @param arr Array to be printed
+	 */
+	@SafeVarargs
+	public static void printArr(char... arr)
+	{
+		System.out.println(newArrayList(arr));
+	}
+	
+	/**
+	 * Prints out the short array in an {@link java.util.ArrayList ArrayList} format
+	 * @param arr Array to be printed
+	 */
+	@SafeVarargs
+	public static void printArr(short... arr)
+	{
+		System.out.println(newArrayList(arr));
+	}
+	
+	/**
+	 * Prints out the int array in an {@link java.util.ArrayList ArrayList} format
+	 * @param arr Array to be printed
+	 */
+	@SafeVarargs
+	public static void printArr(int... arr)
+	{
+		System.out.println(newArrayList(arr));
+	}
+	
+	/**
+	 * Prints out the long array in an {@link java.util.ArrayList ArrayList} format
+	 * @param arr Array to be printed
+	 */
+	@SafeVarargs
+	public static void printArr(long... arr)
+	{
+		System.out.println(newArrayList(arr));
+	}
+	
+	/**
+	 * Prints out the float array in an {@link java.util.ArrayList ArrayList} format
+	 * @param arr Array to be printed
+	 */
+	@SafeVarargs
+	public static void printArr(float... arr)
+	{
+		System.out.println(newArrayList(arr));
+	}
+	
+	/**
+	 * Prints out the double array in an {@link java.util.ArrayList ArrayList} format
+	 * @param arr Array to be printed
+	 */
+	@SafeVarargs
+	public static void printArr(double... arr)
 	{
 		System.out.println(newArrayList(arr));
 	}

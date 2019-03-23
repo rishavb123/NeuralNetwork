@@ -1,5 +1,9 @@
 package io.bhagat.artificialintelligence;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
+
 import io.bhagat.math.Function;
 import io.bhagat.math.linearalgebra.Matrix;
 import io.bhagat.math.linearalgebra.Vector;
@@ -8,8 +12,10 @@ import io.bhagat.math.linearalgebra.Vector;
  * a class for a Neural Network that will take in inputs and send them through difference layers and generate outputs
  * @author Bhagat
  */
-public class NeuralNetwork {
+public class NeuralNetwork implements Serializable{
 
+	private static final long serialVersionUID = 140349252948361896L;
+	
 	private int[] shape;
 	private int numOfInputs;
 	private int numOfOutputs;
@@ -18,7 +24,9 @@ public class NeuralNetwork {
 	private Matrix[] weights;
 	private Matrix[] bias;
 	
-	private Function<Double, Double> activationFunction;
+	private double learingRate;
+	
+	private transient Function<Double, Double> activationFunction;
 	
 	public static Function<Double, Double> defaultActivationFunction = new Function<Double, Double>() {
 
@@ -28,7 +36,7 @@ public class NeuralNetwork {
 		}
 		
 	};
-	
+		
 	/**
 	 * Creates a NeuralNetwork with a specified shape
 	 * @param shape an array defining the shape of the NeuralNetwork
@@ -73,6 +81,8 @@ public class NeuralNetwork {
 		
 		for(int i = 0; i < numsOfHiddens.length; i++)
 			numsOfHiddens[i] = this.shape[i+1];
+		
+		learingRate  = 0.1;
 		
 	}
 	
@@ -150,18 +160,50 @@ public class NeuralNetwork {
 	 */
 	public void train(Matrix inputs, Matrix targets)
 	{
-		Matrix E = targets.clone().subtract(feedForward(inputs));
+		Matrix[] layers = new Matrix[shape.length];
+		layers[0] = inputs;
+		
+		for(int i = 1; i < layers.length; i++)
+		{
+			layers[i] = (Matrix.multiply(weights[i - 1], layers[i - 1]).add(bias[i - 1])).map(activationFunction);
+		}
+		
+		Matrix outputs = layers[layers.length - 1];
+		
+		Matrix E = targets.clone().subtract(outputs);
 		Matrix[] errors = new Matrix[shape.length];
-		errors[shape.length - 1] = E;
+		errors[shape.length - 1] = E;			
 		
-		for(int i = weights.length - 1; i >= 0; i--)
-			errors[i] = Matrix.multiply(weights[i].transpose(), errors[i+1]);
+		Matrix[] dWeights = new Matrix[weights.length];
+		Matrix[] dBias = new Matrix[bias.length];
 		
-		for(int i = 0; i < errors.length; i++)
-			System.out.println(errors[i]+"\n\n");
+		for(int i = weights.length; i > 0; i--)
+		{
+			errors[i - 1] = Matrix.multiply(weights[i - 1].transpose(), errors[i]);
+			Matrix temp = Matrix.hadamardProduct(errors[i], Matrix.hadamardProduct(layers[i], layers[i].clone().map(new Function<Double, Double>() {
+
+				@Override
+				public Double f(Double x) {
+					return 1 - x;
+				}
+				
+			})));
+			dBias[i - 1] = temp.multiply(learingRate);
+			dWeights[i - 1] = Matrix.outer(temp, layers[i - 1]).multiply(learingRate);
+		}
 		
+		for(int i = 0; i < weights.length; i++)
+		{
+			bias[i].add(dBias[i]);
+			weights[i].add(dWeights[i]);
+		}
 	}
 
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException{
+		in.defaultReadObject();
+		activationFunction = defaultActivationFunction;
+	}
+	
 	/**
 	 * @return the numOfInputs
 	 */
@@ -181,6 +223,20 @@ public class NeuralNetwork {
 	 */
 	public int[] getNumsOfHiddens() {
 		return numsOfHiddens;
+	}
+
+	/**
+	 * @return the activationFunction
+	 */
+	public Function<Double, Double> getActivationFunction() {
+		return activationFunction;
+	}
+
+	/**
+	 * @param activationFunction the activationFunction to set
+	 */
+	public void setActivationFunction(Function<Double, Double> activationFunction) {
+		this.activationFunction = activationFunction;
 	}
 	
 }

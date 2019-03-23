@@ -441,6 +441,19 @@ public class Matrix implements Serializable, Comparable<Matrix>{
 	}
 	
 	/**
+	 * performs the scalar multiplication on the matrix
+	 * @param d the scalar to multiply with
+	 * @return a reference to this matrix
+	 */
+	public Matrix multiply(double d)
+	{
+		for(int i = 0; i < rows; i++)
+			for(int j = 0; j < columns; j++)
+				data[i][j] *= d;
+		return this;
+	}
+	
+	/**
 	 * performs the scalar division on the matrix
 	 * @param d the scalar to divide with
 	 * @return a reference to this matrix
