@@ -174,7 +174,7 @@ public class NeuralNetwork implements Serializable{
 	
 	/**
 	 * trains the network using all the data points in the data set
-	 * @param dataSet
+	 * @param dataSet the data set to train the network with
 	 */
 	public void train(DataSet dataSet)
 	{

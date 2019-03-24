@@ -20,7 +20,7 @@ public class DataPoint {
 	/**
 	 * creates a data points using inputs and a target
 	 * @param inputs the inputs
-	 * @param target the target
+	 * @param outputs the outputs
 	 */
 	public DataPoint(double[] inputs, double[] outputs) {
 		
