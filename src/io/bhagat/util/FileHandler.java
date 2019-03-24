@@ -108,24 +108,7 @@ public final class FileHandler {
 	 */
 	public static String read(Reader reader)
 	{
-		try
-		{
-			BufferedReader bufferedReader = new BufferedReader(reader);
-			String text = "";
-			String s;
-			while((s = bufferedReader.readLine())!=null)
-			{
-				text+=s+"\n";
-			}
-			bufferedReader.close();
-			return text.substring(0, text.length() - 1);
-
-		} catch(IOException e)
-		{
-			e.printStackTrace();
-		}
-		
-		return null;
+		return StreamUtil.read(reader);
 	}
 	
 	/**

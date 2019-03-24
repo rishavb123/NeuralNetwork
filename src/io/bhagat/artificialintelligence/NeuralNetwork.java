@@ -9,6 +9,8 @@ import io.bhagat.math.linearalgebra.Matrix;
 import io.bhagat.math.linearalgebra.Vector;
 import io.bhagat.math.statistics.QuantitativeDataList;
 
+//TODO add support for different activation functions derivatives
+
 /**
  * a class for a Neural Network that will take in inputs and send them through difference layers and generate outputs
  * @author Bhagat
@@ -16,7 +18,7 @@ import io.bhagat.math.statistics.QuantitativeDataList;
 public class NeuralNetwork implements Serializable{
 
 	private static final long serialVersionUID = 140349252948361896L;
-	
+
 	/**
 	 * an array defining the shape of the network
 	 */
