@@ -5,6 +5,7 @@ import java.io.IOException;
 import io.bhagat.artificialintelligence.DataPoint;
 import io.bhagat.artificialintelligence.DataSet;
 import io.bhagat.artificialintelligence.NeuralNetwork;
+import io.bhagat.math.Function;
 import io.bhagat.util.ArrayUtil;
 import io.bhagat.util.SerializableUtil;
 import io.bhagat.util.Timer;
@@ -15,11 +16,20 @@ public class NNTest {
 	
 	public static void main(String[] args) {
 		
-		String saveTo = "random_neural_network2.ser";
-		String readFrom = "random_neural_network2.ser";
+		String saveTo = "random_neural_network/neural_network_4.ser";
+		String readFrom = "random_neural_network/neural_network_4.ser";
 		
 		NeuralNetwork nn = new NeuralNetwork(3, 9, 8, 2);
 		Timer timer = new Timer();
+		
+		Function<double[], double[]> function = new Function<double[], double[]> () {
+
+			@Override
+			public double[] f(double[] x) {
+				return new double[] { (x[0] * x[1] * x[2] > 0.3 && Math.pow(x[0], x[1]) * x[2] > 0.4) ? 1 : 0, ((x[0] * x[1] > 0.4 && Math.pow(x[0], x[2]) > 0.25) ? 1 : 0) };
+			}
+			
+		};
 		
 		if(trainNewNetwork)
 		{
@@ -28,12 +38,8 @@ public class NNTest {
 		
 			for(int i = 0; i < 5000000; i++)
 			{
-				double x1 = Math.random();
-				double x2 = Math.random();
-				double x3 = Math.random();
-	
-				dataSet.add(new DataPoint(new double[] {x1, x2, x3}, new double[] { (x1 * x2 * x3 > 0.3 && Math.pow(x1, x2) * x3 > 0.4) ? 1 : 0, ((x1 * x2 > 0.4 && Math.pow(x1, x3) > 0.25) ? 1 : 0) }));
-				
+				double[] inputs = { Math.random(), Math.random(), Math.random() };
+				dataSet.add(new DataPoint(inputs, function.f(inputs)));
 			}
 			
 			System.out.println("Training . . .");
@@ -65,19 +71,15 @@ public class NNTest {
 		System.out.println("Testing . . .\n");
 		timer.start();
 		
-		for(int i = 0; i < 25; i++)
+		DataSet testData = new DataSet();
+		
+		for(int i = 0; i < 250; i++)
 		{
-			double x1 = Math.random();
-			double x2 = Math.random();
-			double x3 = Math.random();
-			
-			DataPoint dataPoint = new DataPoint(new double[] {x1, x2, x3}, new double[] { (x1 * x2 * x3 > 0.3 && Math.pow(x1, x2) * x3 > 0.4) ? 1 : 0, ((x1 * x2 > 0.4 && Math.pow(x1, x3) > 0.25) ? 1 : 0) });
-			System.out.println("Test " + (i + 1));
-			System.out.println(dataPoint);
-			nn.feedForward(dataPoint);
-			System.out.println(dataPoint + "\n\n");
-			
+			double[] inputs = { Math.random(), Math.random(), Math.random() };
+			testData.add(new DataPoint(inputs, function.f(inputs)));
 		}
+		
+		System.out.println(nn.test(testData, true));
 		
 		System.out.println("Done Testing: " + timer.elapsed() + " ms\n\n");
 		

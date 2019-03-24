@@ -7,6 +7,7 @@ import java.io.Serializable;
 import io.bhagat.math.Function;
 import io.bhagat.math.linearalgebra.Matrix;
 import io.bhagat.math.linearalgebra.Vector;
+import io.bhagat.math.statistics.QuantitativeDataList;
 
 /**
  * a class for a Neural Network that will take in inputs and send them through difference layers and generate outputs
@@ -16,18 +17,47 @@ public class NeuralNetwork implements Serializable{
 
 	private static final long serialVersionUID = 140349252948361896L;
 	
+	/**
+	 * an array defining the shape of the network
+	 */
 	private int[] shape;
+	/**
+	 * the number of inputs
+	 */
 	private int numOfInputs;
+	/**
+	 * the number of outputs
+	 */
 	private int numOfOutputs;
+	/**
+	 * the number of hidden nodes in each hidden layer
+	 */
 	private int[] numsOfHiddens;
 	
+	/**
+	 * the weights for each layer
+	 */
 	private Matrix[] weights;
+	/**
+	 * the bias for each layer
+	 */
 	private Matrix[] bias;
 	
+	/**
+	 * the learning rate
+	 */
 	private double learingRate;
 	
+	/**
+	 * the activation function
+	 */
 	private transient Function<Double, Double> activationFunction;
 	
+	/**
+	 * the default activation function
+	 * the sigmoid function
+	 * takes any numbers and puts it between 0 and 1
+	 */
 	public static Function<Double, Double> defaultActivationFunction = new Function<Double, Double>() {
 
 		@Override
@@ -143,15 +173,6 @@ public class NeuralNetwork implements Serializable{
 	}
 	
 	/**
-	 * trains the network using a data point
-	 * @param dataPoint the data point
-	 */
-	public void train(DataPoint dataPoint)
-	{
-		train(dataPoint.getInputs(), dataPoint.getOutputs());
-	}
-	
-	/**
 	 * trains the network using all the data points in the data set
 	 * @param dataSet
 	 */
@@ -159,6 +180,15 @@ public class NeuralNetwork implements Serializable{
 	{
 		for(DataPoint dataPoint: dataSet)
 			train(dataPoint);
+	}
+	
+	/**
+	 * trains the network using a data point
+	 * @param dataPoint the data point
+	 */
+	public void train(DataPoint dataPoint)
+	{
+		train(dataPoint.getInputs(), dataPoint.getOutputs());
 	}
 	
 	/**
@@ -225,6 +255,63 @@ public class NeuralNetwork implements Serializable{
 			bias[i].add(dBias[i]);
 			weights[i].add(dWeights[i]);
 		}
+	}
+	
+	/**
+	 * tests the data
+	 * @param dataSet the testing data set
+	 * @return the accuracy
+	 */
+	public double test(DataSet dataSet)
+	{
+		Vector totalTargetOutput = new Vector(new double[dataSet.get(0).getOutputs().length]);
+		Vector totalError = new Vector(new double[dataSet.get(0).getOutputs().length]);
+		
+		for(DataPoint dataPoint: dataSet)
+		{
+			Vector targetOutput = new Vector(dataPoint.getOutputs());
+			totalTargetOutput.add(targetOutput);
+			feedForward(dataPoint);			
+			totalError.add(targetOutput.clone().subtract(new Vector(dataPoint.getOutputs())));	
+		}
+		
+		return 1 - new QuantitativeDataList(totalError.divide(totalTargetOutput).getData()).average();
+	}
+	
+	/**
+	 * tests the data
+	 * @param dataSet the testing data set
+	 * @param log whether or not to log out the tests
+	 * @return the accuracy
+	 */
+	public double test(DataSet dataSet, boolean log)
+	{
+		Vector totalTargetOutput = new Vector(new double[dataSet.get(0).getOutputs().length]);
+		Vector totalError = new Vector(new double[dataSet.get(0).getOutputs().length]);
+		
+		for(DataPoint dataPoint: dataSet)
+		{
+			if(log) {
+				System.out.println("Test " + (dataSet.indexOf(dataPoint) + 1));
+				System.out.println(dataPoint);
+			}
+			Vector targetOutput = new Vector(dataPoint.getOutputs());
+			totalTargetOutput.add(targetOutput);
+			feedForward(dataPoint);			
+			totalError.add(targetOutput.clone().subtract(new Vector(dataPoint.getOutputs())));	
+			
+			if(log)
+				System.out.println(dataPoint + "\n\n");
+		}
+		
+		return 1 - new QuantitativeDataList(totalError.divide(totalTargetOutput).map(new Function<Double, Double> () {
+
+			@Override
+			public Double f(Double x) {
+				return Math.abs(x);
+			}
+			
+		}).getData()).average();
 	}
 
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException{
