@@ -13,7 +13,7 @@ import java.net.Socket;
 
 import io.bhagat.util.StreamUtil;
 
-//TODO finish this and make a streamHolder class and then an arraylist so that each connection can be stored
+//TODO finish this, document, and make a streamHolder class and then an arraylist so that each connection can be stored
 /**
  * @author Bhagat
  *
