@@ -334,6 +334,16 @@ public class Matrix implements Serializable, Comparable<Matrix>{
 	}
 	
 	/**
+	 * performs matrix multiplication
+	 * @param v the vector to multiply with
+	 * @return the resultant matrix
+	 */
+	public Matrix multiply(Vector v)
+	{
+		return multiply(this, v);
+	}
+	
+	/**
 	 * Removes a row in the Matrix
 	 * @param index the index to remove the row at
 	 * @return the current matrix with the removed row
@@ -632,6 +642,18 @@ public class Matrix implements Serializable, Comparable<Matrix>{
 				m.set(i, j, aRows[i].dot(bCols[j]));
 		
 		return m;
+	}
+	
+	/**
+	 * Performs Matrix multiplication with a matrix and a vector
+	 * @param A the matrix
+	 * @param x the vector
+	 * @return the resultant matrix
+	 * @throws InvalidShapeException when A and x are invalid size for multiplication
+	 */
+	public static Matrix multiply(Matrix A, Vector x) throws InvalidShapeException
+	{
+		return multiply(A, x.toMatrix());
 	}
 	
 	/**
