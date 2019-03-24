@@ -353,5 +353,19 @@ public class NeuralNetwork implements Serializable{
 	public void setActivationFunction(Function<Double, Double> activationFunction) {
 		this.activationFunction = activationFunction;
 	}
+
+	/**
+	 * @return the learingRate
+	 */
+	public double getLearingRate() {
+		return learingRate;
+	}
+
+	/**
+	 * @param learingRate the learingRate to set
+	 */
+	public void setLearingRate(double learingRate) {
+		this.learingRate = learingRate;
+	}
 	
 }
