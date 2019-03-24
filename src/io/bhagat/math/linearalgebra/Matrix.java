@@ -5,7 +5,7 @@ import java.io.Serializable;
 import io.bhagat.math.Function;
 
 
-//TODO implement the new linear algebra concepts like eigenvalues and vectors
+//TODO implement the new linear algebra concepts like eigenvalues and vectors and spaces for E
 /**
  * A class representing a Matrix
  * @author Bhagat
