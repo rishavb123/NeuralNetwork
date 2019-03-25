@@ -8,6 +8,8 @@ import io.bhagat.math.Function;
 import io.bhagat.math.linearalgebra.Matrix;
 import io.bhagat.math.linearalgebra.Vector;
 import io.bhagat.math.statistics.QuantitativeDataList;
+import io.bhagat.util.ArrayUtil;
+import io.bhagat.util.SerializableUtil;
 
 //TODO add support for different activation functions derivatives
 
@@ -274,10 +276,17 @@ public class NeuralNetwork implements Serializable{
 			Vector targetOutput = new Vector(dataPoint.getOutputs());
 			totalTargetOutput.add(targetOutput);
 			feedForward(dataPoint);			
-			totalError.add(targetOutput.clone().subtract(new Vector(dataPoint.getOutputs())));	
+			totalError.add(targetOutput.clone().subtract(new Vector(dataPoint.getOutputs())));
 		}
 		
-		return 1 - new QuantitativeDataList(totalError.divide(totalTargetOutput).getData()).average();
+		return 1 - new QuantitativeDataList(totalError.divide(totalTargetOutput).map(new Function<Double, Double> () {
+
+			@Override
+			public Double f(Double x) {
+				return Math.abs(x);
+			}
+			
+		}).getData()).average();
 	}
 	
 	/**
@@ -295,7 +304,7 @@ public class NeuralNetwork implements Serializable{
 		{
 			if(log) {
 				System.out.println("Test " + (dataSet.indexOf(dataPoint) + 1));
-				System.out.println(dataPoint);
+				System.out.println(ArrayUtil.newArrayList(dataPoint.getOutputs()));
 			}
 			Vector targetOutput = new Vector(dataPoint.getOutputs());
 			totalTargetOutput.add(targetOutput);
@@ -303,7 +312,7 @@ public class NeuralNetwork implements Serializable{
 			totalError.add(targetOutput.clone().subtract(new Vector(dataPoint.getOutputs())));	
 			
 			if(log)
-				System.out.println(dataPoint + "\n\n");
+				System.out.println(ArrayUtil.newArrayList(dataPoint.getOutputs()) + "\n\n");
 		}
 		
 		return 1 - new QuantitativeDataList(totalError.divide(totalTargetOutput).map(new Function<Double, Double> () {
@@ -321,6 +330,47 @@ public class NeuralNetwork implements Serializable{
 		activationFunction = defaultActivationFunction;
 	}
 	
+	/**
+	 * Serializes the neural network into a file
+	 * @param filename the file name
+	 */
+	public void serialize(String filename)
+	{
+		try {
+			SerializableUtil.serialize(this, filename);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * @return the weights
+	 */
+	public Matrix[] getWeights() {
+		return weights;
+	}
+
+	/**
+	 * @param weights the weights to set
+	 */
+	public void setWeights(Matrix[] weights) {
+		this.weights = weights;
+	}
+
+	/**
+	 * @return the bias
+	 */
+	public Matrix[] getBias() {
+		return bias;
+	}
+
+	/**
+	 * @param bias the bias to set
+	 */
+	public void setBias(Matrix[] bias) {
+		this.bias = bias;
+	}
+
 	/**
 	 * @return the numOfInputs
 	 */
