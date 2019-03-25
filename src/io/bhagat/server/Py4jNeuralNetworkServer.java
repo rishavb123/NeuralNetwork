@@ -11,7 +11,7 @@ import py4j.GatewayServer;
 public class Py4jNeuralNetworkServer extends GatewayServer{
 
 	/**
-	 * Creates a NeuralNetwork with a specified shape
+	 * Creates and serves a NeuralNetwork with a specified shape and activation
 	 * @param shape an array defining the shape of the NeuralNetwork
 	 * @param activationFunction the activation function
 	 */
@@ -21,7 +21,7 @@ public class Py4jNeuralNetworkServer extends GatewayServer{
 	}
 	
 	/**
-	 * Creates a NeuralNetwork with a specified shape
+	 * Creates and serves a NeuralNetwork with a specified shape
 	 * @param shape an array defining the shape of the NeuralNetwork
 	 */
 	public Py4jNeuralNetworkServer(int... shape)
