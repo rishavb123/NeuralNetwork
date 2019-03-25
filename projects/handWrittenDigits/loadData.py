@@ -5,10 +5,9 @@ train_images, train_labels = loadlocal_mnist(images_path='./data/bytes/train/ima
 test_images, test_labels = loadlocal_mnist(images_path='./data/bytes/test/images.idx3-ubyte', labels_path='./data/bytes/test/labels.idx1-ubyte')
 
 print('Dimensions: %s x %s' % (train_images.shape[0], train_images.shape[1]))
-print('\n1st row', train_images[0])
 
-np.savetxt(fname='./data/csv/train/images.csv', X=train_images, delimiter=',', fmt='%d')
-np.savetxt(fname='./data/csv/train/labels.csv', X=train_labels, delimiter=',', fmt='%d')
+# np.savetxt(fname='./data/csv/train/images.csv', X=train_images, delimiter=',', fmt='%d')
+# np.savetxt(fname='./data/csv/train/labels.csv', X=train_labels, delimiter=',', fmt='%d')
 
-np.savetxt(fname='./data/csv/test/images.csv', X=test_images, delimiter=',', fmt='%d')
-np.savetxt(fname='./data/csv/test/labels.csv', X=test_labels, delimiter=',', fmt='%d')
+# np.savetxt(fname='./data/csv/test/images.csv', X=test_images, delimiter=',', fmt='%d')
+# np.savetxt(fname='./data/csv/test/labels.csv', X=test_labels, delimiter=',', fmt='%d')
