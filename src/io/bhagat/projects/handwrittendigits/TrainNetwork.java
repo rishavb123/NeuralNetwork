@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import io.bhagat.artificialintelligence.NeuralNetwork;
-import io.bhagat.math.SerializableFunction;
 import io.bhagat.util.Timer;
 
 public class TrainNetwork {
@@ -23,16 +22,7 @@ public class TrainNetwork {
         
         System.out.println("Done Reading data: " + t.elapsed() + " ms");
         
-        NeuralNetwork neuralNetwork = new NeuralNetwork(new SerializableFunction<Double, Double> () {
-        	
-			private static final long serialVersionUID = -1135730787063088645L;
-
-			@Override
-			public Double f(Double x) {
-				return (Math.atan(x) / Math.PI) + 0.5;
-			}
-        	
-        }, 784, 64, 10);
+        NeuralNetwork neuralNetwork = new NeuralNetwork(784, 64, 10);
         
         System.out.println("Training . . .");
         t.restart();
@@ -42,7 +32,7 @@ public class TrainNetwork {
         
         System.out.println("Serializing . . .");
         t.restart();
-        neuralNetwork.serialize("mnist/network5.ser");
+        neuralNetwork.serialize("mnist/network.ser");
         System.out.println("Done Serializing: " + t.elapsed() + " ms");
         
 	}

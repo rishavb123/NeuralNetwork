@@ -40,6 +40,42 @@ public final class ArrayUtil {
 	}
 	
 	/**
+	 * Reshapes a one dimensional array into a two dimensional array
+	 * @param arr the 1D array
+	 * @param arr2 the 2D array
+	 * @return the 2D array
+	 * @throws InvalidSizeException thrown when the total number of elements are not the same in each array
+	 */
+	public static <E> E[][] reshape(E[] arr, E[][] arr2) throws InvalidSizeException
+	{
+		if(arr.length != arr2.length * arr2[0].length)
+			throw new InvalidSizeException("Cannot reshape an array of size " + arr.length + " to " + arr2.length + " x " + arr2[0].length);
+	
+		for(int i = 0; i < arr2.length; i++)
+			for(int j = 0; j < arr2[i].length; j++)
+				arr2[i][j] = arr[i * arr2[i].length + j];
+		return arr2;
+	}
+	
+	/**
+	 * Reshapes a two dimensional array into a one dimensional array
+	 * @param arr the 2D array
+	 * @param arr2 the 1D array
+	 * @return the 1D array
+	 * @throws InvalidSizeException thrown when the total number of elements are not the same in each array
+	 */
+	public static <E> E[] reshape(E[][] arr, E[] arr2) throws InvalidSizeException
+	{
+		if(arr2.length != arr.length * arr[0].length)
+			throw new InvalidSizeException("Cannot reshape an array of size " + arr.length + " x " + arr[0].length + " to " + arr2.length);
+	
+		for(int i = 0; i < arr.length; i++)
+			for(int j = 0; j < arr[i].length; j++)
+				arr2[i * arr[i].length + j] = arr[1][j];
+		return arr2;
+	}
+	
+	/**
 	 * This method creates an array from an {@link java.util.ArrayList ArrayList}
 	 * @param list the array list to create the array from
 	 * @param arr the array to write to
@@ -372,4 +408,19 @@ public final class ArrayUtil {
 		return arr;
 	}
 		
+	/**
+	 * An exception for when the array or list has the wrong size
+	 * @author Bhagat
+	 */
+	public static class InvalidSizeException extends RuntimeException {
+
+		private static final long serialVersionUID = 2509329868857094933L;
+				
+		public InvalidSizeException(String msg)
+		{
+			super(msg);
+		}
+		
+	}
+	
 }
