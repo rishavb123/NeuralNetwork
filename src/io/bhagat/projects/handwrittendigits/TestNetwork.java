@@ -7,7 +7,7 @@ import io.bhagat.artificialintelligence.DataPoint;
 import io.bhagat.artificialintelligence.DataSet;
 import io.bhagat.artificialintelligence.NeuralNetwork;
 import io.bhagat.util.SerializableUtil;
-import io.bhagat.util.Timer;
+import io.bhagat.util.Timer; 
 
 public class TestNetwork {
 
@@ -24,7 +24,7 @@ public class TestNetwork {
         
         System.out.println("Done Reading data: " + t.elapsed() + " ms");
         
-        NeuralNetwork neuralNetwork = SerializableUtil.deserialize("mnist/network4.ser");
+        NeuralNetwork neuralNetwork = SerializableUtil.deserialize("mnist/network.ser");
         
         DataSet dataSet = new DataSet();
         

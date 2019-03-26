@@ -29,7 +29,7 @@ public class TrainNetwork {
         for(int i = 0; i < images.size(); i++)
         	neuralNetwork.train(images.get(i), labels.get(i));
         System.out.println("Done Training: " + t.elapsed() + " ms");
-        
+         
         System.out.println("Serializing . . .");
         t.restart();
         neuralNetwork.serialize("mnist/network.ser");
