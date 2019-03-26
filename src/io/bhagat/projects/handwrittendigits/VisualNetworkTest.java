@@ -51,7 +51,7 @@ public class VisualNetworkTest {
 		labelScanner.close();
 		
 		try {
-			neuralNetwork = SerializableUtil.deserialize("mnist/network1.ser");
+			neuralNetwork = SerializableUtil.deserialize("mnist/network5.ser");
 		} catch (ClassNotFoundException e1) {
 			e1.printStackTrace();
 		}

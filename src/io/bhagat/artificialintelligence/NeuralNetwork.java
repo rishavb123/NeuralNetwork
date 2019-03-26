@@ -5,13 +5,13 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import io.bhagat.math.Function;
+import io.bhagat.math.SerializableFunction;
+import io.bhagat.math.calculus.Calculus;
 import io.bhagat.math.linearalgebra.Matrix;
 import io.bhagat.math.linearalgebra.Vector;
 import io.bhagat.math.statistics.QuantitativeDataList;
 import io.bhagat.util.ArrayUtil;
 import io.bhagat.util.SerializableUtil;
-
-//TODO add support for different activation functions derivatives
 
 /**
  * a class for a Neural Network that will take in inputs and send them through difference layers and generate outputs
@@ -55,14 +55,16 @@ public class NeuralNetwork implements Serializable{
 	/**
 	 * the activation function
 	 */
-	private transient Function<Double, Double> activationFunction;
+	private SerializableFunction<Double, Double> activationFunction;
 	
 	/**
 	 * the default activation function
 	 * the sigmoid function
 	 * takes any numbers and puts it between 0 and 1
 	 */
-	public static Function<Double, Double> defaultActivationFunction = new Function<Double, Double>() {
+	public static SerializableFunction<Double, Double> defaultActivationFunction = new SerializableFunction<Double, Double>() {
+
+		private static final long serialVersionUID = 1613070768641963077L;
 
 		@Override
 		public Double f(Double x) {
@@ -76,7 +78,7 @@ public class NeuralNetwork implements Serializable{
 	 * @param shape an array defining the shape of the NeuralNetwork
 	 * @param activationFunction the activation function
 	 */
-	public NeuralNetwork(Function<Double, Double> activationFunction, int... shape)
+	public NeuralNetwork(SerializableFunction<Double, Double> activationFunction, int... shape)
 	{
 		this.activationFunction = activationFunction;
 		switch(shape.length)
@@ -182,6 +184,7 @@ public class NeuralNetwork implements Serializable{
 	 */
 	public void train(DataSet dataSet)
 	{
+		dataSet.shuffle();
 		for(DataPoint dataPoint: dataSet)
 			train(dataPoint);
 	}
@@ -223,11 +226,14 @@ public class NeuralNetwork implements Serializable{
 	public void train(Matrix inputs, Matrix targets)
 	{
 		Matrix[] layers = new Matrix[shape.length];
+		Matrix[] z = new Matrix[shape.length];
+		
 		layers[0] = inputs;
 		
 		for(int i = 1; i < layers.length; i++)
 		{
-			layers[i] = (Matrix.multiply(weights[i - 1], layers[i - 1]).add(bias[i - 1])).map(activationFunction);
+			z[i] = Matrix.multiply(weights[i - 1], layers[i - 1]).add(bias[i - 1]);
+			layers[i] = z[i].clone().map(activationFunction);
 		}
 		
 		Matrix outputs = layers[layers.length - 1];
@@ -242,14 +248,7 @@ public class NeuralNetwork implements Serializable{
 		for(int i = weights.length; i > 0; i--)
 		{
 			errors[i - 1] = Matrix.multiply(weights[i - 1].transpose(), errors[i]);
-			Matrix temp = Matrix.hadamardProduct(errors[i], Matrix.hadamardProduct(layers[i], layers[i].clone().map(new Function<Double, Double>() {
-
-				@Override
-				public Double f(Double x) {
-					return 1 - x;
-				}
-				
-			})));
+			Matrix temp = Matrix.hadamardProduct(errors[i], z[i].clone().map(Calculus.derivative(activationFunction)));
 			dBias[i - 1] = temp.multiply(learingRate);
 			dWeights[i - 1] = Matrix.outer(temp, layers[i - 1]).multiply(learingRate);
 		}
@@ -327,7 +326,6 @@ public class NeuralNetwork implements Serializable{
 
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException{
 		in.defaultReadObject();
-		activationFunction = defaultActivationFunction;
 	}
 	
 	/**
@@ -395,14 +393,14 @@ public class NeuralNetwork implements Serializable{
 	/**
 	 * @return the activationFunction
 	 */
-	public Function<Double, Double> getActivationFunction() {
+	public SerializableFunction<Double, Double> getActivationFunction() {
 		return activationFunction;
 	}
 
 	/**
 	 * @param activationFunction the activationFunction to set
 	 */
-	public void setActivationFunction(Function<Double, Double> activationFunction) {
+	public void setActivationFunction(SerializableFunction<Double, Double> activationFunction) {
 		this.activationFunction = activationFunction;
 	}
 

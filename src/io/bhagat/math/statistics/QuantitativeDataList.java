@@ -10,7 +10,7 @@ import java.util.Collections;
 import io.bhagat.math.Function;
 import io.bhagat.math.linearalgebra.Vector;
 import io.bhagat.util.ArrayUtil;
-// TODO create QualitativeDataList implements DataList
+// TODO create CategoricalDataList implements DataList
 // TODO create DataSet for JSON and CSV
 
 /**

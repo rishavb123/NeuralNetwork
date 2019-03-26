@@ -19,6 +19,19 @@ public class DataSet extends ArrayList<DataPoint>{
 	public DataSet() {
 		super();
 	}
+
+	/**
+	 * randomizes the order of the data set
+	 */
+	public void shuffle() {
+		for(int i_ = 0; i_ < size() * 2; i_++)
+		{
+			int i = (int)(Math.random()*size());
+			int j = (int)(Math.random()*size());
+			set(j, set(i, get(j)));
+			
+		}
+	}
 	
 	/**
 	 * string representation of the data set

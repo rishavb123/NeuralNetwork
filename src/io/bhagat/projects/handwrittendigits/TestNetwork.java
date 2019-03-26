@@ -24,7 +24,8 @@ public class TestNetwork {
         
         System.out.println("Done Reading data: " + t.elapsed() + " ms");
         
-        NeuralNetwork neuralNetwork = SerializableUtil.deserialize("mnist/network1.ser");
+        NeuralNetwork neuralNetwork = SerializableUtil.deserialize("mnist/network5.ser");
+        
         DataSet dataSet = new DataSet();
         
         System.out.println("Testing data . . .");

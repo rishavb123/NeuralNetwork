@@ -1,0 +1,7 @@
+[
+	"a neural network trained with the default activation function and used a hard coded derivative A*(1-A)",
+	"a neural network trained with the default activation function and used a hard coded derivative A*(1-A)",
+	"a neural network trained with the default activation function and used a hard coded derivative A*(1-A)",
+	"a neural network trained with the approximated derivative and the default activation function",
+	"a neural network trained with the activation function of (Math.atan(x) / Math.PI) + 0.5 so it isnt that accurate"
+]

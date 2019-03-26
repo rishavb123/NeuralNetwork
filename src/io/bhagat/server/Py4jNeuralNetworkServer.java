@@ -1,7 +1,7 @@
 package io.bhagat.server;
 
 import io.bhagat.artificialintelligence.NeuralNetwork;
-import io.bhagat.math.Function;
+import io.bhagat.math.SerializableFunction;
 import py4j.GatewayServer;
 
 /**
@@ -15,7 +15,7 @@ public class Py4jNeuralNetworkServer extends GatewayServer{
 	 * @param shape an array defining the shape of the NeuralNetwork
 	 * @param activationFunction the activation function
 	 */
-	public Py4jNeuralNetworkServer(Function<Double, Double> activationFunction, int... shape)
+	public Py4jNeuralNetworkServer(SerializableFunction<Double, Double> activationFunction, int... shape)
 	{
 		super(new NeuralNetwork(activationFunction, shape));		
 	}
