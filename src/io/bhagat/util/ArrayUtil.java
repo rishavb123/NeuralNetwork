@@ -43,6 +43,7 @@ public final class ArrayUtil {
 	 * Reshapes a one dimensional array into a two dimensional array
 	 * @param arr the 1D array
 	 * @param arr2 the 2D array
+	 * @param <E> the array type
 	 * @return the 2D array
 	 * @throws InvalidSizeException thrown when the total number of elements are not the same in each array
 	 */
@@ -61,6 +62,7 @@ public final class ArrayUtil {
 	 * Reshapes a two dimensional array into a one dimensional array
 	 * @param arr the 2D array
 	 * @param arr2 the 1D array
+	 * @param <E> the array type
 	 * @return the 1D array
 	 * @throws InvalidSizeException thrown when the total number of elements are not the same in each array
 	 */
