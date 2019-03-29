@@ -134,9 +134,12 @@ public class Server extends Thread{
 		{
 			while(!stop) {
 				try {
-					readObject = input.readObject();
-					connectionIndex.setObject(readObject);
-					send(callback.f(connectionIndex));
+					synchronized(input) {
+						readObject = input.readObject();					
+						connectionIndex.setObject(readObject);
+						send(callback.f(connectionIndex));
+					}
+					
 				} catch (EOFException | SocketException e) {
 					System.out.println("Connection " + connectionIndex.getIndex() + ": " + connectionIndex.getHostname() + " left");
 					close();
@@ -148,12 +151,14 @@ public class Server extends Thread{
 		
 		public void send(Object obj)
 		{
-			try {
-				if(obj != null)
-					output.writeObject(obj);
-				output.flush();
-			} catch (IOException e) {
-				e.printStackTrace();
+			synchronized(output) {
+				try {
+					if(obj != null)
+						output.writeObject(obj);
+					output.flush();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		

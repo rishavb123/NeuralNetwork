@@ -19,10 +19,11 @@ public class AndroidServer {
 			@Override
 			public Object f(ConnectionIndex x) {
 				double[] outputs = neuralNetwork.feedForward((double[]) x.getObject());
-				int guess = 0;
+				Integer guess = 0;
 				for(int i = 1; i < outputs.length; i++)
 					if(outputs[i] > outputs[guess])
 						guess = i;
+				System.out.println("Got something: "+guess);
 				return guess;
 			}
 			

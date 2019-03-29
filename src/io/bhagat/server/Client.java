@@ -55,8 +55,10 @@ public class Client extends Thread{
         try {
             while(!stop)
             {
-                readObject = input.readObject();
-                send(callback.f(this));
+            	synchronized(input) {
+	                readObject = input.readObject();
+	                send(callback.f(this));
+            	}
             }
         } catch(EOFException | SocketException e) {
             System.out.println("terminated connnection");
@@ -92,13 +94,15 @@ public class Client extends Thread{
 
     public void send(Object obj)
     {
-        try {
-            if(obj != null)
-                output.writeObject(obj);
-            output.flush();
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
+    	synchronized(output) {
+	        try {
+	            if(obj != null)
+	                output.writeObject(obj);
+	            output.flush();
+	        } catch(IOException e) {
+	            e.printStackTrace();
+	        }
+    	}
     }
 
     /**
