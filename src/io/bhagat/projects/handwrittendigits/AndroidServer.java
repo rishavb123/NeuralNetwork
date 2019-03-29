@@ -23,7 +23,6 @@ public class AndroidServer {
 				for(int i = 1; i < outputs.length; i++)
 					if(outputs[i] > outputs[guess])
 						guess = i;
-				System.out.println("Got something: "+guess);
 				return guess;
 			}
 			
