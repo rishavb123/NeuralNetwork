@@ -6,6 +6,7 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Projects/UniversalProjects/NeuralNetwork/lib/py4j-0.10.8.1.jar"/>
+	<classpathentry kind="lib" path="lib/jsoup-1.11.3.jar"/>
+	<classpathentry kind="lib" path="lib/py4j-0.10.8.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

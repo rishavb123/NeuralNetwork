@@ -13,6 +13,10 @@ import io.bhagat.math.statistics.QuantitativeDataList;
 import io.bhagat.util.ArrayUtil;
 import io.bhagat.util.SerializableUtil;
 
+// TODO Convolutional Layers and Pooling Layers
+// TODO implement dropout
+// TODO implement better weight initialization maybe based on number of nodes in the previous layer
+
 /**
  * a class for a Neural Network that will take in inputs and send them through difference layers and generate outputs
  * @author Bhagat
