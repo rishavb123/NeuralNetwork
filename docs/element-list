@@ -3,5 +3,10 @@ io.bhagat.math
 io.bhagat.math.calculus
 io.bhagat.math.linearalgebra
 io.bhagat.math.statistics
+io.bhagat.projects
+io.bhagat.projects.audio
+io.bhagat.projects.handwrittendigits
+io.bhagat.projects.iris
+io.bhagat.projects.targetting
 io.bhagat.server
 io.bhagat.util

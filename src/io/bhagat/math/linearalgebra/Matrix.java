@@ -539,7 +539,7 @@ public class Matrix implements Serializable, Comparable<Matrix>{
 	/**
 	 * Find the singular values of a matrix
 	 * @param iterations the number of iterations for the QR algorithm
-	 * @return
+	 * @return the singular values of the matrix
 	 */
 	public double[] singularValues(int iterations)
 	{

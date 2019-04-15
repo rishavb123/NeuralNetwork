@@ -83,6 +83,7 @@ public final class ArrayUtil {
 	 * maps a function to each element in an array
 	 * @param arr the array
 	 * @param function the function
+	 * @param <E> the array type
 	 * @return the array after the mapping
 	 */
 	public static <E> E[] map(E[] arr, Function<E, E> function)
