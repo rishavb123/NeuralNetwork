@@ -392,10 +392,12 @@ public class Vector implements Serializable, Comparable<Vector>{
 	/**
 	 * @return the unit vector with the same direction as this vector
 	 */
-	public Vector unitVector()
+	public Vector normalize()
 	{
 		return clone().divide(getMagnitude());
 	}
+	
+	
 	
 	/**
 	 * @return the data
@@ -538,6 +540,30 @@ public class Vector implements Serializable, Comparable<Vector>{
 		return Matrix.outer(a.toMatrix(), b.toMatrix());
 	}
 	
+	/**
+	 * make the input vectors orthogonal
+	 * @param x the original vectors
+	 * @return the orthogonalized vectors
+	 */
+	public static Vector[] orthogonalize(Vector[] x)
+	{
+		Vector[] v = new Vector[x.length];
+		for(int k = 0; k < v.length; k++)
+		{
+			Vector sum = new Vector(x[k].getSize());
+			for(int i = 0; i < k; i++)
+				sum.add(v[i].multiply(x[k].dot(v[i]) / v[i].dot(v[i])));
+			v[k] = x[k].clone().subtract(sum);
+		}
+		return v;
+	}
+	
+	/**
+	 * creates a unit vector
+	 * @param index this value will be 1
+	 * @param size the size of the vector
+	 * @return the unit vector
+	 */
 	public static Vector generateUnitVector(int index, int size)
 	{
 		double[] data = new double[size];

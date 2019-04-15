@@ -2,6 +2,8 @@ package io.bhagat.util;
 
 import java.util.ArrayList;
 
+import io.bhagat.math.Function;
+
 /**
  * A few of Utility methods for Arrays and ArrayLists
  * @author Bhagat
@@ -57,7 +59,7 @@ public final class ArrayUtil {
 				arr2[i][j] = arr[i * arr2[i].length + j];
 		return arr2;
 	}
-	
+		
 	/**
 	 * Reshapes a two dimensional array into a one dimensional array
 	 * @param arr the 2D array
@@ -76,6 +78,20 @@ public final class ArrayUtil {
 				arr2[i * arr[i].length + j] = arr[1][j];
 		return arr2;
 	}
+	
+	/**
+	 * maps a function to each element in an array
+	 * @param arr the array
+	 * @param function the function
+	 * @return the array after the mapping
+	 */
+	public static <E> E[] map(E[] arr, Function<E, E> function)
+	{
+		for(int i = 0; i < arr.length; i++)
+			arr[i] = function.f(arr[i]);
+		return arr;
+	}
+
 	
 	/**
 	 * This method creates an array from an {@link java.util.ArrayList ArrayList}

@@ -1,8 +1,10 @@
 package io.bhagat.math.linearalgebra;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import io.bhagat.math.Function;
+import io.bhagat.util.ArrayUtil;
 
 
 //TODO implement the new linear algebra concepts like eigenvalues and vectors and spaces for E
@@ -25,6 +27,8 @@ public class Matrix implements Serializable, Comparable<Matrix>{
 	 * the number of columns in the matrix;
 	 */
 	private int columns;
+	
+	public static final double EPSILON = 0.00000001;
 	
 	/**
 	 * Create a matrix with a specified number of rows and columns
@@ -401,6 +405,151 @@ public class Matrix implements Serializable, Comparable<Matrix>{
 	}
 	
 	/**
+	 * Solves the eigen problem
+	 * @param iterations the number of iterations for the QR algorithm
+	 * @return an object containing both the eigenvalues and eigenvectors
+	 */
+	public EigenSolution eigenproblem(int iterations)
+	{
+		ArrayList<Double> eigenvalues = ArrayUtil.newArrayList(eigenvalues(iterations));
+		ArrayList<Vector> eigenvectors = new ArrayList<>();
+		for(int i = 0; i < eigenvalues.size(); i++)
+		{
+			double eigenvalue = eigenvalues.get(i);
+			Vector eigenvector = eigenvector(eigenvalue);
+			boolean add = true;
+			for(double d: eigenvector.getData())
+				if(Double.isNaN(d))
+				{
+					add = false;
+					break;
+				}
+			if(add && !Double.isNaN(eigenvalue))
+				eigenvectors.add(eigenvector);
+			else
+			{
+				eigenvalues.remove(eigenvalue);
+				i--;
+			}
+		}
+		double[] eigenvaluesArr = new double[eigenvalues.size()];
+		for(int i = 0; i < eigenvaluesArr.length; i++)
+			eigenvaluesArr[i] = eigenvalues.get(i);
+		Vector[] eigenvectorsArr = ArrayUtil.newArrayFromArrayList(eigenvectors, new Vector[eigenvectors.size()]);
+		return new EigenSolution(eigenvaluesArr, eigenvectorsArr);
+	}
+	
+	/**
+	 * computes the eigenvalues of the matrix
+	 * <p> Note: this method may return extra eigenvalues that do not have a valid eigenvector. Use eigenproblem() for a better solution </p>
+	 * @param iterations the number of iterations for the QR algorithm
+	 * @return the eigenvalues
+	 */
+	public double[] eigenvalues(int iterations)
+	{
+		if(!isSquare())
+			throw new InvalidShapeException("Cannot find eigenvalues of a matrix that is not a square");
+		
+		double[] lambdas = new double[rows];
+		
+		Matrix A = this;
+						
+		for(int i = 0; i < iterations - 1; i++)
+		{
+			Matrix[] qr = Matrix.QR(A);
+			A = Matrix.multiply(qr[1], qr[0]);
+		}
+				
+		for(int i = 0; i < rows; i++)
+		{
+			lambdas[i] = A.get(i, i);
+		}
+		
+		for(int i = 1; i < lambdas.length; i++)
+		{
+			int j = i;
+			while(j > 0 && lambdas[j] > lambdas[j-1])
+			{
+				double temp = lambdas[j];
+				lambdas[j] = lambdas[j - 1];
+				lambdas[j - 1] = temp;
+				j--;
+			}
+		}
+		
+		return lambdas;
+	}
+	
+	/**
+	 * calculates the eigenvectors based on the eigenvalues provided
+	 * @param eigenvalues the eigenvalues
+	 * @return the eigenvectors
+	 */
+	public Vector[] eigenvectors(double[] eigenvalues)
+	{
+		ArrayList<Vector> eigenvectors = new ArrayList<>();
+		for(double eigenvalue: eigenvalues)
+		{
+			Vector eigenvector = eigenvector(eigenvalue);
+			boolean add = true;
+			for(double d: eigenvector.getData())
+				if(Double.isNaN(d))
+				{
+					add = false;
+					break;
+				}
+			if(add && !Double.isNaN(eigenvalue))
+				eigenvectors.add(eigenvector);
+		}
+		return ArrayUtil.newArrayFromArrayList(eigenvectors, new Vector[eigenvectors.size()]);
+	}
+	
+	private Vector eigenvector(double eigenvalue)
+	{
+		Vector[] rows = clone().subtract(identityMatrix(getRows()).multiply(eigenvalue)).rowEchelonForm().getVectorRows();
+		Vector eigenvector = new Vector(rows.length);
+		
+		for(int i = rows.length - 1; i >= 0; i--)
+		{
+			boolean ignore = true;
+			Vector row = rows[i];
+			for(int j = 0; j < row.getSize(); j++)
+				if(!Double.isNaN(row.get(j)) && row.get(j) > EPSILON)
+				{
+					ignore = false;
+					break;
+				}
+			if(ignore)
+			{
+				eigenvector.set(i, 1);
+				continue;
+			}
+			eigenvector.set(i, -eigenvector.dot(row) / row.get(i));
+		}
+		eigenvector = eigenvector.normalize();
+		for(int i = 0; i < eigenvector.getSize(); i++)
+			if(Math.abs(eigenvector.get(i)) < EPSILON)
+			{
+				eigenvector.set(i, 0);
+				System.out.println(eigenvector.get(i));
+			}
+		return eigenvector;
+	}
+	
+	/**
+	 * Find the singular values of a matrix
+	 * @param iterations the number of iterations for the QR algorithm
+	 * @return
+	 */
+	public double[] singularValues(int iterations)
+	{
+		double[] values = Matrix.multiply(this, transpose()).eigenvalues(iterations);
+		for(int i = 0; i < values.length; i++)
+			values[i] = Math.sqrt(values[i]);
+		return values;
+	}
+	
+	/**
 	 * uses the static method to compute the determinant of the matrix
 	 * @return the determinant
 	 * @throws InvalidShapeException gets thrown if it is not a square matrix
@@ -704,6 +853,34 @@ public class Matrix implements Serializable, Comparable<Matrix>{
 	}
 	
 	/**
+	 * Computes the QR factorization of a matrix
+	 * @param A the matrix
+	 * @return an array of matrices where the first matrix is Q and the second one is R
+	 */
+	public static Matrix[] QR(Matrix A)
+	{
+		Vector[] columns = A.getVectorColumns();
+		Vector[] q = ArrayUtil.map(Vector.orthogonalize(columns), new Function<Vector, Vector>() {
+
+			@Override
+			public Vector f(Vector x) {
+				return x.normalize();
+			}
+			
+		});
+		Matrix Q = new Matrix(A.getRows(), A.getColumns());
+		Q.setColumns(q);
+		Matrix R = Matrix.multiply(Matrix.transpose(Q), A);
+		if(Double.isNaN(Q.get(0, 0)) || Double.isNaN(R.get(0, 0)))
+		{
+			Q = identityMatrix(A.getRows());
+			R = A.clone();
+		}
+		Matrix[] arr = { Q, R };
+		return arr;
+	}
+	
+	/**
 	 * @param m the Matrix to take the determinant of
 	 * @return the determinant
 	 * @throws InvalidShapeException if the matrix is not a square matrix
@@ -764,8 +941,29 @@ public class Matrix implements Serializable, Comparable<Matrix>{
 	}
 	
 	/**
+	 * A class that holds both eigenvalues and eigenvectors
 	 * @author Bhagat
+	 */
+	public static class EigenSolution {
+		public double[] eigenvalues;
+		public Vector[] eigenvectors;
+		
+		/**
+		 * Creates a new EigenSolution
+		 * @param eigenvalues the eigenvalues
+		 * @param eigenvectors the eigenvectors
+		 */
+		public EigenSolution(double[] eigenvalues, Vector[] eigenvectors)
+		{
+			this.eigenvalues = eigenvalues;
+			this.eigenvectors = eigenvectors;
+		}
+		
+	}
+	
+	/**
 	 * An object that stores all the information about one index of the matrix
+	 * @author Bhagat
 	 */
 	public static class MatrixIndex {
 		
@@ -883,8 +1081,8 @@ public class Matrix implements Serializable, Comparable<Matrix>{
 	}
 	
 	/**
-	 * @author Bhagat
 	 * An exception for if a matrix is not the proper size for a certain operation
+	 * @author Bhagat
 	 */
 	public class InvalidShapeException extends RuntimeException {
 		
@@ -901,8 +1099,8 @@ public class Matrix implements Serializable, Comparable<Matrix>{
 	}
 	
 	/**
-	 * @author Bhagat
 	 * An exception for handling if a user attempts to access an index that does not exist in the matrix
+	 * @author Bhagat
 	 */
 	public class IndexNotInMatrixException extends RuntimeException {
 

@@ -41,7 +41,7 @@ public class Perceptron implements Serializable {
 	}
 	
 	public int activation(double x)
-	{
+	{	
 		return (x > 0)? 1 : 0;
 	}
 	

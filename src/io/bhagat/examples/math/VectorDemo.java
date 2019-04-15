@@ -42,8 +42,8 @@ public class VectorDemo {
 		System.out.println(a.getMagnitude());
 		
 		// Prints out the unit vector and its magnitude in the same direction
-		System.out.println(a.unitVector());
-		System.out.println(a.unitVector().getMagnitude());
+		System.out.println(a.normalize());
+		System.out.println(a.normalize().getMagnitude());
 		
 		System.out.println("\n\n");
 		

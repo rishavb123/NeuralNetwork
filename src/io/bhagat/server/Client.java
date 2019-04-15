@@ -9,6 +9,7 @@ import java.net.SocketException;
 
 import io.bhagat.math.Function;
 
+// TODO document this
 
 public class Client extends Thread{
 

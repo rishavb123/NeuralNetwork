@@ -63,7 +63,7 @@ public class LinearEquationSolver {
 				weights.set(j, equations.get(i).getWeight(variables.get(j)));
 			A.setRow(weights, i);
 		}
-		
+				
 		switch(method)
 		{
 			case GAUSS_METHOD:
