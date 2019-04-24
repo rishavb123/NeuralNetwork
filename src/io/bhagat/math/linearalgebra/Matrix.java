@@ -439,6 +439,12 @@ public class Matrix implements Serializable, Comparable<Matrix>{
 		return new EigenSolution(eigenvaluesArr, eigenvectorsArr);
 	}
 	
+	public double[] eigenvaluestest(int iterations)
+	{
+		//TODO Use power method and shifted inverted power method
+		return eigenvalues(iterations);
+	}
+	
 	/**
 	 * computes the eigenvalues of the matrix
 	 * <p> Note: this method may return extra eigenvalues that do not have a valid eigenvector. Use eigenproblem() for a better solution </p>
@@ -447,19 +453,23 @@ public class Matrix implements Serializable, Comparable<Matrix>{
 	 */
 	public double[] eigenvalues(int iterations)
 	{
+		int scalar = -2;
 		if(!isSquare())
 			throw new InvalidShapeException("Cannot find eigenvalues of a matrix that is not a square");
 		
 		double[] lambdas = new double[rows];
 		
-		Matrix A = this;
-						
+		Matrix shift = identityMatrix(getRows()).multiply(scalar);
+		Matrix A = this.subtract(shift);		
+				
 		for(int i = 0; i < iterations - 1; i++)
 		{
 			Matrix[] qr = Matrix.QR(A);
 			A = Matrix.multiply(qr[1], qr[0]);
 		}
-				
+		
+		A = A.add(shift);
+		
 		for(int i = 0; i < rows; i++)
 		{
 			lambdas[i] = A.get(i, i);
@@ -531,7 +541,6 @@ public class Matrix implements Serializable, Comparable<Matrix>{
 			if(Math.abs(eigenvector.get(i)) < EPSILON)
 			{
 				eigenvector.set(i, 0);
-				System.out.println(eigenvector.get(i));
 			}
 		return eigenvector;
 	}
@@ -547,6 +556,19 @@ public class Matrix implements Serializable, Comparable<Matrix>{
 		for(int i = 0; i < values.length; i++)
 			values[i] = Math.sqrt(values[i]);
 		return values;
+	}
+	
+	/**
+	 * Finds both the singular values and corresponding eigenvectors
+	 * @param iterations the number of iterations for the QR algorithm
+	 * @return an object containing the singular values and eigenvectors
+	 */
+	public SingularSolution singularSolution(int iterations)
+	{
+		EigenSolution eigenSolution = Matrix.multiply(transpose(), this).eigenproblem(iterations);
+		for(int i = 0; i < eigenSolution.eigenvalues.length; i++)
+			eigenSolution.eigenvalues[i] = Math.sqrt(eigenSolution.eigenvalues[i]);
+		return new SingularSolution(eigenSolution.eigenvalues, eigenSolution.eigenvectors);
 	}
 	
 	/**
@@ -853,6 +875,58 @@ public class Matrix implements Serializable, Comparable<Matrix>{
 	}
 	
 	/**
+	 * Performs singular value decomposition on a matrix
+	 * @param A the matrix to find the SVD decomposition of
+	 * @param iterations the number of iterations for the QR algorithm
+	 * @return an array of matrices that contain {U, Sigma, V}
+	 */
+	public static Matrix[] singularValueDecomposition(Matrix A, int iterations)
+	{
+		Matrix U = new Matrix(A.getRows(), A.getRows());
+		Matrix S = new Matrix(A.getRows(), A.getColumns());
+		Matrix V = new Matrix(A.getColumns(), A.getColumns());
+		
+		Matrix ATA = Matrix.multiply(A.transpose(), A);
+		
+		double[] eigenvalues = ATA.eigenvalues(iterations);
+		Vector[] eigenvectors = ATA.eigenvectors(eigenvalues);
+		double[] singularValues = new double[eigenvalues.length];
+		for(int i = 0; i < eigenvalues.length; i++)
+		{
+			singularValues[i] = Math.sqrt(eigenvalues[i]);
+			try {
+				S.set(i, i, singularValues[i]);	
+			} catch(IndexNotInMatrixException e) {}
+		}
+		V.setColumns(eigenvectors);		
+		U.setColumns(ArrayUtil.map(eigenvectors, new Function<Vector, Vector> () {
+
+			@Override
+			public Vector f(Vector x) {
+				return Matrix.multiply(A, x).toVector().divide(singularValues[ArrayUtil.indexOf(eigenvectors, x)]);
+			}
+			
+		}));
+		return new Matrix[] { U, S, V };
+		
+	}
+	
+	/**
+	 * performs singular value decomposition and returns the output in outer product form
+	 * @param A the matrix to factor
+	 * @param iterations the number of iterations for the QR algorithm
+	 * @return an object holding the solutions for the factorization
+	 */
+	public static OuterProductSVD singularValueDecompositionOuter(Matrix A, int iterations)
+	{
+		SingularSolution solution = A.singularSolution(iterations);
+		Vector[] us = new Vector[solution.eigenvectors.length];
+		for(int i = 0; i < us.length; i++)
+			us[i] = Matrix.multiply(A, solution.eigenvectors[i]).toVector().divide(solution.singularValues[i]);
+		return new OuterProductSVD(solution.singularValues, us, solution.eigenvectors);
+	}
+	
+	/**
 	 * Computes the QR factorization of a matrix
 	 * @param A the matrix
 	 * @return an array of matrices where the first matrix is Q and the second one is R
@@ -904,6 +978,11 @@ public class Matrix implements Serializable, Comparable<Matrix>{
 		
 	}
 	
+	/**
+	 * finds the cofactor of a matrix
+	 * @param A the matrix
+	 * @return the cofactor matrix
+	 */
 	public static Matrix cofactor(Matrix A)
 	{
 		if(!A.isSquare())
@@ -941,6 +1020,31 @@ public class Matrix implements Serializable, Comparable<Matrix>{
 	}
 	
 	/**
+	 * A class to hold all the parts of the outer product form of the SVD
+	 * @author Bhagat
+	 */
+	public static class OuterProductSVD implements Serializable{
+		private static final long serialVersionUID = 820930237908595734L;
+		public double[] singularValues;
+		public Vector[] us;
+		public Vector[] vs;
+		
+		/**
+		 * creates a new SVD solution
+		 * @param singularValues the singular values
+		 * @param us the U vectors
+		 * @param vs the V vectors
+		 */
+		public OuterProductSVD(double[] singularValues, Vector[] us, Vector[] vs)
+		{
+			this.singularValues = singularValues;
+			this.us = us;
+			this.vs = vs;
+		}
+		
+	}
+	
+	/**
 	 * A class that holds both eigenvalues and eigenvectors
 	 * @author Bhagat
 	 */
@@ -956,6 +1060,27 @@ public class Matrix implements Serializable, Comparable<Matrix>{
 		public EigenSolution(double[] eigenvalues, Vector[] eigenvectors)
 		{
 			this.eigenvalues = eigenvalues;
+			this.eigenvectors = eigenvectors;
+		}
+		
+	}
+	
+	/**
+	 * A class that holds both singular values and eigenvectors of Matrix.multiply(transpose(), this)
+	 * @author Bhagat
+	 */
+	public static class SingularSolution {
+		public double[] singularValues;
+		public Vector[] eigenvectors;
+		
+		/**
+		 * Creates a new EigenSolution
+		 * @param eigenvalues the eigenvalues
+		 * @param eigenvectors the eigenvectors
+		 */
+		public SingularSolution(double[] singularValues, Vector[] eigenvectors)
+		{
+			this.singularValues = singularValues;
 			this.eigenvectors = eigenvectors;
 		}
 		

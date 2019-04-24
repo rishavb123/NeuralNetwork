@@ -93,6 +93,19 @@ public final class ArrayUtil {
 		return arr;
 	}
 
+	/**
+	 * finds the index of a certain object in an array
+	 * @param arr the array
+	 * @param obj the object to look for
+	 * @return the index
+	 */
+	public static <E> int indexOf(E[] arr, E obj)
+	{
+		for(int i = 0; i < arr.length; i++)
+			if(arr[i] == obj)
+				return i;
+		return -1;
+	}
 	
 	/**
 	 * This method creates an array from an {@link java.util.ArrayList ArrayList}

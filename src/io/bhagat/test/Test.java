@@ -8,17 +8,25 @@ public class Test {
 	public static void main(String[] args)
 	{
 		Matrix A = new Matrix(new double[][]{
-			{3, 2, 5},
-			{1, 3, 1},
-			{2, 4, 4}
+			{1, 1, 0},
+			{0, 0, 1},
 		});
-		
 				
-		Matrix.EigenSolution eigenSolution = A.eigenproblem(1000);
+		System.out.println(Matrix.QR(Matrix.multiply(A.transpose(), A).subtract(Matrix.identityMatrix(3).multiply(3)))[1]);
 		
-		ArrayUtil.printArr(eigenSolution.eigenvalues);
-		ArrayUtil.printArr(eigenSolution.eigenvectors);
-		System.out.println(eigenSolution.eigenvectors[0].getMagnitude());
+		double[] lambdas = Matrix.multiply(A.transpose(), A).eigenvalues(1000);
+		ArrayUtil.printArr(lambdas);
+		
+		// look at page 314 for power method and shifted power method
+		
+//		Matrix[] SVD = Matrix.singularValueDecomposition(A, 1000);
+//	
+//		Matrix U = SVD[0];
+//		Matrix S = SVD[1];
+//		Matrix V = SVD[2];
+//		
+//		System.out.println(Matrix.multiply(Matrix.multiply(U, S), V.transpose()));
+		
 	}
 	
 }
