@@ -15,7 +15,7 @@ public class Compress {
 
 	public static void main(String[] args) throws IOException {
 		String filename = "files/bigpic.jpg";
-		int k = 100;
+		int k = 311;
 		
 		BufferedImage image = ImageIO.read(new File(filename));
 		int width = image.getWidth();
@@ -58,7 +58,7 @@ public class Compress {
 		
 		System.out.println("Truncated");
 		
-		SerializableUtil.serialize(outers, "100.ser");
+		SerializableUtil.serialize(outers, "311.ser");
 		
 		System.out.println("Serialized");
 		

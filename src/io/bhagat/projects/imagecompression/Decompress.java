@@ -14,7 +14,7 @@ public class Decompress {
 
 	public static void main(String[] args) {
 		try {
-			Matrix.OuterProductSVD[] outers = SerializableUtil.deserialize("100.ser");
+			Matrix.OuterProductSVD[] outers = SerializableUtil.deserialize("311.ser");
 			Matrix temp = Matrix.multiply(outers[0].us[0].toMatrixColumn(), outers[0].vs[0].toMatrixRow());
 			Matrix R = new Matrix(temp.getRows(), temp.getColumns());
 			Matrix G = new Matrix(temp.getRows(), temp.getColumns());
@@ -43,7 +43,7 @@ public class Decompress {
 						B.set(i, j, 0);
 					image.setRGB(i, j, new Color((int) R.get(i, j), (int) G.get(i, j), (int)B.get(i, j)).getRGB());
 				}
-			ImageIO.write(image, "jpg", new File("files/100.jpg"));
+			ImageIO.write(image, "jpg", new File("files/311.jpg"));
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
