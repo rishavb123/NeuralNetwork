@@ -1074,8 +1074,8 @@ public class Matrix implements Serializable, Comparable<Matrix>{
 		public Vector[] eigenvectors;
 		
 		/**
-		 * Creates a new EigenSolution
-		 * @param eigenvalues the eigenvalues
+		 * Creates a new SingularSolution
+		 * @param singularValues the singularValues
 		 * @param eigenvectors the eigenvectors
 		 */
 		public SingularSolution(double[] singularValues, Vector[] eigenvectors)

@@ -97,6 +97,7 @@ public final class ArrayUtil {
 	 * finds the index of a certain object in an array
 	 * @param arr the array
 	 * @param obj the object to look for
+	 * @param <E> the array type
 	 * @return the index
 	 */
 	public static <E> int indexOf(E[] arr, E obj)

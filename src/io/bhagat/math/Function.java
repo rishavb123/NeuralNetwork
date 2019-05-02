@@ -19,5 +19,5 @@ public abstract class Function<E, T> {
 	 * @return the return of objects of type specified by Java Generics in an array
 	 */
 	public T[] g(@SuppressWarnings("unchecked") E...xs) { return null; }
-	
+		
 }

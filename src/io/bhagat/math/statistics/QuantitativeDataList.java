@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 import io.bhagat.math.Function;
+import io.bhagat.math.Interval;
 import io.bhagat.math.linearalgebra.Vector;
 import io.bhagat.util.ArrayUtil;
 // TODO create CategoricalDataList implements DataList
@@ -22,11 +23,20 @@ public class QuantitativeDataList extends ArrayList<Double> { //TODO implements 
 	private static final long serialVersionUID = 1229037288513585530L;
 
 	/**
+	 * creates an empty list
+	 */
+	public QuantitativeDataList()
+	{
+		super();
+	}
+	
+	/**
 	 * initializes the list with certain values
 	 * @param data the data to put into the list
 	 */
 	public QuantitativeDataList(double... data)
 	{
+		super();
 		for(double d: data)
 			add(d);
 		sort();
@@ -37,6 +47,7 @@ public class QuantitativeDataList extends ArrayList<Double> { //TODO implements 
 	 * @param data the data to put into the list
 	 */
 	public QuantitativeDataList(Double... data) {
+		super();
 		for(double d: data)
 			add(d);
 		sort();
@@ -291,6 +302,31 @@ public class QuantitativeDataList extends ArrayList<Double> { //TODO implements 
 	public double z(double x)
 	{
 		return (x - mean()) / standardDeviation();
+	}
+	
+	/**
+	 * gives the proportion of values in the list in an interval
+	 * @param interval the interval
+	 * @return the proportion
+	 */
+	public double inInterval(Interval interval)
+	{
+		int count = 0;
+		for(double d: this)
+			if(interval.inInterval(d))
+				count++;
+		return (double) count / size();
+	}
+	
+	/**
+	 * gives the proportion of values in the list in an interval
+	 * @param lowerBound the lower bound of the interval
+	 * @param upperBound the upper bound of the interval
+	 * @return the proportion
+	 */
+	public double inInterval(double lowerBound, double upperBound)
+	{
+		return inInterval(new Interval(lowerBound, upperBound));
 	}
 	
 	/**

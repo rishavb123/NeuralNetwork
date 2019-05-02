@@ -1,6 +1,7 @@
 package io.bhagat.math.calculus;
 
 import io.bhagat.math.Function;
+import io.bhagat.math.Interval;
 import io.bhagat.math.linearalgebra.Vector;
 import io.bhagat.util.ArrayUtil;
 
@@ -107,12 +108,65 @@ public class Calculus {
 	
 	/**
 	 * takes the integral on a function
+	 * @param function the function to take the integral of
+	 * @param n the number of iterations
+	 * @return a function for the definite integral
+	 */
+	public static Function<Interval, Double> integralWithInterval(Function<Double, Double> function, int n)
+	{
+		Function<Double[], Double> integralFunction = integral(function, n);
+		
+		return new Function<Interval, Double> () {
+
+			@Override
+			public Double f(Interval x) {
+				return  integralFunction.f(new Double[] {x.getLowerBound(), x.getUpperBound()});
+			}
+			
+		};
+	}
+	
+	/**
+	 * finds the average value of a function in an interval using the mean value theorem for integrals
+	 * @param function the function
+	 * @param interval the interval
+	 * @return the mean value
+	 */
+	public static double averageValue(Function<Double, Double> function, Interval interval)
+	{
+		return integralWithInterval(function).f(interval) / interval.range();
+	}
+	
+	/**
+	 * finds the average value of a function in an interval using the mean value theorem for integrals
+	 * @param function the function
+	 * @param lowerBound the lower bound of the interval
+	 * @param upperBound the upper bound of the interval
+	 * @return the mean value
+	 */
+	public static double averageValue(Function<Double, Double> function, double lowerBound, double upperBound)
+	{
+		return averageValue(function, new Interval(lowerBound, upperBound));
+	}
+	
+	/**
+	 * takes the integral on a function
 	 * @param function the function to integrate
 	 * @return a function for the definite integral
 	 */
 	public static Function<Double[], Double> integral(Function<Double, Double> function)
 	{
 		return integral(function, DEFAULT_NUMBER_OF_ITERATIONS);
+	}
+	
+	/**
+	 * takes the integral on a function
+	 * @param function the function to integrate
+	 * @return a function for the definite integral
+	 */
+	public static Function<Interval, Double> integralWithInterval(Function<Double, Double> function)
+	{
+		return integralWithInterval(function, DEFAULT_NUMBER_OF_ITERATIONS);
 	}
 	
 }
