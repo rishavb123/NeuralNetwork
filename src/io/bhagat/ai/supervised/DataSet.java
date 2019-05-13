@@ -1,7 +1,7 @@
 /**
  * 
  */
-package io.bhagat.artificialintelligence;
+package io.bhagat.ai.supervised;
 
 import java.util.ArrayList;
 

@@ -12,7 +12,7 @@ import java.util.Scanner;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 
-import io.bhagat.artificialintelligence.NeuralNetwork;
+import io.bhagat.ai.supervised.NeuralNetwork;
 import io.bhagat.util.SerializableUtil;
 
 public class VisualNetworkTest {

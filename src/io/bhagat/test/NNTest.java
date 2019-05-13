@@ -2,9 +2,9 @@ package io.bhagat.test;
 
 import java.io.IOException;
 
-import io.bhagat.artificialintelligence.DataPoint;
-import io.bhagat.artificialintelligence.DataSet;
-import io.bhagat.artificialintelligence.NeuralNetwork;
+import io.bhagat.ai.supervised.DataPoint;
+import io.bhagat.ai.supervised.DataSet;
+import io.bhagat.ai.supervised.NeuralNetwork;
 import io.bhagat.math.Function;
 import io.bhagat.util.ArrayUtil;
 import io.bhagat.util.SerializableUtil;

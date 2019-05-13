@@ -1,6 +1,6 @@
 package io.bhagat.server;
 
-import io.bhagat.artificialintelligence.NeuralNetwork;
+import io.bhagat.ai.supervised.NeuralNetwork;
 import io.bhagat.math.SerializableFunction;
 import py4j.GatewayServer;
 

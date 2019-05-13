@@ -1,4 +1,4 @@
-package io.bhagat.artificialintelligence;
+package io.bhagat.ai.supervised;
 
 import io.bhagat.math.Function;
 import io.bhagat.math.linearalgebra.Vector;

@@ -3,9 +3,9 @@ package io.bhagat.projects.handwrittendigits;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import io.bhagat.artificialintelligence.DataPoint;
-import io.bhagat.artificialintelligence.DataSet;
-import io.bhagat.artificialintelligence.NeuralNetwork;
+import io.bhagat.ai.supervised.DataPoint;
+import io.bhagat.ai.supervised.DataSet;
+import io.bhagat.ai.supervised.NeuralNetwork;
 import io.bhagat.util.SerializableUtil;
 import io.bhagat.util.Timer; 
 

@@ -75,7 +75,7 @@ public final class ArrayUtil {
 	
 		for(int i = 0; i < arr.length; i++)
 			for(int j = 0; j < arr[i].length; j++)
-				arr2[i * arr[i].length + j] = arr[1][j];
+				arr2[i * arr[i].length + j] = arr[i][j];
 		return arr2;
 	}
 	

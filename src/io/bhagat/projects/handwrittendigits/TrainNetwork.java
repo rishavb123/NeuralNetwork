@@ -3,7 +3,7 @@ package io.bhagat.projects.handwrittendigits;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-import io.bhagat.artificialintelligence.NeuralNetwork;
+import io.bhagat.ai.supervised.NeuralNetwork;
 import io.bhagat.util.Timer;
 
 public class TrainNetwork {

@@ -1,7 +1,7 @@
 package io.bhagat.test;
 
-import io.bhagat.artificialintelligence.DataPoint;
-import io.bhagat.artificialintelligence.DataSet;
+import io.bhagat.ai.supervised.DataPoint;
+import io.bhagat.ai.supervised.DataSet;
 
 public class DataSetTest {
 
