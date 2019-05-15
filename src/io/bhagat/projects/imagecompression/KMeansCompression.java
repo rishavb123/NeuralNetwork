@@ -16,8 +16,8 @@ import io.bhagat.ai.unsupervised.KMeans;
 public class KMeansCompression {
 
 	public static void main(String[] args) throws IOException {
-		String filename = "files/awesome-colors.jpg";
-		int k = 25;
+		String filename = "files/lightning.jpg";
+		int k = 10;
 		int iterations = 100;
 		boolean showOriginal = false;
 		
@@ -62,5 +62,8 @@ public class KMeansCompression {
 		frame.pack();
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		String newfile = filename.split("\\.")[0] + "_compressed_" + k + ".jpg";
+		System.out.println(filename + " --> " + newfile);
+		ImageIO.write(image, "jpg", new File(newfile));
 	}
 }
