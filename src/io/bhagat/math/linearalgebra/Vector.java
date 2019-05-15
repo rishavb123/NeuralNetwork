@@ -552,7 +552,9 @@ public class Vector implements Serializable, Comparable<Vector>{
 		{
 			Vector sum = new Vector(x[k].getSize());
 			for(int i = 0; i < k; i++)
-				sum.add(v[i].multiply(x[k].dot(v[i]) / v[i].dot(v[i])));
+			{
+				sum.add(v[i].clone().multiply(x[k].dot(v[i]) / v[i].dot(v[i])));
+			}
 			v[k] = x[k].clone().subtract(sum);
 		}
 		return v;

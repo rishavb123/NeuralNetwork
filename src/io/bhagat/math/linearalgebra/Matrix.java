@@ -453,7 +453,7 @@ public class Matrix implements Serializable, Comparable<Matrix>{
 	 */
 	public double[] eigenvalues(int iterations)
 	{
-		int scalar = -2;
+		int scalar = 0;
 		if(!isSquare())
 			throw new InvalidShapeException("Cannot find eigenvalues of a matrix that is not a square");
 		
@@ -462,6 +462,7 @@ public class Matrix implements Serializable, Comparable<Matrix>{
 		Matrix shift = identityMatrix(getRows()).multiply(scalar);
 		Matrix A = this.subtract(shift);		
 				
+		
 		for(int i = 0; i < iterations - 1; i++)
 		{
 			Matrix[] qr = Matrix.QR(A);

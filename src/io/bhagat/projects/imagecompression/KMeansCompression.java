@@ -16,9 +16,10 @@ import io.bhagat.ai.unsupervised.KMeans;
 public class KMeansCompression {
 
 	public static void main(String[] args) throws IOException {
-		String filename = "files/bigpic.jpg";
-		int k = 256;
+		String filename = "files/awesome-colors.jpg";
+		int k = 25;
 		int iterations = 100;
+		boolean showOriginal = false;
 		
 		KMeans model = new KMeans(k, iterations);
 		
@@ -56,7 +57,8 @@ public class KMeansCompression {
 		JFrame frame = new JFrame();
 		frame.getContentPane().setLayout(new FlowLayout());
 		frame.getContentPane().add(new JLabel(new ImageIcon(image)));
-		frame.getContentPane().add(new JLabel(new ImageIcon(image2)));
+		if(showOriginal)
+			frame.getContentPane().add(new JLabel(new ImageIcon(image2)));
 		frame.pack();
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

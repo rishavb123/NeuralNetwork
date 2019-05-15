@@ -94,6 +94,24 @@ public final class ArrayUtil {
 	}
 
 	/**
+	 * Maps an array of type E to an array of type T using a function
+	 * @param arr the original array
+	 * @param function the function
+	 * @param writeTo the array to write to
+	 * @param <E> the original array type
+	 * @param <T> the final array type
+	 * @return the array written to
+	 */
+	public static <E, T> T[] map(E[] arr, Function<E, T> function, T[] writeTo)
+	{
+		if(arr.length != writeTo.length)
+			return null;
+		for(int i = 0; i < arr.length; i++)
+			writeTo[i] = function.f(arr[i]);
+		return writeTo;
+	}
+
+	/**
 	 * finds the index of a certain object in an array
 	 * @param arr the array
 	 * @param obj the object to look for
