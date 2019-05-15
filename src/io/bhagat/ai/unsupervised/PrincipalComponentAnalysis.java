@@ -3,6 +3,7 @@ package io.bhagat.ai.unsupervised;
 import io.bhagat.math.Function;
 import io.bhagat.math.linearalgebra.Matrix;
 import io.bhagat.math.linearalgebra.Vector;
+import io.bhagat.math.statistics.QuantitativeDataList;
 import io.bhagat.util.ArrayUtil;
 
 /**
@@ -11,7 +12,7 @@ import io.bhagat.util.ArrayUtil;
  */
 public class PrincipalComponentAnalysis {
 
-	public static final double DEFAULT_THRESHOLD = 10;
+	public static final double DEFAULT_THRESHOLD = 0.5;
 	
 	private Matrix X;
 	private Matrix C;
@@ -23,12 +24,11 @@ public class PrincipalComponentAnalysis {
 	 * @param X
 	 */
 	public PrincipalComponentAnalysis(Matrix X) {
-		this.X = centerData(X);
+		this.X = standardizeData(X);
 		C = covarianceMatrix(this.X);
 		Matrix.EigenSolution eigenSolution = C.eigenproblem(10);
 		eigenvalues = eigenSolution.eigenvalues;
 		eigenvectors = eigenSolution.eigenvectors;
-		ArrayUtil.printArr(eigenvalues);
 	}
 	
 	
@@ -64,9 +64,8 @@ public class PrincipalComponentAnalysis {
 	 */
 	public Matrix dimensionReduction(Matrix X, double threshhold) {
 		int D = 0;
-		while(eigenvalues[D] > threshhold) {
+		while(eigenvalues[D] > threshhold)
 			D++;
-		}
 		return dimensionReduction(X, D);
 	}
 
@@ -140,17 +139,18 @@ public class PrincipalComponentAnalysis {
 	 * @param X the data
 	 * @return the centered data
 	 */
-	public static Matrix centerData(Matrix X) {
+	public static Matrix standardizeData(Matrix X) {
 		Vector[] cols = X.getVectorColumns();
 		ArrayUtil.map(cols, new Function<Vector, Vector>() {
 
 			@Override
 			public Vector f(Vector x) {
+				QuantitativeDataList list = new QuantitativeDataList(x.getData());
 				Vector meanVector = new Vector(x.getSize());
-				double mean = x.getSum() / x.getSize();
+				double mean = list.mean();
 				for(int i = 0; i < x.getSize(); i++)
 					meanVector.set(i, mean);
-				return x.subtract(meanVector);
+				return x.subtract(meanVector).divide(list.standardDeviation());
 			}
 			
 		});		
@@ -164,16 +164,6 @@ public class PrincipalComponentAnalysis {
 	 * @return the covariance matrix
 	 */
 	public static Matrix covarianceMatrix(Matrix X) {
-		Matrix Xc = centerData(X);
-		return covarianceMatrixCentered(Xc);
-	}
-	
-	/**
-	 * creates the covariance matrix for the data
-	 * @param X the data matrix
-	 * @return the covariance matrix
-	 */
-	public static Matrix covarianceMatrixCentered(Matrix X) {
 		return Matrix.multiply(X.transpose(), X).divide(X.getRows());	
 	}
 
