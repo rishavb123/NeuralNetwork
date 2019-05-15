@@ -5,7 +5,6 @@ import java.io.Serializable;
 import io.bhagat.math.linearalgebra.Matrix;
 import io.bhagat.math.linearalgebra.Vector;
 
-//TODO add docs
 /**
  * a model of the K Means Algorithm
  * @author Bhagat
@@ -16,16 +15,31 @@ public class KMeans implements Serializable{
 
 	public static final int DEFAULT_ITERATIONS = 100;
 	
+	/**
+	 * the number of clusters to find
+	 */
 	private int k;
 	private Vector[] clusters;
+	/**
+	 * the number of iterations to run the algorithm
+	 */
 	private int iterations;
 	
+	/**
+	 * creates a K means model
+	 * @param k the number of clusters
+	 * @param iterations the number of iterations to run the algorithm
+	 */
 	public KMeans(int k, int iterations) {
 		this.k = k;
 		clusters = new Vector[k];
 		this.iterations = iterations;
 	}
 
+	/**
+	 * creates a K means model
+	 * @param k the number of clusters
+	 */
 	public KMeans(int k) {
 		this(k, DEFAULT_ITERATIONS);
 	}
@@ -43,6 +57,10 @@ public class KMeans implements Serializable{
 		return new int[] {minIndex, maxIndex};
 	}
 	
+	/**
+	 * trains the model to find the clusters
+	 * @param inputs the input data
+	 */
 	public void train(double[][] inputs) {
 		Vector[] vs = new Vector[inputs.length];
 		for(int i = 0; i < inputs.length; i++)
@@ -50,10 +68,18 @@ public class KMeans implements Serializable{
 		train(vs);
 	}
 	
+	/**
+	 * trains the model to find the clusters
+	 * @param inputs the input data
+	 */
 	public void train(Matrix inputs) {
 		train(inputs.getVectorRows());
 	}
 	
+	/**
+	 * trains the model to find the clusters
+	 * @param inputs the input data
+	 */
 	public void train(Vector[] inputs) {
 		int dimensions = inputs[0].getSize();
 		for(Vector input: inputs)
@@ -103,16 +129,47 @@ public class KMeans implements Serializable{
 			
 	}
 	
+	/**
+	 * predicts which cluster the input belongs to
+	 * @param input the input array
+	 * @return the mean array of the cluster
+	 */
 	public double[] predict(double[] input) {
 		return predict(new Vector(input)).getData();
 	}
 	
+	/**
+	 * predicts which cluster the input belongs to
+	 * @param input the input vector
+	 * @return the mean vector of the cluster
+	 */
 	public Vector predict(Vector input) {
 		int minIndex = 0;
 		for(int j = 1; j < k; j++)
 			if(clusters[j].clone().subtract(input).getMagnitude() < clusters[minIndex].clone().subtract(input).getMagnitude())
 				minIndex = j;
 		return clusters[minIndex];
+	}
+
+	/**
+	 * @return the iterations
+	 */
+	public int getIterations() {
+		return iterations;
+	}
+
+	/**
+	 * @param iterations the iterations to set
+	 */
+	public void setIterations(int iterations) {
+		this.iterations = iterations;
+	}
+
+	/**
+	 * @return the k
+	 */
+	public int getK() {
+		return k;
 	}
 	
 }
