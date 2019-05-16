@@ -17,7 +17,7 @@ public class KMeansCompression {
 
 	public static void main(String[] args) throws IOException {
 		String filename = "files/lightning.jpg";
-		int k = 50;
+		int k = 256;
 		int iterations = 100;
 		boolean showOriginal = false;
 		
