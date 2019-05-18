@@ -34,6 +34,20 @@ public class DataSet extends ArrayList<DataPoint>{
 	}
 	
 	/**
+	 * creates a dataset from arrays of inputs and outputs
+	 * @param inputs the inputs
+	 * @param outputs the outputs
+	 * @return the data set
+	 */
+	public static DataSet create(double[][] inputs, double[][] outputs)
+	{
+		DataSet dataSet = new DataSet();
+		for(int i = 0; i < inputs.length; i++)
+			dataSet.add(new DataPoint(inputs[i], outputs[i]));
+		return dataSet;
+	}
+	
+	/**
 	 * string representation of the data set
 	 */
 	@Override

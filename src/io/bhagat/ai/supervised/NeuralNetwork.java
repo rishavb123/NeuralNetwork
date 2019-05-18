@@ -194,6 +194,21 @@ public class NeuralNetwork implements Serializable{
 	}
 	
 	/**
+	 * trains the network using all the data points in the data set
+	 * @param dataSet the data set to train the network with
+	 * @param epoch how many times to train each data point
+	 */
+	public void train(DataSet dataSet, int epoch)
+	{
+		for(int i_ = 0; i_ < epoch; i_++)
+		{
+			dataSet.shuffle();
+			for(DataPoint dataPoint: dataSet)
+				train(dataPoint);
+		}
+	}
+	
+	/**
 	 * trains the network using a data point
 	 * @param dataPoint the data point
 	 */

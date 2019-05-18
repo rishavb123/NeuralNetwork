@@ -17,6 +17,7 @@ public class PCATest {
 		
 		var pca = new PrincipalComponentAnalysis(X);
 		System.out.println(pca.dimensionReduction());
+		
 	}
 
 }

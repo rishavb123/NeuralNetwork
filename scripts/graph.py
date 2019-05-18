@@ -1,49 +1,76 @@
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
+from matplotlib.lines import Line2D
 import numpy as np
 
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
+class Graph:
 
-colors = ['blue', 'red', 'green', 'purple', 'black', 'yellow']
+    def __init__(self, name, data, labels=['X Label', 'Y Label','Z Label'], colors=False):
+        self.data = data
+        self.dimensions = len(data[0])
+        if not colors:
+            self.colors = [0] * len(data)
+        else:
+            self.colors = colors
+        self.name = name
+        self.figure = plt.figure(self.name)
+        if self.dimensions == 4 or self.dimensions == 3:
+            self.ax = self.figure.add_subplot(111, projection='3d')
+            self.ax.set_xlabel(labels[0])
+            self.ax.set_ylabel(labels[1])
+            self.ax.set_zlabel(labels[2])
+        elif self.dimensions == 2:
+            plt.xlabel(labels[0])
+            plt.ylabel(labels[1])
+        elif self.dimensions == 1:
+            plt.xlabel(labels[0])
 
-data = [
-    [1, 2, 0.5111],
-    [2, 4, 1],
-    [3, 6.02, 1.51],
-    [6, 12.52, 2],
-    [2, 4.01, 2.5],
-    [1, 1.15, 3.01]
-]
+    def graph(self):
+        if self.dimensions == 1:
+            self.__graph1d()
+        if self.dimensions == 2:
+            self.__graph2d()
+        elif self.dimensions == 3:
+            self.__graph3d()
+        elif self.dimensions == 4:
+            self.__graph4d()
 
-xs, ys, zs = [], [], []
+    def __graph1d(self):
+        plt.figure(self.name)
+        xs, ys = [], []
+        for point in self.data:
+            xs.append(point[0])
+            ys.append(0)
+        plt.scatter(xs, ys, c=self.colors)
 
-for point in data:
-    xs.append(point[0])
-    ys.append(point[1])
-    zs.append(point[2])
+    def __graph2d(self):
+        plt.figure(self.name)
+        xs, ys = [], []
+        for point in self.data:
+            xs.append(point[0])
+            ys.append(point[1])
+        plt.scatter(xs, ys, c=self.colors)
 
-ax.set_xlabel('X Label')
-ax.set_ylabel('Y Label')
-ax.set_zlabel('Z Label')
+    def __graph3d(self):
+        plt.figure(self.name)
+        xs, ys, zs= [], [], []
+        for point in self.data:
+            xs.append(point[0])
+            ys.append(point[1])
+            zs.append(point[2])
+        self.ax.scatter(xs, ys, zs, c=self.colors)
 
-ax.scatter(xs, ys, zs, c=colors)
+    def __graph4d(self):
+        xs, ys, zs, cs = [], [], [], []
+        plt.figure(self.name)
+        for point in self.data:
+            xs.append(point[0])
+            ys.append(point[1])
+            zs.append(point[2])
+            cs.append(point[3])
+        img = self.ax.scatter(xs, ys, zs, c=cs, cmap=plt.hot())
+        self.figure.colorbar(img)
 
-data2 = [
-    [ 0.8691316263946899, -0.06410628527011399],
-    [ 0.2881212273737651, -1.0141310978851068],
-    [ -0.29276656930092587, -0.2683846180450577],
-    [ -2.0399148491690626, 1.2447625961045494],
-    [ 0.2952942428131986, 0.0865676102367683],
-    [ 0.880134321888335, 0.015291794858961651],
-]
-
-xs2, ys2 = [], []
-
-for point in data2:
-    xs2.append(point[0])
-    ys2.append(point[1])
-
-plt.figure()
-plt.scatter(xs2, ys2, c=colors)
-plt.show()
+    @staticmethod
+    def show():
+        plt.show()

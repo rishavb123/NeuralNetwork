@@ -12,7 +12,12 @@ import io.bhagat.util.ArrayUtil;
  */
 public class PrincipalComponentAnalysis {
 
-	public static final double DEFAULT_THRESHOLD = 0.5;
+	/**
+	 * the default threshold to decide whether a component has enough variance
+	 */
+	public double defaultThreshold = 0.05;
+	
+	public Matrix data;
 	
 	private Matrix X;
 	private Matrix C;
@@ -21,16 +26,59 @@ public class PrincipalComponentAnalysis {
 	
 	/**
 	 * Creates an object that will perform principal component analysis
-	 * @param X
+	 * @param X the data matrix
 	 */
 	public PrincipalComponentAnalysis(Matrix X) {
-		this.X = standardizeData(X);
+		this.X = centerData(X);
 		C = covarianceMatrix(this.X);
 		Matrix.EigenSolution eigenSolution = C.eigenproblem(10);
 		eigenvalues = eigenSolution.eigenvalues;
 		eigenvectors = eigenSolution.eigenvectors;
+		double max = 0;
+		for(int i = 0; i < eigenvalues.length; i++)
+			if(max < eigenvalues[i])
+				max = eigenvalues[i];
+		defaultThreshold = 0.01 * max;
 	}
 	
+	/**
+	 * sets the data of the object
+	 * @param X the data matrix
+	 */
+	public void setDataMatrix(Matrix X) {
+		this.X = centerData(X);
+		C = covarianceMatrix(this.X);
+		Matrix.EigenSolution eigenSolution = C.eigenproblem(10);
+		eigenvalues = eigenSolution.eigenvalues;
+		eigenvectors = eigenSolution.eigenvectors;
+		double max = 0;
+		for(int i = 0; i < eigenvalues.length; i++)
+			if(max < eigenvalues[i])
+				max = eigenvalues[i];
+		defaultThreshold = 0.01 * max;
+	}
+	
+	/**
+	 * @return gets the standardized data matrix X
+	 */
+	public Matrix getCenteredData() {
+		return X;
+	}
+
+	/**
+	 * creates a matrix from a byte array
+	 * @param data the byte data
+	 * @return the matrix
+	 */
+	public static Matrix createMatrix(byte[] data) {
+		var buf = java.nio.ByteBuffer.wrap(data);
+		int n = buf.getInt(), m = buf.getInt();
+		double[][] matrix = new double[n][m];
+		for (int i = 0; i < n; ++i)
+			for (int j = 0; j < m; ++j)
+				matrix[i][j] = buf.getDouble();
+		return new Matrix(matrix);
+	}
 	
 	/**
 	 * Reduces the dimensions of the data matrix into D dimensions
@@ -39,7 +87,7 @@ public class PrincipalComponentAnalysis {
 	 * @return the transformed data
 	 */
 	public Matrix dimensionReduction(Matrix X, int D) {
-		if(D > X.getColumns())
+		if(D >= X.getColumns())
 			return X;
 		Matrix Z = new Matrix(X.getRows(), D);
 		Z.setRows(ArrayUtil.map(X.getVectorRows(), new Function<Vector, Vector> () {
@@ -64,7 +112,7 @@ public class PrincipalComponentAnalysis {
 	 */
 	public Matrix dimensionReduction(Matrix X, double threshhold) {
 		int D = 0;
-		while(eigenvalues[D] > threshhold)
+		while(D < eigenvalues.length && eigenvalues[D] > threshhold)
 			D++;
 		return dimensionReduction(X, D);
 	}
@@ -75,7 +123,7 @@ public class PrincipalComponentAnalysis {
 	 * @return the reduced data matrix
 	 */
 	public Matrix dimensionReduction(Matrix X) {
-		return dimensionReduction(X, DEFAULT_THRESHOLD);
+		return dimensionReduction(X, defaultThreshold);
 	}
 	
 	
@@ -102,7 +150,7 @@ public class PrincipalComponentAnalysis {
 	 * @return the reduced data matrix
 	 */
 	public Matrix dimensionReduction() {
-		return dimensionReduction(X, DEFAULT_THRESHOLD);
+		return dimensionReduction(X, defaultThreshold);
 	}
 	
 	/**
@@ -131,7 +179,7 @@ public class PrincipalComponentAnalysis {
 	 * @return the transformed data
 	 */
 	public Matrix dimensionReduction(Vector x) {
-		return dimensionReduction(x.toMatrixRow(), DEFAULT_THRESHOLD);
+		return dimensionReduction(x.toMatrixRow(), defaultThreshold);
 	}
 	
 	/**
@@ -139,7 +187,7 @@ public class PrincipalComponentAnalysis {
 	 * @param X the data
 	 * @return the centered data
 	 */
-	public static Matrix standardizeData(Matrix X) {
+	public static Matrix centerData(Matrix X) {
 		Vector[] cols = X.getVectorColumns();
 		ArrayUtil.map(cols, new Function<Vector, Vector>() {
 
@@ -150,7 +198,7 @@ public class PrincipalComponentAnalysis {
 				double mean = list.mean();
 				for(int i = 0; i < x.getSize(); i++)
 					meanVector.set(i, mean);
-				return x.subtract(meanVector).divide(list.standardDeviation());
+				return x.subtract(meanVector);
 			}
 			
 		});		
