@@ -11,7 +11,7 @@ public class Using {
 
 	public static void main(String[] args) {	
 		
-		int epoch = 100;
+		int epoch = 10000;
 		
 		Timer t = new Timer();
 		System.out.println("Generating inputs . . . ");
@@ -42,8 +42,8 @@ public class Using {
 		System.out.println("Creating neural networks . . .");
 		t.restart();
 		
-		NeuralNetwork nn1 = new NeuralNetwork(3, 3, 3, 3);
-		NeuralNetwork nn2 = new NeuralNetwork(pcaInputs[0].length, 3, 3, 3);
+		NeuralNetwork nn1 = new NeuralNetwork(3, 5, 4, 3);
+		NeuralNetwork nn2 = new NeuralNetwork(pcaInputs[0].length, 5, 4, 3);
 		
 		System.out.println("Done creating neural networks: " + t.elapsed() + " ms");
 		System.out.println("Training neural network with original data . . .");

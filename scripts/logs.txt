@@ -1,0 +1,37 @@
+Train Without PCA
+
+Reading data . . .
+Done Reading data: 4393 ms
+Training . . .
+Done Training: 38012 ms
+Serializing . . .
+Done Serializing: 39 ms
+Total Program Done: 42453 ms
+
+Train With PCA
+
+Reading data . . .
+Done Reading data: 5187 ms
+Reducting dimensions of input data . . .
+Done Reducing Dimensions to 512: 32377313 ms
+Training . . .
+Done Training: 25116 ms
+Serializing . . .
+Done Serializing: 3866 ms
+Total Program Done: 32411483 ms = 8.889 hours
+
+Test Without PCA
+
+Reading data . . .
+Done Reading data: 1245 ms
+Testing data . . .
+Done Testing data: 1009 ms
+Accuracy: 0.9287403656505218
+
+Test With PCA
+
+Reading data . . .
+Done Reading data: 1061 ms
+Testing data . . .
+Done Testing data: 16081 ms
+Accuracy: 0.930912258338638

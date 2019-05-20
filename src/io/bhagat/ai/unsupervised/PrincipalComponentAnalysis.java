@@ -1,5 +1,7 @@
 package io.bhagat.ai.unsupervised;
 
+import java.io.Serializable;
+
 import io.bhagat.math.Function;
 import io.bhagat.math.linearalgebra.Matrix;
 import io.bhagat.math.linearalgebra.Vector;
@@ -10,12 +12,18 @@ import io.bhagat.util.ArrayUtil;
  * A class containing methods for Principal Component Analysis
  * @author Bhagat
  */
-public class PrincipalComponentAnalysis {
+public class PrincipalComponentAnalysis implements Serializable{
+
+	private static final long serialVersionUID = -9142869462576885711L;
 
 	/**
 	 * the default threshold to decide whether a component has enough variance
 	 */
 	public double defaultThreshold = 0.05;
+	/**
+	 * the current number of dimensions
+	 */
+	public int curNumOfDimensions;
 	
 	public Matrix data;
 	
@@ -31,6 +39,7 @@ public class PrincipalComponentAnalysis {
 	public PrincipalComponentAnalysis(Matrix X) {
 		this.X = centerData(X);
 		C = covarianceMatrix(this.X);
+		curNumOfDimensions = X.getRows();
 		Matrix.EigenSolution eigenSolution = C.eigenproblem(10);
 		eigenvalues = eigenSolution.eigenvalues;
 		eigenvectors = eigenSolution.eigenvectors;
@@ -87,6 +96,7 @@ public class PrincipalComponentAnalysis {
 	 * @return the transformed data
 	 */
 	public Matrix dimensionReduction(Matrix X, int D) {
+		curNumOfDimensions = D;
 		if(D >= X.getColumns())
 			return X;
 		Matrix Z = new Matrix(X.getRows(), D);

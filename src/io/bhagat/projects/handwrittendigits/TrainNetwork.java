@@ -9,6 +9,9 @@ import io.bhagat.util.Timer;
 public class TrainNetwork {
 
 	public static void main(String[] args) throws FileNotFoundException {
+				
+		Timer totalTimer = new Timer();
+		totalTimer.start();
 		
 		Timer t = new Timer();
 		
@@ -34,6 +37,8 @@ public class TrainNetwork {
         t.restart();
         neuralNetwork.serialize("mnist/network.ser");
         System.out.println("Done Serializing: " + t.elapsed() + " ms");
+        
+        System.out.println("Total Program Done: " + totalTimer.elapsed() + " ms");
         
 	}
 
