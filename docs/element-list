@@ -1,4 +1,7 @@
-io.bhagat.artificialintelligence
+io.bhagat.ai
+io.bhagat.ai.reinforced
+io.bhagat.ai.supervised
+io.bhagat.ai.unsupervised
 io.bhagat.math
 io.bhagat.math.calculus
 io.bhagat.math.linearalgebra
