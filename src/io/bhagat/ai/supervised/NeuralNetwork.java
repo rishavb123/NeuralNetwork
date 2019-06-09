@@ -113,6 +113,7 @@ public class NeuralNetwork implements Serializable{
 		{
 			weights[i] = new Matrix(this.shape[i + 1], this.shape[i]);
 			weights[i].randomize();
+			// implement weight initialization here
 			
 			bias[i] = new Matrix(this.shape[i + 1], 1);
 			bias[i].randomize();

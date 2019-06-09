@@ -6,10 +6,18 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
-//TODO finish and document
-
+//TODO finish
+/**
+ * A utility class for output and input streams
+ * @author Bhagat
+ */
 public class StreamUtil {
 
+	/**
+	 * reads the string content from a reader
+	 * @param reader the reader
+	 * @return the string content
+	 */
 	public static String read(Reader reader)
 	{
 		try
@@ -32,6 +40,11 @@ public class StreamUtil {
 		return null;
 	}
 	
+	/**
+	 * reads the string content from an input stream
+	 * @param stream the steam
+	 * @return the string content
+	 */
 	public static String readString(InputStream stream)
 	{
 		return read(new InputStreamReader(stream));
