@@ -1,0 +1,17 @@
+{
+    "imageUrl": "https://analyticsindiamag.com/wp-content/uploads/2017/09/neural-network.jpg",
+    "links": [
+        {
+            "name": "Source",
+            "url": "https://github.com/rishavb123/NeuralNetwork/blob/master/src/io/bhagat/ai/supervised/NeuralNetwork.java"
+        },
+        {
+            "name": "Docs",
+            "url": "https://neuralnetwork.bhagat.io/io/bhagat/ai/supervised/NeuralNetwork.html"
+        },
+        {
+            "name": "Api",
+            "url": "https://github.com/rishavb123/NeuralNetworkApi"
+        }
+    ]
+}
